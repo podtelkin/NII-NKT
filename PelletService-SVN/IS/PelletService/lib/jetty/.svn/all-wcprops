@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jetty
+END
+commons-logging-api.jar
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jetty/commons-logging-api.jar
+END
+version.txt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jetty/version.txt
+END
+jetty.jar
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jetty/jetty.jar
+END

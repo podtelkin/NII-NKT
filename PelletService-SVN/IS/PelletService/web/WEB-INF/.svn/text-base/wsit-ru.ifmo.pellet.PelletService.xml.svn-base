@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <definitions 
+ xmlns="http://schemas.xmlsoap.org/wsdl/" 
+ xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="PelletServiceService" targetNamespace="http://pellet.ifmo.ru/" xmlns:tns="http://pellet.ifmo.ru/"
+ >
+    <message name="executeQuery"/>
+    <message name="executeQueryResponse"/>
+    <portType name="PelletService">
+        <operation name="executeQuery">
+            <input message="tns:executeQuery"/>
+            <output message="tns:executeQueryResponse"/>
+        </operation>
+    </portType>
+    <binding name="PelletServicePortBinding" type="tns:PelletService">
+        <operation name="executeQuery">
+            <input/>
+            <output/>
+        </operation>
+    </binding>
+    <service name="PelletServiceService">
+        <port name="PelletServicePort" binding="tns:PelletServicePortBinding"/>
+    </service>
+</definitions>

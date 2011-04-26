@@ -1,0 +1,67 @@
+8
+
+dir
+1720
+https://194.85.163.238/nano/trunk/IS/PelletService/src/java/ru/ifmo/pellet
+https://194.85.163.238/nano
+
+
+
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+53849085-a0fd-dd11-a7da-00151746983e
+
+OntologyPool.java
+file
+
+
+
+
+2010-12-29T16:39:06.145734Z
+ab6fb3e2e94421f86afcbade28dd5117
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+PelletService.java
+file
+
+
+
+
+2010-12-29T16:39:06.145734Z
+7130e767c41744249f7b6292b094cd77
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+PelletBean.java
+file
+
+
+
+
+2010-12-29T16:39:06.161359Z
+4c3579d97cfcbbe3b3a3c375d350d40c
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+util
+dir
+

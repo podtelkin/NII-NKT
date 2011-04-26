@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://ws.calc/" targetNamespace="http://ws.calc/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="addition" type="tns:addition" />
+  <xs:element name="additionResponse" type="tns:additionResponse" />
+  <xs:element name="division" type="tns:division" />
+  <xs:element name="divisionResponse" type="tns:divisionResponse" />
+  <xs:element name="maximum" type="tns:maximum" />
+  <xs:element name="maximumResponse" type="tns:maximumResponse" />
+  <xs:element name="minimum" type="tns:minimum" />
+  <xs:element name="minimumResponse" type="tns:minimumResponse" />
+  <xs:element name="multiplication" type="tns:multiplication" />
+  <xs:element name="multiplicationResponse" type="tns:multiplicationResponse" />
+  <xs:element name="power" type="tns:power" />
+  <xs:element name="powerResponse" type="tns:powerResponse" />
+  <xs:element name="subtraction" type="tns:subtraction" />
+  <xs:element name="subtractionResponse" type="tns:subtractionResponse" />
+  <xs:complexType name="addition">
+    <xs:sequence>
+      <xs:element name="parameter1" type="xs:double" />
+      <xs:element name="parameter2" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="additionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="subtraction">
+    <xs:sequence>
+      <xs:element name="parameter1" type="xs:double" />
+      <xs:element name="parameter2" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="subtractionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="power">
+    <xs:sequence>
+      <xs:element name="parameter1" type="xs:double" />
+      <xs:element name="parameter2" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="powerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="multiplication">
+    <xs:sequence>
+      <xs:element name="parameter1" type="xs:double" />
+      <xs:element name="parameter2" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="multiplicationResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="minimum">
+    <xs:sequence>
+      <xs:element name="parameter1" type="xs:double" />
+      <xs:element name="parameter2" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="minimumResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="maximum">
+    <xs:sequence>
+      <xs:element name="parameter1" type="xs:double" />
+      <xs:element name="parameter2" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="maximumResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="division">
+    <xs:sequence>
+      <xs:element name="parameter1" type="xs:double" />
+      <xs:element name="parameter2" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="divisionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

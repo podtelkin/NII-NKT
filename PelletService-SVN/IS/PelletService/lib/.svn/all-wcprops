@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib
+END
+pellet-explanation.jar
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-explanation.jar
+END
+pellet-core.jar
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-core.jar
+END
+pellet-modularity.jar
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-modularity.jar
+END
+pellet-rules.jar
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-rules.jar
+END
+pellet-owlapi.jar
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-owlapi.jar
+END
+pellet-datatypes.jar
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-datatypes.jar
+END
+pellet-el.jar
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-el.jar
+END
+servlet.jar
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/servlet.jar
+END
+pellet-dig.jar
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-dig.jar
+END
+pellet-owlapiv3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-owlapiv3.jar
+END
+pellet-query.jar
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-query.jar
+END
+aterm-java-1.6.jar
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/aterm-java-1.6.jar
+END
+pellet-pellint.jar
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-pellint.jar
+END
+pellet-cli.jar
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-cli.jar
+END
+pellet-jena.jar
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-jena.jar
+END
+pellet-test.jar
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/pellet-test.jar
+END

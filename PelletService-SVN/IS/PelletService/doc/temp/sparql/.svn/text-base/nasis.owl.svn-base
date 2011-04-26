@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE rdf:RDF [
+	<!ENTITY owl "http://www.w3.org/2002/07/owl#">
+	<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+	<!ENTITY escience "http://escience.ifmo.ru/ipse/escience.owl#" >
+]>
+<rdf:RDF 
+  xml:base="http://escience.ifmo.ru/ipse/nasis.owl#" 
+  xmlns="http://escience.ifmo.ru/ipse/nasis.owl#" 
+  xmlns:owl="http://www.w3.org/2002/07/owl#" 
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+  xmlns:ruleml="http://www.w3.org/2003/11/ruleml#"
+  xmlns:escience="http://escience.ifmo.ru/ipse/escience.owl#">
+
+	<owl:Ontology>
+		<owl:imports rdf:resource="file:escience.owl" />
+	</owl:Ontology>
+	
+	<escience:FieldOfKnowledge rdf:ID="QuantumChemistry">
+		<rdfs:label>Quantum chemistry</rdfs:label>
+	</escience:FieldOfKnowledge>
+	
+	<escience:Problem rdf:ID="OnePointProblem">
+		<rdfs:label>One point problem</rdfs:label>
+		<escience:hasInput rdf:resource="#MainMolecularStructure"/>
+		<escience:hasOutput rdf:resource="#MainTotalEnergy"/>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+	</escience:Problem>
+	
+	<escience:DataSet rdf:ID="MainMolecularStructure">
+		<rdfs:label>Main molecular structure</rdfs:label>
+		<escience:isValue rdf:resource="#MolecularStructure"/>
+	</escience:DataSet>
+	
+	<escience:DataSet rdf:ID="MainTotalEnergy">
+		<rdfs:label>Total energy to be calculated</rdfs:label>
+		<escience:isValue rdf:resource="#TotalEnergy"/>
+	</escience:DataSet>
+	
+	<escience:DataSet rdf:ID="CalculationBasis">
+		<rdfs:label>Basis for total energy calculation</rdfs:label>
+		<escience:isValue rdf:resource="#Basis"/>
+	</escience:DataSet>	
+		
+	<escience:Method rdf:ID="HfMethod">
+		<rdfs:label>Hatree Fook method</rdfs:label>
+		<escience:solves rdf:resource="#OnePointProblem"/>
+		<escience:hasInput rdf:resource="#CalculationBasis"/>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+		<escience:methodQuality rdf:datatype="xsd:float">1.0</escience:methodQuality>
+	</escience:Method>
+	
+	<escience:Method rdf:ID="DftMethod">
+		<rdfs:label>DFT method</rdfs:label>
+		<escience:solves rdf:resource="#OnePointProblem"/>
+		<escience:hasInput rdf:resource="#CalculationBasis"/>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+		<escience:methodQuality rdf:datatype="xsd:float">0.8</escience:methodQuality>
+	</escience:Method>
+		
+	<escience:Value rdf:ID="TotalEnergy">
+		<rdfs:label>Total energy</rdfs:label>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+	</escience:Value>
+	
+	<escience:Value rdf:ID="Basis">
+		<rdfs:label>Basis</rdfs:label>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+	</escience:Value>
+	
+	<escience:Value rdf:ID="MolecularStructure">
+		<rdfs:label>Molecular structure</rdfs:label>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+	</escience:Value>	
+		
+	<escience:Service rdf:ID="Orca">
+		<escience:realize rdf:resource="#HfMethod"/>
+		<escience:realize rdf:resource="#DftMethod"/>
+	</escience:Service>
+	
+	<escience:FileType rdf:ID="XyzFile">
+		<rdfs:label>XYZ file</rdfs:label>
+		<escience:includeValue rdf:resource="#MolecularStructure"/>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+	</escience:FileType>
+		
+	<!-- Questionnaire -->
+		
+	<escience:Question rdf:ID="SpeedOrPrecise">
+		<rdfs:label>What is more preferarble?</rdfs:label>
+		<escience:relatedTo rdf:resource="#OnePointProblem"/>
+	</escience:Question>
+	
+	<escience:Answer rdf:ID="SpeedPreferences">
+		<rdfs:label>Speed</rdfs:label>
+		<escience:onQuestion rdf:resource="#SpeedOrPrecise"/>
+	</escience:Answer>
+	
+	<escience:Preference rdf:ID="HfOnSpeedSelect">
+		<escience:onAnswer rdf:resource="#SpeedPreferences"/>
+		<escience:prefer rdf:resource="#HfMethod"/>
+		<escience:preferenceStrength rdf:datatype="xsd:float">0.8</escience:preferenceStrength>
+	</escience:Preference>
+	
+	<escience:Preference rdf:ID="DftOnSpeedSelect">
+		<escience:onAnswer rdf:resource="#SpeedPreferences"/>
+		<escience:prefer rdf:resource="#DftMethod"/>
+		<escience:preferenceStrength rdf:datatype="xsd:float">1.0</escience:preferenceStrength>
+	</escience:Preference>
+	
+	<escience:Answer rdf:ID="PrecisionPreferences">
+		<rdfs:label>Precision</rdfs:label>
+		<escience:onQuestion rdf:resource="#SpeedOrPrecise"/>
+	</escience:Answer>
+	
+	<escience:Preference rdf:ID="HfOnPreciseSelect">
+		<escience:onAnswer rdf:resource="#PrecisionPreferences"/>
+		<escience:prefer rdf:resource="#HfMethod"/>
+		<escience:preferenceStrength rdf:datatype="xsd:float">1.0</escience:preferenceStrength>
+	</escience:Preference>
+	
+	<escience:Preference rdf:ID="DftOnPreciseSelect">
+		<escience:onAnswer rdf:resource="#PrecisionPreferences"/>
+		<escience:prefer rdf:resource="#DftMethod"/>
+		<escience:preferenceStrength rdf:datatype="xsd:float">0.8</escience:preferenceStrength>
+	</escience:Preference>
+	
+	<!-- RULES -->
+	
+	<swrl:Variable rdf:about="#v" />
+	<swrl:Variable rdf:about="#x" />
+	<swrl:Variable rdf:about="#y" />
+	<swrl:Variable rdf:about="#z" />
+	
+	<!-- User value appropriate for (HfBasis) -->
+	<!--<ruleml:Implies rdf:about="#HfBasisCheck">  
+		<ruleml:body> 
+			<swrl:individualPropertyAtom  swrl:property="&escience;valueHasType"> 
+				<ruleml:var>x</ruleml:var>
+				<owl:Individual owl:name="#Basis"/>
+			</swrl:individualPropertyAtom> 
+			<swrl:datavaluedPropertyAtom swrl:property="&escience;userValueData"> 
+				<ruleml:var>x</ruleml:var>
+				<ruleml:var>y</ruleml:var>
+			</swrl:datavaluedPropertyAtom>
+			<swrl:builtinAtom  swrl:builtin="swrlb:stringEqualIgnoreCase">
+				<ruleml:var>y</ruleml:var>
+				<owl:DataValue owl:datatype="xsd:string">500</owl:DataValue>
+			</swrl:builtinAtom>
+		</ruleml:body>
+		<ruleml:head> 
+			<swrl:individualPropertyAtom  swrl:property="&escience;appropriateFor"> 
+				<ruleml:var>x</ruleml:var>
+				<owl:Individual owl:name="#HfMethod"/>
+			</swrl:individualPropertyAtom>  
+		</ruleml:head> 
+	</ruleml:Implies>-->
+	
+</rdf:RDF>

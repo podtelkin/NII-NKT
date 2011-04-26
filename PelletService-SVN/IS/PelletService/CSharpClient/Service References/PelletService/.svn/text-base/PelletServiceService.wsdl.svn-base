@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://pellet.ifmo.ru/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="PelletServiceService" targetNamespace="http://pellet.ifmo.ru/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://localhost:8080/Pellet/PelletServiceService?xsd=1" namespace="http://pellet.ifmo.ru/" />
+    </xsd:schema>
+  </types>
+  <message name="executeQuery">
+    <part name="parameters" element="tns:executeQuery" />
+  </message>
+  <message name="executeQueryResponse">
+    <part name="parameters" element="tns:executeQueryResponse" />
+  </message>
+  <message name="createSession">
+    <part name="parameters" element="tns:createSession" />
+  </message>
+  <message name="createSessionResponse">
+    <part name="parameters" element="tns:createSessionResponse" />
+  </message>
+  <message name="addOWLModel">
+    <part name="parameters" element="tns:addOWLModel" />
+  </message>
+  <message name="addOWLModelResponse">
+    <part name="parameters" element="tns:addOWLModelResponse" />
+  </message>
+  <message name="closeSession">
+    <part name="parameters" element="tns:closeSession" />
+  </message>
+  <message name="closeSessionResponse">
+    <part name="parameters" element="tns:closeSessionResponse" />
+  </message>
+  <portType name="PelletService">
+    <operation name="executeQuery">
+      <input wsam:Action="http://pellet.ifmo.ru/PelletService/executeQueryRequest" message="tns:executeQuery" />
+      <output wsam:Action="http://pellet.ifmo.ru/PelletService/executeQueryResponse" message="tns:executeQueryResponse" />
+    </operation>
+    <operation name="createSession">
+      <input wsam:Action="http://pellet.ifmo.ru/PelletService/createSessionRequest" message="tns:createSession" />
+      <output wsam:Action="http://pellet.ifmo.ru/PelletService/createSessionResponse" message="tns:createSessionResponse" />
+    </operation>
+    <operation name="addOWLModel">
+      <input wsam:Action="http://pellet.ifmo.ru/PelletService/addOWLModelRequest" message="tns:addOWLModel" />
+      <output wsam:Action="http://pellet.ifmo.ru/PelletService/addOWLModelResponse" message="tns:addOWLModelResponse" />
+    </operation>
+    <operation name="closeSession">
+      <input wsam:Action="http://pellet.ifmo.ru/PelletService/closeSessionRequest" message="tns:closeSession" />
+      <output wsam:Action="http://pellet.ifmo.ru/PelletService/closeSessionResponse" message="tns:closeSessionResponse" />
+    </operation>
+  </portType>
+  <binding name="PelletServicePortBinding" type="tns:PelletService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="executeQuery">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="createSession">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="addOWLModel">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="closeSession">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="PelletServiceService">
+    <port name="PelletServicePort" binding="tns:PelletServicePortBinding">
+      <soap:address location="http://localhost:8080/Pellet/PelletServiceService" />
+    </port>
+  </service>
+</definitions>

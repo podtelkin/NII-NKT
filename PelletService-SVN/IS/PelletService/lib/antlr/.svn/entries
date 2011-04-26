@@ -1,0 +1,53 @@
+8
+
+dir
+1720
+https://194.85.163.238/nano/trunk/IS/PelletService/lib/antlr
+https://194.85.163.238/nano
+
+
+
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+53849085-a0fd-dd11-a7da-00151746983e
+
+LICENSE.txt
+file
+
+
+
+
+2010-12-29T16:38:27.614315Z
+45535e083e65afbabfb91f53da588c56
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+antlr-runtime-3.2.jar
+file
+
+
+
+
+2010-12-29T16:38:27.629940Z
+50e53805f5abe2ade51b38a3d1673f0d
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+has-props
+

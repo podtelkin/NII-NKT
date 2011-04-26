@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jgrapht
+END
+license.txt
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jgrapht/license.txt
+END
+version.txt
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jgrapht/version.txt
+END
+jgrapht-jdk1.5.jar
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jgrapht/jgrapht-jdk1.5.jar
+END

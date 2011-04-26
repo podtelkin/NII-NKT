@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/nano/!svn/ver/1720/trunk/IS/PelletService/CSharpClient/Service%20References/PelletService
+END
+PelletServiceService.wsdl
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/nano/!svn/ver/1720/trunk/IS/PelletService/CSharpClient/Service%20References/PelletService/PelletServiceService.wsdl
+END
+Reference.cs
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/nano/!svn/ver/1720/trunk/IS/PelletService/CSharpClient/Service%20References/PelletService/Reference.cs
+END
+PelletServiceService.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/nano/!svn/ver/1720/trunk/IS/PelletService/CSharpClient/Service%20References/PelletService/PelletServiceService.xsd
+END
+Reference.svcmap
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/nano/!svn/ver/1720/trunk/IS/PelletService/CSharpClient/Service%20References/PelletService/Reference.svcmap
+END
+configuration91.svcinfo
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/nano/!svn/ver/1720/trunk/IS/PelletService/CSharpClient/Service%20References/PelletService/configuration91.svcinfo
+END
+configuration.svcinfo
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/nano/!svn/ver/1720/trunk/IS/PelletService/CSharpClient/Service%20References/PelletService/configuration.svcinfo
+END

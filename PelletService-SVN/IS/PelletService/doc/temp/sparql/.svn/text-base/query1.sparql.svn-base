@@ -1,0 +1,1 @@
+SELECT ?X WHERE {?X <http://escience.ifmo.ru/Nasis/test.owl#generalizedBy> <http://escience.ifmo.ru/Nasis/test.owl#WaveModel>}

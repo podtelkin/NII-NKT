@@ -1,0 +1,46 @@
+8
+
+dir
+1720
+https://194.85.163.238/nano/trunk/IS/PelletService/src
+https://194.85.163.238/nano
+
+
+
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+53849085-a0fd-dd11-a7da-00151746983e
+
+java
+dir
+
+conf
+dir
+
+Pellet.iml
+file
+
+
+
+
+2010-12-29T16:39:06.317610Z
+83206bf2adb89fc67602ea5c7797d2b1
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://ws.calc/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="JSimpCalcWebServiceService" targetNamespace="http://ws.calc/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://localhost:8080/JSimpCalcWebService/JSimpCalcWebServiceService?xsd=1" namespace="http://ws.calc/" />
+    </xsd:schema>
+  </types>
+  <message name="power">
+    <part name="parameters" element="tns:power" />
+  </message>
+  <message name="powerResponse">
+    <part name="parameters" element="tns:powerResponse" />
+  </message>
+  <message name="minimum">
+    <part name="parameters" element="tns:minimum" />
+  </message>
+  <message name="minimumResponse">
+    <part name="parameters" element="tns:minimumResponse" />
+  </message>
+  <message name="addition">
+    <part name="parameters" element="tns:addition" />
+  </message>
+  <message name="additionResponse">
+    <part name="parameters" element="tns:additionResponse" />
+  </message>
+  <message name="subtraction">
+    <part name="parameters" element="tns:subtraction" />
+  </message>
+  <message name="subtractionResponse">
+    <part name="parameters" element="tns:subtractionResponse" />
+  </message>
+  <message name="multiplication">
+    <part name="parameters" element="tns:multiplication" />
+  </message>
+  <message name="multiplicationResponse">
+    <part name="parameters" element="tns:multiplicationResponse" />
+  </message>
+  <message name="division">
+    <part name="parameters" element="tns:division" />
+  </message>
+  <message name="divisionResponse">
+    <part name="parameters" element="tns:divisionResponse" />
+  </message>
+  <message name="maximum">
+    <part name="parameters" element="tns:maximum" />
+  </message>
+  <message name="maximumResponse">
+    <part name="parameters" element="tns:maximumResponse" />
+  </message>
+  <portType name="JSimpCalcWebService">
+    <operation name="power">
+      <input wsam:Action="http://ws.calc/JSimpCalcWebService/powerRequest" message="tns:power" />
+      <output wsam:Action="http://ws.calc/JSimpCalcWebService/powerResponse" message="tns:powerResponse" />
+    </operation>
+    <operation name="minimum">
+      <input wsam:Action="http://ws.calc/JSimpCalcWebService/minimumRequest" message="tns:minimum" />
+      <output wsam:Action="http://ws.calc/JSimpCalcWebService/minimumResponse" message="tns:minimumResponse" />
+    </operation>
+    <operation name="addition">
+      <input wsam:Action="http://ws.calc/JSimpCalcWebService/additionRequest" message="tns:addition" />
+      <output wsam:Action="http://ws.calc/JSimpCalcWebService/additionResponse" message="tns:additionResponse" />
+    </operation>
+    <operation name="subtraction">
+      <input wsam:Action="http://ws.calc/JSimpCalcWebService/subtractionRequest" message="tns:subtraction" />
+      <output wsam:Action="http://ws.calc/JSimpCalcWebService/subtractionResponse" message="tns:subtractionResponse" />
+    </operation>
+    <operation name="multiplication">
+      <input wsam:Action="http://ws.calc/JSimpCalcWebService/multiplicationRequest" message="tns:multiplication" />
+      <output wsam:Action="http://ws.calc/JSimpCalcWebService/multiplicationResponse" message="tns:multiplicationResponse" />
+    </operation>
+    <operation name="division">
+      <input wsam:Action="http://ws.calc/JSimpCalcWebService/divisionRequest" message="tns:division" />
+      <output wsam:Action="http://ws.calc/JSimpCalcWebService/divisionResponse" message="tns:divisionResponse" />
+    </operation>
+    <operation name="maximum">
+      <input wsam:Action="http://ws.calc/JSimpCalcWebService/maximumRequest" message="tns:maximum" />
+      <output wsam:Action="http://ws.calc/JSimpCalcWebService/maximumResponse" message="tns:maximumResponse" />
+    </operation>
+  </portType>
+  <binding name="JSimpCalcWebServicePortBinding" type="tns:JSimpCalcWebService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="power">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="minimum">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="addition">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="subtraction">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="multiplication">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="division">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="maximum">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="JSimpCalcWebServiceService">
+    <port name="JSimpCalcWebServicePort" binding="tns:JSimpCalcWebServicePortBinding">
+      <soap:address location="http://localhost:8080/JSimpCalcWebService/JSimpCalcWebServiceService" />
+    </port>
+  </service>
+</definitions>

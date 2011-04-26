@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/nano/!svn/ver/1720/trunk/IS/PelletService/web/WEB-INF
+END
+sun-web.xml
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/nano/!svn/ver/1720/trunk/IS/PelletService/web/WEB-INF/sun-web.xml
+END
+wsit-ru.ifmo.pellet.PelletService.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/nano/!svn/ver/1720/trunk/IS/PelletService/web/WEB-INF/wsit-ru.ifmo.pellet.PelletService.xml
+END
+web.xml
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/nano/!svn/ver/1720/trunk/IS/PelletService/web/WEB-INF/web.xml
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/owlapi
+END
+license.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/owlapi/license.txt
+END
+version.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/owlapi/version.txt
+END
+owlapi-src.jar
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/owlapi/owlapi-src.jar
+END
+owlapi-bin.jar
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/owlapi/owlapi-bin.jar
+END

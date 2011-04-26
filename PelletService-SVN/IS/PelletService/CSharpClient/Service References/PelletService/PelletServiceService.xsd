@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://pellet.ifmo.ru/" targetNamespace="http://pellet.ifmo.ru/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="addOWLModel" type="tns:addOWLModel" />
+  <xs:element name="addOWLModelResponse" type="tns:addOWLModelResponse" />
+  <xs:element name="closeSession" type="tns:closeSession" />
+  <xs:element name="closeSessionResponse" type="tns:closeSessionResponse" />
+  <xs:element name="createSession" type="tns:createSession" />
+  <xs:element name="createSessionResponse" type="tns:createSessionResponse" />
+  <xs:element name="executeQuery" type="tns:executeQuery" />
+  <xs:element name="executeQueryResponse" type="tns:executeQueryResponse" />
+  <xs:complexType name="closeSession">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="sessionId" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="closeSessionResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createSession">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="createSessionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="executeQuery">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="sessionId" type="xs:string" />
+      <xs:element minOccurs="0" name="sparql" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="executeQueryResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addOWLModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="sessionId" type="xs:string" />
+      <xs:element minOccurs="0" name="content" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addOWLModelResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

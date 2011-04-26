@@ -1,0 +1,95 @@
+8
+
+dir
+1720
+https://194.85.163.238/nano/trunk/IS/PelletService/CSharpClient
+https://194.85.163.238/nano
+
+
+
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+53849085-a0fd-dd11-a7da-00151746983e
+
+WSConsoleTest.suo
+file
+
+
+
+
+2010-12-29T16:37:52.145565Z
+c8965e43b71e47db709fed43a8e365a7
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+has-props
+
+Service References
+dir
+
+app.config
+file
+
+
+
+
+2010-12-29T16:37:52.161190Z
+47a2c3c8591ba3b0c00f2e5297e936f7
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+WSConsoleTest.sln
+file
+
+
+
+
+2010-12-29T16:37:52.161190Z
+46f04d3ffb78c7be715e3ccf3fc39d8a
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+Program.cs
+file
+
+
+
+
+2010-12-29T16:37:52.176815Z
+5098118cd9cd99885bca88c88310dcd9
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+WSConsoleTest.csproj
+file
+
+
+
+
+2010-12-29T16:37:52.176815Z
+ede7e9bd4ecb24a59a6120e5f8393e0d
+2010-12-29T16:22:27.166097Z
+1720
+podtelkin
+
+Properties
+dir
+

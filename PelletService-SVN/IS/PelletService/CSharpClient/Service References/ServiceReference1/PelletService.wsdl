@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns="urn:ru:ifmo:pellet:apiws:baseWS" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:ru:ifmo:pellet:apiws:baseWS" targetNamespace="urn:ru:ifmo:pellet:apiws:baseWS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema xmlns="urn:ru:ifmo:pellet:apiws:baseWS" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:ru:ifmo:pellet:apiws:baseWS">
+      <s:element name="executeQueryRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="sparql" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="executeQueryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="XMLResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="executeQueryRequest">
+    <wsdl:part name="request" element="tns:executeQueryRequest" />
+  </wsdl:message>
+  <wsdl:message name="executeQueryResponse">
+    <wsdl:part name="response" element="tns:executeQueryResponse" />
+  </wsdl:message>
+  <wsdl:portType name="PelletAPIInterface">
+    <wsdl:operation name="executeQuery">
+      <wsdl:input message="tns:executeQueryRequest" />
+      <wsdl:output message="tns:executeQueryResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PelletAPIBinding" type="tns:PelletAPIInterface">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="executeQuery">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PelletAPIService">
+    <wsdl:port name="PelletAPI" binding="tns:PelletAPIBinding">
+      <soap:address location="http://localhost:7070/PelletService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

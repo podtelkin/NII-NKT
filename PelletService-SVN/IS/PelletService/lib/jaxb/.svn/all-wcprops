@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jaxb
+END
+license.txt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jaxb/license.txt
+END
+version.txt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jaxb/version.txt
+END
+jaxb-api.jar
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/nano/!svn/ver/1720/trunk/IS/PelletService/lib/jaxb/jaxb-api.jar
+END

@@ -1,13 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=1" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1303839937500" name="http://escience.ifmo.ru/ipse/escience.owl#" uri="PelletService-SVN/IS/PelletService/src/java/escience.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1303839937500" name="http://escience.ifmo.ru/ipse/nasis.owl#" uri="PelletService-SVN/IS/PelletService/src/java/nasis.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1303839937500" name="http://escience.ifmo.ru/ipse/escience.owl#" uri="PelletService-SVN/IS/PelletService/doc/temp/sparql/escience.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1303839937500" name="http://escience.ifmo.ru/ipse/nasis.owl#" uri="PelletService-SVN/IS/PelletService/doc/temp/sparql/nasis.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1303839937500" name="http://cohse.semanticweb.org/ontologies/people" uri="OWL/pellet-2.2.2/examples/data/people+pets.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1303839937500" name="http://www.co-ode.org/ontologies/galen" uri="OWL/pellet-2.2.2/examples/data/simple-galen.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1303839937500" name="http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl" uri="OWL/pellet-2.2.2/examples/data/univ-bench.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1303839937500" name="http://www.example.org/ontology3e84710c:1139cb9e449:-8000" uri="OWL/pellet-2.2.2/examples/data/wine.owl"/>
-    </group>
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=1" prefer="public" xml:base=""/>
 </catalog>

@@ -1,0 +1,7 @@
+PREFIX nasis: <http://escience.ifmo.ru/hpc-nasis/ontologies/2010/3/28/SecondTry.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?METHOD
+WHERE {
+  ?METHOD rdf:type nasis:Method
+}

@@ -1,0 +1,12 @@
+# Query4
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ipse: <http://escience.ifmo.ru/Nasis/test.owl#>
+
+SELECT ?X
+WHERE
+{?X ipse:generalizedBy ipse:WaveModel}
+
+# This query has small input and high selectivity. It assumes subClassOf relationship between
+# Professor and its subclasses. Class Professor has a wide hierarchy. Another feature
+# is that it queries about multiple properties of a single class.

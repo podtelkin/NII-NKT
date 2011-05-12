@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE rdf:RDF [
+	<!ENTITY owl "http://www.w3.org/2002/07/owl#">
+	<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+	<!ENTITY family "http://escience.ifmo.ru/ipse/family.owl#" >
+]>
+<rdf:RDF 
+  xml:base="http://escience.ifmo.ru/ipse/family.owl#" 
+  xmlns="http://escience.ifmo.ru/ipse/family.owl#" 
+  xmlns:owl="http://www.w3.org/2002/07/owl#" 
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+  xmlns:swrlx="http://www.w3.org/2003/11/swrlx#"
+  xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+
+
+	
+	<owl:Class rdf:ID="FamilyMember"/>
+	
+	<owl:ObjectProperty rdf:ID="hasParent">
+		<rdfs:domain rdf:resource="#FamilyMember"/>
+		<rdfs:range rdf:resource="#FamilyMember"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="hasBrother">
+		<rdfs:domain rdf:resource="#FamilyMember"/>
+		<rdfs:range rdf:resource="#FamilyMember"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="hasUncle">
+		<rdfs:domain rdf:resource="#FamilyMember"/>
+		<rdfs:range rdf:resource="#FamilyMember"/>
+	</owl:ObjectProperty>
+
+
+	
+	<FamilyMember rdf:ID="Pasha">
+		<rdfs:label>Pasha</rdfs:label>
+		<hasParent rdf:resource="#Alex"/>
+	</FamilyMember>
+	
+	<FamilyMember rdf:ID="Alex">
+		<rdfs:label>Alex</rdfs:label>
+		<hasUncle rdf:resource="#DirectUncle"/>
+	</FamilyMember>
+	
+	<FamilyMember rdf:ID="Misha">
+		<rdfs:label>Misha</rdfs:label>
+		<hasBrother rdf:resource="#Alex"/>
+	</FamilyMember>
+	
+	<FamilyMember rdf:ID="DirectUncle">
+		<rdfs:label>DirectUncle</rdfs:label>
+	</FamilyMember>
+
+
+<!--
+
+	<swrlx:Variable rdf:about="#x1" />
+	<swrlx:Variable rdf:about="#x2" />
+	<swrlx:Variable rdf:about="#x3" />
+
+<ruleml:imp> 
+  <ruleml:body> 
+    <swrlx:individualPropertyAtom swrlx:property="hasParent"> 
+      <ruleml:var>x1</ruleml:var>
+      <ruleml:var>x2</ruleml:var>
+    </swrlx:individualPropertyAtom> 
+    <swrlx:individualPropertyAtom swrlx:property="hasBrother"> 
+      <ruleml:var>x2</ruleml:var>
+      <ruleml:var>x3</ruleml:var>
+    </swrlx:individualPropertyAtom> 
+  </ruleml:body> 
+  <ruleml:head> 
+    <swrlx:individualPropertyAtom swrlx:property="hasUncle"> 
+      <ruleml:var>x1</ruleml:var>
+      <ruleml:var>x3</ruleml:var>
+    </swrlx:individualPropertyAtom> 
+  </ruleml:head> 
+</ruleml:imp> 
+-->	
+</rdf:RDF>

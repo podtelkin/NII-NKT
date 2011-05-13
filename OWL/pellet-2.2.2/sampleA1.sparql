@@ -3,5 +3,5 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 SELECT ?A ?B
 WHERE {
-  ?A ex:AtoB ?B
+  ?A ex:solves ?B
 }

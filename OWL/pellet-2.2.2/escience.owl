@@ -124,7 +124,7 @@
 		<rdfs:subPropertyOf rdf:resource="#hasParameter"/> 
 	</owl:ObjectProperty>
 
-	<owl:ObjectProperty rdf:ID="solve">
+	<owl:ObjectProperty rdf:ID="solves">
 		<rdfs:domain rdf:resource="#Method"/>
 		<rdfs:range rdf:resource="#Problem"/>
 	</owl:ObjectProperty>

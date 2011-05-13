@@ -161,10 +161,14 @@
 
 	<!-- FACTS -->
 
+	<escience:UserFile rdf:ID="InputFile1">
+		<rdfs:label>InputFile1</rdfs:label>
+		<escience:fileHasType rdf:resource="#XyzFile"/>
+	</escience:UserFile>
 	
 	<escience:UserInputSet rdf:ID="Fact1">
 		<rdfs:label>Fact1</rdfs:label>
-		<escience:includeUserFile rdf:resource="#XyzFile"/>
+		<escience:includeUserFile rdf:resource="#InputFile1"/>
 	</escience:UserInputSet>
 
 
@@ -202,7 +206,7 @@
 		</ruleml:head> 
 	</ruleml:Implies>-->
 
-
+	<swrl:Variable rdf:about="#a1"/>
 
 	<swrl:Imp rdf:about="#TDDFT_solves_GeoOptimization_conditions">
 		<swrl:head rdf:parseType="Collection">
@@ -217,6 +221,11 @@
 			<swrl:IndividualPropertyAtom>
 				<swrl:propertyPredicate rdf:resource="#includeUserFile"/>
 				<swrl:argument1 rdf:resource="#Fact1"/>
+				<swrl:argument2 rdf:resource="#a1"/>
+			</swrl:IndividualPropertyAtom>		
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#fileHasType"/>
+				<swrl:argument1 rdf:resource="#a1"/>
 				<swrl:argument2 rdf:resource="#XyzFile"/>
 			</swrl:IndividualPropertyAtom>		
 		</swrl:body>

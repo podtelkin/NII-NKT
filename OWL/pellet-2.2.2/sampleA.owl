@@ -4,7 +4,9 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY dl-safe "http://owldl.com/ontologies/dl-safe.owl#">
 	<!ENTITY swrl  "http://www.w3.org/2003/11/swrl#" >
+	<!ENTITY swrlx  "http://www.w3.org/2003/11/swrlx#" >
 	<!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+	<!ENTITY owlx "http://www.w3.org/2003/05/owl-xml#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
@@ -17,67 +19,193 @@
 	xml:base="http://ifmo.ru/ipse/ex.owl#" 
 	xmlns="http://ifmo.ru/ipse/ex.owl#" 
 	xmlns:owl="http://www.w3.org/2002/07/owl#" 
+	xmlns:owlx="http://www.w3.org/2003/05/owl-xml#" 
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
 	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+	xmlns:swrlx="http://www.w3.org/2003/11/swrlx#"
 	xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
 
 
 	<!-- CLASSES -->
 	
-	<owl:Class rdf:ID="ClassA"/>
-	<owl:Class rdf:ID="ClassB"/>
-	<owl:Class rdf:ID="ClassC"/>
-	<owl:Class rdf:ID="ClassD"/>
+	<owl:Class rdf:ID="Problem"/>
+	<owl:Class rdf:ID="Method"/>
 
-	
-	<owl:ObjectProperty rdf:ID="AtoB">
-		<rdfs:domain rdf:resource="#ClassA"/>
-		<rdfs:range rdf:resource="#ClassB"/>
+	<owl:Class rdf:ID="UserInputSet"/>
+	<owl:Class rdf:ID="UserFile"/>
+	<owl:Class rdf:ID="FileType"/>
+	<owl:Class rdf:ID="UserInputOption"/>
+
+	<owl:ObjectProperty rdf:ID="solves">
+		<rdfs:domain rdf:resource="#Method"/>
+		<rdfs:range rdf:resource="#Problem"/>
 	</owl:ObjectProperty>
 	
-	<owl:ObjectProperty rdf:ID="CtoD">
-		<rdfs:domain rdf:resource="#ClassC"/>
-		<rdfs:range rdf:resource="#ClassD"/>
+	<owl:ObjectProperty rdf:ID="inputHasFile">
+		<rdfs:domain rdf:resource="#UserInputSet"/>
+		<rdfs:range rdf:resource="#UserFile"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="inputHasOption">
+		<rdfs:domain rdf:resource="#UserInputSet"/>
+		<rdfs:range rdf:resource="#UserInputOption"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="fileHasType">
+		<rdfs:domain rdf:resource="#UserFile"/>
+		<rdfs:range rdf:resource="#FileType"/>
 	</owl:ObjectProperty>
 
 
-
-        <ClassA rdf:ID="InstanceA1">
-		<AtoB rdf:resource="#InstanceB2"/>
-        </ClassA>
-        <ClassA rdf:ID="InstanceA2">
-		<AtoB rdf:resource="#InstanceB3"/>
-        </ClassA>
-        <ClassA rdf:ID="InstanceA3"/>
-        <ClassA rdf:ID="InstanceA4"/>
-        <ClassB rdf:ID="InstanceB1"/>
-        <ClassB rdf:ID="InstanceB2"/>
-        <ClassB rdf:ID="InstanceB3"/>
-        <ClassC rdf:ID="InstanceC1"/>
-        <ClassC rdf:ID="InstanceC2"/>
-        <ClassD rdf:ID="InstanceD1"/>
+	<!-- Input options -->
+	<owl:DatatypeProperty rdf:ID="isEvenNumOfAtoms">
+		<rdfs:domain rdf:resource="#UserInputOption"/>    
+		<rdfs:range rdf:resource="xsd:boolean"/>
+	</owl:DatatypeProperty>
 
 
+    <!-- Problem intances -->
+	<Problem rdf:ID="IOnePointProblem">
+    </Problem>
 
+	<Problem rdf:ID="IGeoOptProblem">
+    </Problem>
 
-	<swrl:Imp rdf:about="#TDDFT_solves_GeoOptimization_conditions">
+	<Problem rdf:ID="IFreqProblem">
+    </Problem>
+
+    <!-- Method intances -->
+	<Method rdf:ID="IHFMethod">
+		<solves rdf:resource="#IOnePointProblem"/>
+    </Method>
+
+	<Method rdf:ID="IDFTMethod">
+		<solves rdf:resource="#IGeoOptProblem"/>
+    </Method>
+
+	<Method rdf:ID="ITDDFTMethod">
+    </Method>
+
+    <!-- FileType intances -->
+	<FileType rdf:ID="IXyzFile"/>
+	<FileType rdf:ID="ICubeFile"/>
+	<FileType rdf:ID="ITxtFile"/>
+
+    <!-- Rules -->
+
+	<swrl:Variable rdf:ID="x1"/>
+	<swrl:Variable rdf:ID="x2"/>
+	<swrl:Variable rdf:ID="x3"/>
+	<swrl:Variable rdf:ID="class1"/>
+	<swrl:Variable rdf:ID="class2"/>
+	<swrl:Variable rdf:ID="class3"/>
+
+<!--
+	<swrl:Imp rdf:about="#TDDFT_solves_GeoOpt_if_Input_is_XYZ_only">
 		<swrl:head rdf:parseType="Collection">
 			<swrl:IndividualPropertyAtom>
-				<swrl:propertyPredicate rdf:resource="#CtoD"/>
-				<swrl:argument1 rdf:resource="#InstanceC2"/>
-				<swrl:argument2 rdf:resource="#InstanceD1"/>
+				<swrl:propertyPredicate rdf:resource="#solves"/>
+				<swrl:argument1 rdf:resource="#ITDDFTMethod"/>
+				<swrl:argument2 rdf:resource="#IGeoOptProblem"/>
 			</swrl:IndividualPropertyAtom>		
 		</swrl:head>
 
 		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#UserInputSet"/>
+				<swrl:argument1 rdf:resource="#class1"/>
+			</swrl:ClassAtom>
 			<swrl:IndividualPropertyAtom>
-				<swrl:propertyPredicate rdf:resource="#AtoB"/>
-				<swrl:argument1 rdf:resource="#InstanceA1"/>
-				<swrl:argument2 rdf:resource="#InstanceB2"/>
-			</swrl:IndividualPropertyAtom>		
+				<swrl:propertyPredicate rdf:resource="#inputHasFile"/>
+				<swrl:argument1 rdf:resource="#class1"/>
+				<swrl:argument2 rdf:resource="#x1"/>
+			</swrl:IndividualPropertyAtom>
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#fileHasType"/>
+				<swrl:argument1 rdf:resource="#x1"/>
+				<swrl:argument2 rdf:resource="#IXyzFile"/>
+			</swrl:IndividualPropertyAtom>
 		</swrl:body>
 	</swrl:Imp>
+-->
+
+	<ruleml:imp>
+		<ruleml:_head>
+			<swrlx:IndividualPropertyAtom swrlx:property="solves">
+				<owlx:Individual owlx:name="#ITDDFTMethod"/>
+				<owlx:Individual owlx:name="#IGeoOptProblem"/>
+			</swrlx:IndividualPropertyAtom>		
+		</ruleml:_head>
+
+		<ruleml:_body>
+			<swrlx:ClassAtom>
+				<owlx:Class owlx:name="UserInputSet"/>
+                <ruleml:var>class1</ruleml:var>
+			</swrlx:ClassAtom>
+			<swrlx:IndividualPropertyAtom swrlx:property="inputHasFile">
+                <ruleml:var>class1</ruleml:var>
+                <ruleml:var>x1</ruleml:var>
+			</swrlx:IndividualPropertyAtom>
+			<swrlx:IndividualPropertyAtom swrlx:property="fileHasType">
+                <ruleml:var>x1</ruleml:var>
+				<owlx:Individual owlx:name="#IXyzFile"/>
+			</swrlx:IndividualPropertyAtom>
+		</ruleml:_body>
+	</ruleml:imp>
+
+
+<!--
+	<swrl:Imp rdf:about="#TDDFT_solves_Freq_if_number_of_atoms_is_even">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#solves"/>
+				<swrl:argument1 rdf:resource="#ITDDFTMethod"/>
+				<swrl:argument2 rdf:resource="#IFreqProblem"/>
+			</swrl:IndividualPropertyAtom>		
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#UserInputSet"/>
+				<swrl:argument1 rdf:resource="#class1"/>
+			</swrl:ClassAtom>
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#inputHasOption"/>
+				<swrl:argument1 rdf:resource="#class1"/>
+				<swrl:argument2 rdf:resource="#x1"/>
+			</swrl:IndividualPropertyAtom>
+			<swrl:DatavaluedPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#isEvenNumOfAtoms"/>
+				<swrl:argument1 rdf:resource="#x1"/>
+				<owl:DataValue owl:datatype="xsd:boolean">false</owl:DataValue>
+			</swrl:DatavaluedPropertyAtom>
+		</swrl:body>
+	</swrl:Imp>
+-->
+
+
+
+	<!-- ################################################################################## -->
+    <!-- User data (Facts). This part of ontology will be added to base ontology on-the-fly -->
+	<!-- ################################################################################## -->
+
+	<UserInputSet rdf:ID="UFact1">
+         <inputHasFile rdf:resource="#UFile1"/>
+    </UserInputSet>
+
+    <UserFile rdf:ID="UFile1">
+         <fileHasType rdf:resource="#IXyzFile"/>
+    </UserFile>
+
+
+	<UserInputSet rdf:ID="UFact2">
+         <inputHasOption rdf:resource="#UOption2"/>
+    </UserInputSet>
+
+    <UserInputOption rdf:ID="UOption2">
+        <isEvenNumOfAtoms rdf:datatype="xsd:boolean">true</isEvenNumOfAtoms>
+    </UserInputOption> 
 	
 </rdf:RDF>

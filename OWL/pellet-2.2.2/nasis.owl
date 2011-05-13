@@ -31,6 +31,13 @@
 		<escience:belongToField rdf:resource="#QuantumChemistry"/>
 	</escience:Problem>
 	
+	<escience:Problem rdf:ID="GeometryOptimization">
+		<rdfs:label>Geometry optimization</rdfs:label>
+		<escience:hasInput rdf:resource="#MainMolecularStructure"/>
+		<escience:hasOutput rdf:resource="#MainMolecularStructure"/>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+	</escience:Problem>
+	
 	<escience:DataSet rdf:ID="MainMolecularStructure">
 		<rdfs:label>Main molecular structure</rdfs:label>
 		<escience:isValue rdf:resource="#MolecularStructure"/>
@@ -49,6 +56,7 @@
 	<escience:Method rdf:ID="HfMethod">
 		<rdfs:label>Hatree Fook method</rdfs:label>
 		<escience:solves rdf:resource="#OnePointProblem"/>
+		<escience:solves rdf:resource="#GeometryOptimization"/>
 		<escience:hasInput rdf:resource="#CalculationBasis"/>
 		<escience:belongToField rdf:resource="#QuantumChemistry"/>
 		<escience:methodQuality rdf:datatype="xsd:float">1.0</escience:methodQuality>
@@ -60,6 +68,14 @@
 		<escience:hasInput rdf:resource="#CalculationBasis"/>
 		<escience:belongToField rdf:resource="#QuantumChemistry"/>
 		<escience:methodQuality rdf:datatype="xsd:float">0.8</escience:methodQuality>
+	</escience:Method>
+	
+	<escience:Method rdf:ID="TDDFTMethod">
+		<rdfs:label>DFT method</rdfs:label>
+		<escience:solves rdf:resource="#OnePointProblem"/>
+		<escience:hasInput rdf:resource="#CalculationBasis"/>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+		<escience:methodQuality rdf:datatype="xsd:float">0.6</escience:methodQuality>
 	</escience:Method>
 		
 	<escience:Value rdf:ID="TotalEnergy">
@@ -76,6 +92,11 @@
 		<rdfs:label>Molecular structure</rdfs:label>
 		<escience:belongToField rdf:resource="#QuantumChemistry"/>
 	</escience:Value>	
+	
+	<escience:Value rdf:ID="ElectronDensity">
+		<rdfs:label>Electron density</rdfs:label>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+	</escience:Value>	
 		
 	<escience:Service rdf:ID="Orca">
 		<escience:realize rdf:resource="#HfMethod"/>
@@ -85,6 +106,12 @@
 	<escience:FileType rdf:ID="XyzFile">
 		<rdfs:label>XYZ file</rdfs:label>
 		<escience:includeValue rdf:resource="#MolecularStructure"/>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+	</escience:FileType>
+	
+	<escience:FileType rdf:ID="CubeFile">
+		<rdfs:label>Cube file</rdfs:label>
+		<escience:includeValue rdf:resource="#ElectronDensity"/>
 		<escience:belongToField rdf:resource="#QuantumChemistry"/>
 	</escience:FileType>
 		
@@ -128,6 +155,21 @@
 		<escience:prefer rdf:resource="#DftMethod"/>
 		<escience:preferenceStrength rdf:datatype="xsd:float">0.8</escience:preferenceStrength>
 	</escience:Preference>
+
+
+
+
+	<!-- FACTS -->
+
+	
+	<escience:UserInputSet rdf:ID="Fact1">
+		<rdfs:label>Fact1</rdfs:label>
+		<escience:includeUserFile rdf:resource="#XyzFile"/>
+	</escience:UserInputSet>
+
+
+
+
 	
 	<!-- RULES -->
 	
@@ -159,5 +201,26 @@
 			</swrl:individualPropertyAtom>  
 		</ruleml:head> 
 	</ruleml:Implies>-->
+
+
+
+	<swrl:Imp rdf:about="#TDDFT_solves_GeoOptimization_conditions">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#solves"/>
+				<swrl:argument1 rdf:resource="#TDDFTMethod"/>
+				<swrl:argument2 rdf:resource="#GeometryOptimization"/>
+			</swrl:IndividualPropertyAtom>		
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#includeUserFile"/>
+				<swrl:argument1 rdf:resource="#Fact1"/>
+				<swrl:argument2 rdf:resource="#XyzFile"/>
+			</swrl:IndividualPropertyAtom>		
+		</swrl:body>
+	</swrl:Imp>
+
 	
 </rdf:RDF>

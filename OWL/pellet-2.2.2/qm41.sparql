@@ -1,0 +1,10 @@
+PREFIX nasis: <http://escience.ifmo.ru/ipse/nasis.owl#>
+PREFIX escience: <http://escience.ifmo.ru/ipse/escience.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?M ?DS
+WHERE {
+  ?M escience:hasInput ?DS .
+  ?M rdf:type escience:Method .
+  ?DS rdf:type escience:DataSet .
+}

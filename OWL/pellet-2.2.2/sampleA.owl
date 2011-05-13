@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY dl-safe "http://owldl.com/ontologies/dl-safe.owl#">
+	<!ENTITY swrl  "http://www.w3.org/2003/11/swrl#" >
+	<!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+	<!ENTITY ruleml  "http://www.w3.org/2003/11/ruleml#" >
+	<!ENTITY ex "http://ifmo.ru/ipse/ex.owl#" >
+]>
+
+
+<rdf:RDF 
+	xml:base="http://ifmo.ru/ipse/ex.owl#" 
+	xmlns="http://ifmo.ru/ipse/ex.owl#" 
+	xmlns:owl="http://www.w3.org/2002/07/owl#" 
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+	xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+
+
+	<!-- CLASSES -->
+	
+	<owl:Class rdf:ID="ClassA"/>
+	<owl:Class rdf:ID="ClassB"/>
+	<owl:Class rdf:ID="ClassC"/>
+	<owl:Class rdf:ID="ClassD"/>
+
+	
+	<owl:ObjectProperty rdf:ID="AtoB">
+		<rdfs:domain rdf:resource="#ClassA"/>
+		<rdfs:range rdf:resource="#ClassB"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="CtoD">
+		<rdfs:domain rdf:resource="#ClassC"/>
+		<rdfs:range rdf:resource="#ClassD"/>
+	</owl:ObjectProperty>
+
+
+
+        <ClassA rdf:ID="InstanceA1">
+		<AtoB rdf:resource="#InstanceB2"/>
+        </ClassA>
+        <ClassA rdf:ID="InstanceA2">
+		<AtoB rdf:resource="#InstanceB3"/>
+        </ClassA>
+        <ClassA rdf:ID="InstanceA3"/>
+        <ClassA rdf:ID="InstanceA4"/>
+        <ClassB rdf:ID="InstanceB1"/>
+        <ClassB rdf:ID="InstanceB2"/>
+        <ClassB rdf:ID="InstanceB3"/>
+        <ClassC rdf:ID="InstanceC1"/>
+        <ClassC rdf:ID="InstanceC2"/>
+        <ClassD rdf:ID="InstanceD1"/>
+
+
+
+
+	<swrl:Imp rdf:about="#TDDFT_solves_GeoOptimization_conditions">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#CtoD"/>
+				<swrl:argument1 rdf:resource="#InstanceC2"/>
+				<swrl:argument2 rdf:resource="#InstanceD1"/>
+			</swrl:IndividualPropertyAtom>		
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#AtoB"/>
+				<swrl:argument1 rdf:resource="#InstanceA1"/>
+				<swrl:argument2 rdf:resource="#InstanceB2"/>
+			</swrl:IndividualPropertyAtom>		
+		</swrl:body>
+	</swrl:Imp>
+	
+</rdf:RDF>

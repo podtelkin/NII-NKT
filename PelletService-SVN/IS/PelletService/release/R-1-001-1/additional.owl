@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY dl-safe "http://owldl.com/ontologies/dl-safe.owl#">
+	<!ENTITY swrl  "http://www.w3.org/2003/11/swrl#" >
+	<!ENTITY swrlx  "http://www.w3.org/2003/11/swrlx#" >
+	<!ENTITY swrlb  "http://www.w3.org/2003/11/swrlb#" >
+	<!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+	<!ENTITY owlx "http://www.w3.org/2003/05/owl-xml#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+	<!ENTITY ruleml  "http://www.w3.org/2003/11/ruleml#" >
+	<!ENTITY ex "http://ifmo.ru/ipse/ex.owl#" >
+]>
+
+
+<rdf:RDF 
+	xml:base="http://ifmo.ru/ipse/ex.owl#" 
+	xmlns="http://ifmo.ru/ipse/ex.owl#" 
+	xmlns:owl="http://www.w3.org/2002/07/owl#" 
+	xmlns:owlx="http://www.w3.org/2003/05/owl-xml#" 
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+	xmlns:swrlx="http://www.w3.org/2003/11/swrlx#"
+	xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+	xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+
+
+	<!-- ################################################################################## -->
+    <!-- User data (Facts). This part of ontology will be added to base ontology on-the-fly -->
+	<!-- ################################################################################## -->
+
+	<UserInputSet rdf:ID="UFact1">
+         <inputHasFile rdf:resource="#UFile1"/>
+    </UserInputSet>
+
+    <UserFile rdf:ID="UFile1">
+         <fileHasType rdf:resource="#IXyzFile"/>
+    </UserFile>
+
+
+	<UserInputSet rdf:ID="UFact2">
+         <inputHasOption rdf:resource="#UOption2"/>
+    </UserInputSet>
+
+    <UserInputOption rdf:ID="UOption2">
+        <numberOfAtoms rdf:datatype="&xsd;int">10</numberOfAtoms>
+    </UserInputOption> 
+
+</rdf:RDF>

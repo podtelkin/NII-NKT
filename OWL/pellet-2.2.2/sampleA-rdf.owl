@@ -62,14 +62,9 @@
 
 
 	<!-- Input options -->
-	<owl:DatatypeProperty rdf:ID="isEvenNumOfAtoms">
-		<rdfs:domain rdf:resource="#UserInputOption"/>    
-		<rdfs:range rdf:resource="xsd:boolean"/>
-	</owl:DatatypeProperty>
-
 	<owl:DatatypeProperty rdf:ID="numberOfAtoms">
 		<rdfs:domain rdf:resource="#UserInputOption"/>    
-		<rdfs:range rdf:resource="xsd:int"/>
+		<rdfs:range rdf:resource="&xsd;int"/>
 	</owl:DatatypeProperty>
 
 
@@ -156,25 +151,17 @@
 				<swrl:argument1 rdf:resource="#class1"/>
 				<swrl:argument2 rdf:resource="#x1"/>
 			</swrl:IndividualPropertyAtom>
-			<swrl:DatavaluedPropertyAtom>
-				<swrl:propertyPredicate rdf:resource="#isEvenNumOfAtoms"/>
-				<swrl:argument1>
-					<swrl:Variable rdf:about="#x1"/>
-				</swrl:argument1> 
-				<swrl:argument2 rdf:datatype="xsd:boolean">true</swrl:argument2> 
-			</swrl:DatavaluedPropertyAtom>
-<!-- -->
+
 			<swrl:DatavaluedPropertyAtom>
 				<swrl:propertyPredicate rdf:resource="#numberOfAtoms"/>
 				<swrl:argument1 rdf:resource="#x1"/>
 				<swrl:argument2 rdf:resource="#x2"/>
 			</swrl:DatavaluedPropertyAtom>
-
 			<swrl:BuiltinAtom>
 				<swrl:builtin rdf:resource="&swrlb;mod"/>
 				<swrl:arguments>
 					<rdf:List>
-						<rdf:first rdf:datatype="xsd:int">1</rdf:first>
+						<rdf:first rdf:datatype="&xsd;int">0</rdf:first>
 						<rdf:rest>
 							<rdf:List>
 								<rdf:first>
@@ -182,7 +169,7 @@
 								</rdf:first> 
 								<rdf:rest>
 									<rdf:List>
-										<rdf:first rdf:datatype="xsd:int">2</rdf:first>
+										<rdf:first rdf:datatype="&xsd;int">2</rdf:first>
 									</rdf:List>
 								</rdf:rest>
 							</rdf:List>
@@ -190,7 +177,7 @@
 					</rdf:List>
 				</swrl:arguments>
 			</swrl:BuiltinAtom>
-<!-- -->
+
 		</swrl:body>
 	</swrl:Imp>
 
@@ -214,8 +201,7 @@
     </UserInputSet>
 
     <UserInputOption rdf:ID="UOption2">
-        <numberOfAtoms rdf:datatype="xsd:int">10</numberOfAtoms>
-        <isEvenNumOfAtoms rdf:datatype="xsd:boolean">true</isEvenNumOfAtoms>
+        <numberOfAtoms rdf:datatype="&xsd;int">10</numberOfAtoms>
     </UserInputOption> 
 
 </rdf:RDF>

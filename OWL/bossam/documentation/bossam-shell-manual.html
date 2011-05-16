@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow"><title>BossamShellUserManual - Bossam</title>
+
+
+<script type="text/javascript" src="bossam-shell-manual_files/common.js"></script>
+
+<script type="text/javascript">
+var gui_editor_link_href = "/bossam/BossamShellUserManual?action=edit&editor=gui";
+var gui_editor_link_text = "Edit (GUI)";
+</script>        
+
+<link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="bossam-shell-manual_files/common.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="bossam-shell-manual_files/print.css">
+
+
+<link rel="Start" href="http://mknows.etri.re.kr/bossam/FrontPage">
+<link rel="Alternate" title="Wiki Markup" href="http://mknows.etri.re.kr/bossam/BossamShellUserManual?action=raw">
+<link rel="Alternate" media="print" title="Print View" href="http://mknows.etri.re.kr/bossam/BossamShellUserManual?action=print">
+<link rel="Appendix" title="bossam-shell-manual-title.png" href="http://mknows.etri.re.kr/bossam/BossamShellUserManual?action=AttachFile&amp;do=view&amp;target=bossam-shell-manual-title.png">
+<link rel="Appendix" title="minsu-email.png" href="http://mknows.etri.re.kr/bossam/BossamShellUserManual?action=AttachFile&amp;do=view&amp;target=minsu-email.png">
+<link rel="Search" href="http://mknows.etri.re.kr/bossam/FindPage">
+<link rel="Index" href="http://mknows.etri.re.kr/bossam/TitleIndex">
+<link rel="Glossary" href="http://mknows.etri.re.kr/bossam/WordIndex">
+<link rel="Help" href="http://mknows.etri.re.kr/bossam/HelpOnFormatting"></head><body dir="ltr" lang="en">
+<div id="page" dir="ltr" lang="en">
+
+<ul id="pagelocation">
+<li>BossamShellUserManual</li>
+</ul>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-2"></span><p class="line867"><img class="attachment" src="bossam-shell-manual_files/BossamShellUserManual_002.png" title="attachment:bossam-shell-manual-title.png"> <span class="anchor" id="line-3"></span></p><ul><li><p class="line862">Written by <a href="http://mknows.etri.re.kr/bossam/MinsuJang">MinsuJang</a> <img class="attachment" src="bossam-shell-manual_files/BossamShellUserManual.png" title="attachment:minsu-email.png"> <span class="anchor" id="line-4"></span></p></li><li>Last Update: 2006-10-10 <span class="anchor" id="line-5"></span><span class="anchor" id="line-6"></span></li></ul><p class="line874">This
+document contains a short manual of Bossam shell. Bossam shell is a
+small command shell in which you can perform inferencing actions such
+as loading a rulebase or ontology, adding rules and facts, and
+initiating reasoning. This document provides an overview of available
+shell commands. <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span></p><p class="line867"></p><div class="table-of-contents"><p class="table-of-contents-heading">Contents</p><ol><li><a href="#head-00bff80f0620e8cfd8016df16c68ea261db3bf1d">Running Shell</a><ol><li><a href="#head-7fb5537805d268a78bf6fd24d5e5ba7357c319b3">Default Namespace Prefixes</a></li><li><a href="#head-6ede27c3e357d3802f7560b09e9b201df5cb3127">Loading OWL Inference Rules</a></li></ol></li><li><a href="#head-9bd4178c723724f698862bfb059f4b6b9a8085dc">Shell Commands</a><ol><li><a href="#head-32fdb7baa425d6d3ead84dd122b4359a6ec69726">Loading a knowledge base</a></li><li><a href="#head-7e5163e21aea845855297594aedf074f194166a4">Setting namespaces</a></li><li><a href="#head-aa46c6fa91bbed2aed57b9018076d01c88b1a514">Asserting a new fact</a></li><li><a href="#head-934ef54d69dd60a70845e339d4e122ffff57d49a">Asserting a new rule</a></li><li><a href="#head-e61ab402d107f91a3da577909369a40dc697908e">Running an inference session</a></li><li><a href="#head-58b018bbab2b2c248357d35e5b64a3ff74b3510d">Querying Knowledge Base</a></li><li><a href="#head-319e6ef0d598cec3387948b5525781bce14636db">Creating a Java instance</a></li><li><a href="#head-e2f7acf6080209a02a2add5cf48a2f3bcb9b5cae">Setting attributes</a></li><li><a href="#head-299a28b4974effee97b22a721c6286a0c497fe60">Displaying Rules and Facts</a></li></ol></li><li><a href="#head-ee10397ad63d8f56599ead69e4b54c24e7593f72">History</a></li></ol></div> <span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line867">
+</p><h2 id="head-00bff80f0620e8cfd8016df16c68ea261db3bf1d">1. Running Shell</h2>
+<span class="anchor" id="line-11"></span><p class="line874">You can run Bossam shell by executing a shell script, bossamsh, for running bossam shell is provided in the release. <span class="anchor" id="line-12"></span>On Windows, <span class="anchor" id="line-13"></span><span class="anchor" id="line-14"></span></p><ul><li style="list-style-type: none;"><p class="line891"><tt>bossamsh.bat</tt> <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span></p></li></ul><p class="line874">On Linux/Unix, <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span></p><ul><li style="list-style-type: none;"><p class="line891"><tt>bossamsh.sh</tt> <span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span></p></li></ul><p class="line867">
+</p><h3 id="head-7fb5537805d268a78bf6fd24d5e5ba7357c319b3">1.1. Default Namespace Prefixes</h3>
+<span class="anchor" id="line-21"></span><p class="line874">On running the shell, it loads default well-known namespace prefixes as shown below. <span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span></p><ul><li style="list-style-type: none;"><pre>[Bossam(v0.7b80) 2003-2005(c)ETRI] 
+<span class="anchor" id="line-24"></span>-- Default Namespaces:
+<span class="anchor" id="line-25"></span>prefix owl = http://www.w3.org/2002/07/owl#
+<span class="anchor" id="line-26"></span>prefix rdf = http://www.w3.org/1999/02/22-rdf-syntax-ns#
+<span class="anchor" id="line-27"></span>prefix rdfs = http://www.w3.org/2000/01/rdf-schema#
+<span class="anchor" id="line-28"></span>prefix xsd = http://www.w3.org/2001/XMLSchema#
+<span class="anchor" id="line-29"></span>&gt; load n3 from http://www.bossam.com/ex01.n3;
+<span class="anchor" id="line-30"></span>&gt; ask owl:equivalentClass(?x,?y);</pre><span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span></li></ul><p class="line874">As shown, prefixes for four famous namespaces are defined. You can use the prefixes to assert facts or rules as shown. <span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span></p><p class="line867">
+</p><h3 id="head-6ede27c3e357d3802f7560b09e9b201df5cb3127">1.2. Loading OWL Inference Rules</h3>
+<span class="anchor" id="line-35"></span><p class="line874">You don't
+have to load OWL inference rules explicitly anymore. Whenever you load
+RDF or SWRL, OWL inference rules are automatically loaded. <span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span></p><p class="line867">
+</p><h2 id="head-9bd4178c723724f698862bfb059f4b6b9a8085dc">2. Shell Commands</h2>
+<span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><p class="line867">
+</p><h3 id="head-32fdb7baa425d6d3ead84dd122b4359a6ec69726">2.1. Loading a knowledge base</h3>
+<span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span><p class="line867">
+</p><h4 id="head-19c55e053788b451b93fba18c2dc1137d9958daa">2.1.1. Synopsis</h4>
+<span class="anchor" id="line-42"></span><ul><li style="list-style-type: none;"><p class="line891"><tt>&nbsp;load&nbsp;[rb&nbsp;|&nbsp;rdf&nbsp;|&nbsp;n3&nbsp;|&nbsp;swrl&nbsp;|&nbsp;ruleml&nbsp;|&nbsp;swrlrdf]&nbsp;from&nbsp;&lt;URI&gt;;</tt> <span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span></p></li></ul><p class="line867">
+</p><h4 id="head-8e860e0755c7aa77ca26bb121f92cb46fe2ac896">2.1.2. Explanation</h4>
+<span class="anchor" id="line-45"></span><p class="line862">With this
+command, you can load rule-bases or ontologies written in RDF/XML, N3,
+Buchingae, SWRL, or RuleML into the working memory of Bossam.
+&lt;URI&gt; indicates the location where the specified rule-base or
+ontology can be obtained. <span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span></p><p class="line867">
+</p><h4 id="head-be07c91383571d41dd967e99cc0881afd691395c">2.1.3. Samples</h4>
+<span class="anchor" id="line-48"></span><p class="line874">The following command loads a Bossam rulebase from the given URI. <span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span></p><ul><li style="list-style-type: none;"><p class="line891"><tt>&gt;&nbsp;load&nbsp;rb&nbsp;at&nbsp;file:///c:/temp/rb-test.boo;</tt> <span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span></p></li></ul><p class="line874">The following command loads an OWL ontology written in RDF/XML. <span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span></p><ul><li style="list-style-type: none;"><p class="line891"><tt>&gt;&nbsp;load&nbsp;rdf&nbsp;at&nbsp;http://www.etri.re.kr/2004/test/weather.owl;</tt> <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span></p></li></ul><p class="line874">The following command loads a SWRL/OWLX rulebase from the given URI. <span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span></p><ul><li style="list-style-type: none;"><p class="line891"><tt>&gt;&nbsp;load&nbsp;swrl&nbsp;at&nbsp;http://www.etri.re.kr/2004/test/some.swrl;</tt> <span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span></p></li></ul><p class="line862">The following command loads a SWRL/RDF ontology &amp; rulebase from the given URI. <span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span></p><ul><li style="list-style-type: none;"><p class="line891"><tt>&gt;&nbsp;load&nbsp;swrlrdf&nbsp;at&nbsp;http://www.etri.re.kr/2004/test/some.swrl;</tt> <span class="anchor" id="line-63"></span><span class="anchor" id="line-64"></span></p></li></ul><p class="line874">The following command loads an RDF or OWL document written in N3 from the given URI. <span class="anchor" id="line-65"></span><span class="anchor" id="line-66"></span></p><ul><li style="list-style-type: none;"><p class="line891"><tt>&gt;&nbsp;load&nbsp;n3&nbsp;at&nbsp;http://www.etri.re.kr/2004/test/weather.n3;</tt> <span class="anchor" id="line-67"></span><span class="anchor" id="line-68"></span></p></li></ul><p class="line874">The following command loads a rulebase written in RuleML from the given URI. <span class="anchor" id="line-69"></span><span class="anchor" id="line-70"></span></p><ul><li style="list-style-type: none;"><p class="line891"><tt>&gt;&nbsp;load&nbsp;ruleml&nbsp;at&nbsp;http://www.etri.re.kr/2004/test/some.ruleml;</tt> <span class="anchor" id="line-71"></span><span class="anchor" id="line-72"></span></p></li></ul><p class="line867">
+</p><h3 id="head-7e5163e21aea845855297594aedf074f194166a4">2.2. Setting namespaces</h3>
+<span class="anchor" id="line-73"></span><span class="anchor" id="line-74"></span><p class="line867">
+</p><h4 id="head-19c55e053788b451b93fba18c2dc1137d9958daa-2">2.2.1. Synopsis</h4>
+<span class="anchor" id="line-75"></span><ul><li style="list-style-type: none;"><span class="anchor" id="line-76"></span><pre>namespace = &lt;NS_URI&gt;;
+<span class="anchor" id="line-77"></span>prefix &lt;PREFIX&gt; = &lt;NS_URI&gt;</pre><span class="anchor" id="line-78"></span><span class="anchor" id="line-79"></span></li></ul><p class="line867">
+</p><h4 id="head-8e860e0755c7aa77ca26bb121f92cb46fe2ac896-2">2.2.2. Explanation</h4>
+<span class="anchor" id="line-80"></span><p class="line867"><tt>namespace</tt>
+sets the base namespace of the shell session. Every unqualified name
+appearing after this command is condidered to be in the base namespace.
+<tt>prefix</tt> adds a new namespace prefix to the shell session. <span class="anchor" id="line-81"></span><span class="anchor" id="line-82"></span></p><p class="line867">
+</p><h4 id="head-be07c91383571d41dd967e99cc0881afd691395c-2">2.2.3. Samples</h4>
+<span class="anchor" id="line-83"></span><ul><li style="list-style-type: none;"><span class="anchor" id="line-84"></span><pre>&gt; namespace = http://www.etri.re.kr/2004/Test#;
+<span class="anchor" id="line-85"></span>&gt; prefix james = http://www.person.com/James#;
+<span class="anchor" id="line-86"></span>&gt; assert fact f1 is father(james:A,james:B);</pre><span class="anchor" id="line-87"></span><span class="anchor" id="line-88"></span></li></ul><p class="line874">Names in the last command are qualified as follows: <span class="anchor" id="line-89"></span><span class="anchor" id="line-90"></span></p><ul><li><p class="line891"><tt>f1&nbsp;--&gt;&nbsp;http://www.etri.re.kr/2004/Test#f1</tt> <span class="anchor" id="line-91"></span></p></li><li><p class="line891"><tt>father&nbsp;--&gt;&nbsp;http://www.etri.re.kr/2004/Test#father</tt> <span class="anchor" id="line-92"></span></p></li><li><p class="line891"><tt>james:A&nbsp;--&gt;&nbsp;http://www.person.com/James#A</tt> <span class="anchor" id="line-93"></span></p></li><li><p class="line891"><tt>james:B&nbsp;--&gt;&nbsp;http://www.person.com/James#B</tt> <span class="anchor" id="line-94"></span><span class="anchor" id="line-95"></span></p></li></ul><p class="line867">
+</p><h3 id="head-aa46c6fa91bbed2aed57b9018076d01c88b1a514">2.3. Asserting a new fact</h3>
+<span class="anchor" id="line-96"></span><span class="anchor" id="line-97"></span><p class="line867">
+</p><h4 id="head-19c55e053788b451b93fba18c2dc1137d9958daa-3">2.3.1. Synopsis</h4>
+<span class="anchor" id="line-98"></span><ul><li style="list-style-type: none;"><p class="line891"><tt>assert&nbsp;fact&nbsp;&lt;fact_ID&gt;&nbsp;is&nbsp;&lt;fact_body&gt;;</tt> <span class="anchor" id="line-99"></span><span class="anchor" id="line-100"></span></p></li></ul><p class="line867">
+</p><h4 id="head-8e860e0755c7aa77ca26bb121f92cb46fe2ac896-3">2.3.2. Explanation</h4>
+<span class="anchor" id="line-101"></span><p class="line862">This
+command asserts a new fact and adds it to the Bossam's working memory,
+which constitutes the inference context. &lt;fact_ID&gt; is the ID of
+the fact and should be a plain name. &lt;fact_body&gt; is a ground
+predicate, and the predicate symbol or constant terms can be specified
+by a plain name, qualified name, or a full URI. <span class="anchor" id="line-102"></span><span class="anchor" id="line-103"></span></p><p class="line867">
+</p><h4 id="head-be07c91383571d41dd967e99cc0881afd691395c-3">2.3.3. Samples</h4>
+<span class="anchor" id="line-104"></span><p class="line874">The following code fragment shows various formats of asserting facts. <span class="anchor" id="line-105"></span><span class="anchor" id="line-106"></span></p><ul><li style="list-style-type: none;"><pre>&gt; assert fact f1 is father(John,Bob); 
+<span class="anchor" id="line-107"></span>&gt; assert fact f2 is env:temperature(30,space:LivingRoom);
+<span class="anchor" id="line-108"></span>&gt; assert fact f3 is http://www.etri.re.kr/2004/Environment(20,space:LivingRoom);</pre><span class="anchor" id="line-109"></span><span class="anchor" id="line-110"></span></li></ul><p class="line867">
+</p><h3 id="head-934ef54d69dd60a70845e339d4e122ffff57d49a">2.4. Asserting a new rule</h3>
+<span class="anchor" id="line-111"></span><span class="anchor" id="line-112"></span><p class="line867">
+</p><h4 id="head-19c55e053788b451b93fba18c2dc1137d9958daa-4">2.4.1. Synopsis</h4>
+<span class="anchor" id="line-113"></span><ul><li style="list-style-type: none;"><p class="line891"><tt>assert&nbsp;rule&nbsp;&lt;rule_ID&gt;&nbsp;is&nbsp;&lt;rule_body&gt;;</tt> <span class="anchor" id="line-114"></span><span class="anchor" id="line-115"></span></p></li></ul><p class="line867">
+</p><h4 id="head-8e860e0755c7aa77ca26bb121f92cb46fe2ac896-4">2.4.2. Explanation</h4>
+<span class="anchor" id="line-116"></span><p class="line874">This command asserts a new rule and adds it to the Bossam's working memory, which constitutes the inference context. <span class="anchor" id="line-117"></span><span class="anchor" id="line-118"></span></p><p class="line867">
+</p><h4 id="head-be07c91383571d41dd967e99cc0881afd691395c-4">2.4.3. Samples</h4>
+<span class="anchor" id="line-119"></span><p class="line874">The following code fragment shows various formats of asserting rules. <span class="anchor" id="line-120"></span><span class="anchor" id="line-121"></span></p><ul><li style="list-style-type: none;"><pre>&gt; assert rule r1 is if env:Temperature(?x,?loc) and [?x &lt; 20]  then cool(?loc); 
+<span class="anchor" id="line-122"></span>&gt; assert rule r2 is if person:Located(?x,?loc) and space:In(?loc,?loc2) then person:Located(?x,?loc2);</pre><span class="anchor" id="line-123"></span><span class="anchor" id="line-124"></span></li></ul><p class="line867">
+</p><h3 id="head-e61ab402d107f91a3da577909369a40dc697908e">2.5. Running an inference session</h3>
+<span class="anchor" id="line-125"></span><span class="anchor" id="line-126"></span><p class="line867">
+</p><h4 id="head-19c55e053788b451b93fba18c2dc1137d9958daa-5">2.5.1. Synopsis</h4>
+<span class="anchor" id="line-127"></span><ul><li style="list-style-type: none;"><p class="line891"><tt>run;</tt> <span class="anchor" id="line-128"></span><span class="anchor" id="line-129"></span></p></li></ul><p class="line867">
+</p><h4 id="head-8e860e0755c7aa77ca26bb121f92cb46fe2ac896-5">2.5.2. Explanation</h4>
+<span class="anchor" id="line-130"></span><p class="line874">This command initiates a forward-chaining inference session. It prints out the truth value or a list of derived facts. <span class="anchor" id="line-131"></span><span class="anchor" id="line-132"></span></p><p class="line867">
+</p><h4 id="head-be07c91383571d41dd967e99cc0881afd691395c-5">2.5.3. Samples</h4>
+<span class="anchor" id="line-133"></span><ul><li style="list-style-type: none;"><p class="line891"><tt>&gt;&nbsp;run;&nbsp;</tt> <span class="anchor" id="line-134"></span><span class="anchor" id="line-135"></span></p></li></ul><p class="line867">
+</p><h3 id="head-58b018bbab2b2c248357d35e5b64a3ff74b3510d">2.6. Querying Knowledge Base</h3>
+<span class="anchor" id="line-136"></span><span class="anchor" id="line-137"></span><p class="line867">
+</p><h4 id="head-19c55e053788b451b93fba18c2dc1137d9958daa-6">2.6.1. Synopsis</h4>
+<span class="anchor" id="line-138"></span><ul><li style="list-style-type: none;"><p class="line891"><tt>ask&nbsp;&lt;query&gt;;</tt> <span class="anchor" id="line-139"></span><span class="anchor" id="line-140"></span></p></li></ul><p class="line867">
+</p><h4 id="head-8e860e0755c7aa77ca26bb121f92cb46fe2ac896-6">2.6.2. Explanation</h4>
+<span class="anchor" id="line-141"></span><p class="line874">This
+command throws a query into the current working memory. Answers with a
+truth value of the query or successful bindings. Query is the rule
+without the consequent part. An atom or a conjunction of atoms. <span class="anchor" id="line-142"></span><span class="anchor" id="line-143"></span></p><p class="line867">
+</p><h4 id="head-07606fad21d720f591bed711b0da689c5f9a9fb9">2.6.3. A Sample Session</h4>
+<span class="anchor" id="line-144"></span><span class="anchor" id="line-145"></span><ul><li style="list-style-type: none;"><pre>&gt; namespace is http://www.etri.re.kr/T#; 
+<span class="anchor" id="line-146"></span>&gt; assert fact f1 is father(a,b);
+<span class="anchor" id="line-147"></span>&gt; assert fact f2 is father(b,c);
+<span class="anchor" id="line-148"></span>&gt; ask father(?a,?b) and father(?b,?c);
+<span class="anchor" id="line-149"></span> {a=http://www.etri.re.kr/T#a, c=http://www.etri.re.kr/T#c, b=http://www.etri.re.kr/T#b}
+<span class="anchor" id="line-150"></span>&gt; exit;
+<span class="anchor" id="line-151"></span>Exiting...</pre><span class="anchor" id="line-152"></span><span class="anchor" id="line-153"></span></li></ul><p class="line867">
+</p><h3 id="head-319e6ef0d598cec3387948b5525781bce14636db">2.7. Creating a Java instance</h3>
+<span class="anchor" id="line-154"></span><span class="anchor" id="line-155"></span><p class="line867">
+</p><h4 id="head-19c55e053788b451b93fba18c2dc1137d9958daa-7">2.7.1. Synopsis</h4>
+<span class="anchor" id="line-156"></span><ul><li style="list-style-type: none;"><p class="line891"><tt>new&nbsp;&lt;java-class-name&gt;;</tt> <span class="anchor" id="line-157"></span><span class="anchor" id="line-158"></span></p></li></ul><p class="line867">
+</p><h4 id="head-8e860e0755c7aa77ca26bb121f92cb46fe2ac896-7">2.7.2. Explanation</h4>
+<span class="anchor" id="line-159"></span><p class="line874">This
+command creates an instance of the specified Java class and puts it
+into the context memory of the current inference session. The Java
+object can be referenced from the rules. Currently, only default
+constructor is supported. <span class="anchor" id="line-160"></span><span class="anchor" id="line-161"></span></p><p class="line867">
+</p><h4 id="head-07606fad21d720f591bed711b0da689c5f9a9fb9-2">2.7.3. A Sample Session</h4>
+<span class="anchor" id="line-162"></span><ul><li style="list-style-type: none;"><span class="anchor" id="line-163"></span><pre>&gt;new java.lang.String;
+<span class="anchor" id="line-164"></span>&gt;assert rule r is if java://java.lang/String#class(?o) and java://java.lang/String#length(?o,?l)
+<span class="anchor" id="line-165"></span>then StringLength(?l);
+<span class="anchor" id="line-166"></span></pre><span class="anchor" id="line-167"></span><span class="anchor" id="line-168"></span></li></ul><p class="line867">
+</p><h3 id="head-e2f7acf6080209a02a2add5cf48a2f3bcb9b5cae">2.8. Setting attributes</h3>
+<span class="anchor" id="line-169"></span><span class="anchor" id="line-170"></span><p class="line867">
+</p><h4 id="head-19c55e053788b451b93fba18c2dc1137d9958daa-8">2.8.1. Synopsis</h4>
+<span class="anchor" id="line-171"></span><span class="anchor" id="line-172"></span><ul><li style="list-style-type: none;"><p class="line891"><tt>set&nbsp;&lt;attribute_name&gt;&nbsp;=&nbsp;&lt;attribute_value&gt;;</tt> <span class="anchor" id="line-173"></span><span class="anchor" id="line-174"></span></p></li></ul><p class="line867">
+</p><h4 id="head-8e860e0755c7aa77ca26bb121f92cb46fe2ac896-8">2.8.2. Explanation</h4>
+<span class="anchor" id="line-175"></span><p class="line874">This command is used to set values for various built-in attributes of bossam shell. <span class="anchor" id="line-176"></span><span class="anchor" id="line-177"></span></p><p class="line867">
+</p><h4 id="head-62fd9d2b4a7557583775c1d7f6c28a87660ab534">2.8.3. Built-in Attributes</h4>
+<span class="anchor" id="line-178"></span><ul><li><p class="line891"><tt>showtime</tt>: If this attribute is set to true, elapsed time is displayed for every shell command. <span class="anchor" id="line-179"></span></p></li><li><p class="line891"><tt>imports</tt>: If this attribute is set to true, OWL imports is enabled. Default is false. <span class="anchor" id="line-180"></span><span class="anchor" id="line-181"></span></p></li></ul><p class="line867">
+</p><h4 id="head-be07c91383571d41dd967e99cc0881afd691395c-6">2.8.4. Samples</h4>
+<span class="anchor" id="line-182"></span><ul><li style="list-style-type: none;"><span class="anchor" id="line-183"></span><pre>&gt; set showtime = true;
+<span class="anchor" id="line-184"></span>&gt; set imports = true;</pre><span class="anchor" id="line-185"></span><span class="anchor" id="line-186"></span></li></ul><p class="line867">
+</p><h3 id="head-299a28b4974effee97b22a721c6286a0c497fe60">2.9. Displaying Rules and Facts</h3>
+<span class="anchor" id="line-187"></span><span class="anchor" id="line-188"></span><p class="line867">
+</p><h4 id="head-19c55e053788b451b93fba18c2dc1137d9958daa-9">2.9.1. Synopsis</h4>
+<span class="anchor" id="line-189"></span><ul><li style="list-style-type: none;"><p class="line891"><tt>show&nbsp;&lt;facts&nbsp;|&nbsp;rules&nbsp;|&nbsp;all&gt;;</tt> <span class="anchor" id="line-190"></span><span class="anchor" id="line-191"></span></p></li></ul><p class="line867">
+</p><h4 id="head-8e860e0755c7aa77ca26bb121f92cb46fe2ac896-9">2.9.2. Explanation</h4>
+<span class="anchor" id="line-192"></span><p class="line874">Shell displays all the rules or facts in the working memory. <span class="anchor" id="line-193"></span><span class="anchor" id="line-194"></span></p><p class="line867">
+</p><h4 id="head-be07c91383571d41dd967e99cc0881afd691395c-7">2.9.3. Samples</h4>
+<span class="anchor" id="line-195"></span><p class="line874">The following command make the shell display all the facts in the working memory. <span class="anchor" id="line-196"></span><span class="anchor" id="line-197"></span></p><ul><li style="list-style-type: none;"><p class="line891"><tt>&gt;&nbsp;show&nbsp;facts;</tt> <span class="anchor" id="line-198"></span><span class="anchor" id="line-199"></span></p></li></ul><p class="line874">The following command make the shell display all the rules in the working memory. <span class="anchor" id="line-200"></span><span class="anchor" id="line-201"></span></p><ul><li style="list-style-type: none;"><p class="line891"><tt>&gt;&nbsp;show&nbsp;rules;</tt> <span class="anchor" id="line-202"></span><span class="anchor" id="line-203"></span></p></li></ul><p class="line867">
+</p><h2 id="head-ee10397ad63d8f56599ead69e4b54c24e7593f72">3. History</h2>
+<span class="anchor" id="line-204"></span><ul><li><p class="line862">2006/10/10: Added explanations on new commands: <tt>new,&nbsp;imports</tt> <span class="anchor" id="line-205"></span></p></li><li>2005/11/10: Revised command descriptions to reflect changes. <span class="anchor" id="line-206"></span></li><li>2005/08/17: Revised 2.7 and 2.1. <span class="anchor" id="line-207"></span></li><li>2005/05/11: Added 1.1, 1.2, and 2.8. Revised 2.1 and 2.2. <span class="anchor" id="line-208"></span></li><li>2005/04/15: Revised. <span class="anchor" id="line-209"></span></li><li>2004/06/28: Created. <span class="anchor" id="line-210"></span></li></ul><span class="anchor" id="bottom"></span></div><p id="pageinfo" class="info" dir="ltr" lang="en">BossamShellUserManual  (last edited 2006-10-10 01:59:53 by <span title="MinsuJang @ 129.254.70.142[129.254.70.142]"><a href="http://mknows.etri.re.kr/bossam/MinsuJang" title="MinsuJang @ 129.254.70.142[129.254.70.142]">MinsuJang</a></span>)</p>
+<div id="pagebottom"></div>
+</div>
+</body></html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Rulebase xmlns="http://www.ruleml.org/0.87/xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.ruleml.org/0.87/xsd http://www.ruleml.org/0.87/xsd/urdatalog.xsd">
+<!-- if IsFatherOf(?x,?y) and IsFatherOf(?y,?z) then IsGrandFatherOf(?x,?z) -->
+<Imp>
+  <head>
+         <Atom>
+            <opr><Rel href="http://example.com/P#IsGrandFatherOf">IsGrandFatherOf</Rel></opr>
+            <Var>x</Var>
+            <Var>z</Var>
+        </Atom>
+  </head>
+  <rlab><Ind>Father of Father is GrandFather</Ind></rlab>
+  <body>
+    <And>
+        <Atom>
+            <Rel href="http://example.com/P#IsFatherOf">IsFatherOf</Rel>
+            <Var>x</Var>
+            <Var>y</Var>
+        </Atom>
+        <Atom>
+            <opr><Rel href="http://example.com/P#IsFatherOf">IsFatherOf</Rel></opr>
+            <Var>y</Var>
+            <Var>z</Var>
+        </Atom>
+    </And>
+  </body>
+</Imp>
+
+<!-- if IsFatherOf(?x,?y) and not HasWife(?x,?z) then IsDivorced(?x) -->
+<Imp>
+  <head>
+         <Atom>
+            <opr><Rel href="http://example.com/P#IsDivorced">IsDivorced</Rel></opr>
+            <Var>x</Var>
+        </Atom>
+  </head>
+  <rlab><Ind>A father without a wife is a diverced</Ind></rlab>
+  <body>
+    <And>
+        <Atom>
+            <Rel href="http://example.com/P#IsFatherOf">IsFatherOf</Rel>
+            <Var>x</Var>
+            <Var>y</Var>
+        </Atom>
+        <Naf>
+          <Atom>
+            <opr><Rel href="http://example.com/P#HasWife">HasWife</Rel></opr>
+            <Var>x</Var>
+            <Var>z</Var>
+          </Atom>
+        </Naf>
+    </And>
+  </body>
+</Imp>
+
+<!-- IsFatherOf(John,Sam) -->
+<Fact>
+  <rlab><Ind>John is the father of Sam</Ind></rlab>
+  <head>
+    <Atom>
+      <opr><Rel href="http://example.com/P#IsFatherOf">IsFatherOf</Rel></opr>
+      <Ind href="http://person.com/P#John">John</Ind>
+      <Ind href="http://person.com/P#Sam">Sam</Ind>
+    </Atom>
+  </head>
+</Fact>
+
+<!-- IsFatherOf(Nil,John) -->
+<Fact>
+  <rlab><Ind>Nil is the father of John</Ind></rlab>
+  <head>
+    <Atom>
+      <opr><Rel href="http://example.com/P#IsFatherOf">IsFatherOf</Rel></opr>
+      <Ind href="http://person.com/P#Nil">Nil</Ind>
+      <Ind href="http://person.com/P#John">John</Ind>
+    </Atom>
+  </head>
+</Fact>
+
+</Rulebase>

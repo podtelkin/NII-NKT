@@ -1,0 +1,42 @@
+License Agreement
+
+This is a legal agreement between ETRI (Electronics & Telecommunications Research
+Institute, Daejeon-si, South Korea) and you the user. It applies to Bossam rule 
+engine version x.x. If you do not agree to these terms and conditions
+then you may not install or use Bossam.
+
+/*
+ * (c) Copyright 2003, 2004, 2005, 2006, 2007 Electronics and Telecommunications Research Institute
+ * All rights reserved.
+ *
+ * Redistribution and use in binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 1. It should be for non-commercial research purposes.
+ * 2. A permission is granted from the author of the software.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+In summary, feel free to use this software if it's not for any commercial
+purpose. This software is only available in binary form unless a license
+for the source code is bought.
+
+This product includes the following softwares.
+    * RIO RDF Parser (http://www.openrdf.org/)
+    * ANTLR (http://www.antlr.org)
+    * NSAM N3 Parser (http://projects.semwebcentral.org/projects/nsam/)
+    * Piccolo SAX Parser (http://piccolo.sourceforge.net/)
+    
+If you have any questions regarding technology transfer or licensing policy,
+please contact Minsu Jang at minsu@etri.re.kr
+
+Copyright (c) 2005,2006,2007 Minsu Jang, ETRI, Daejeon-si, South Korea

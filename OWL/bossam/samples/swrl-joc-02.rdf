@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE rdf:RDF [
+	<!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
+	<!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
+	<!ENTITY owl 'http://www.w3.org/2002/07/owl'>
+	<!ENTITY xsd 'http://www.w3.org/2001/XMLSchema'>
+	<!ENTITY ruleml 'http://www.w3.org/2003/11/swrl'>
+	<!ENTITY swrl 'http://www.w3.org/2003/11/swrl'>
+	<!ENTITY swrlb 'http://www.w3.org/2003/11/swrlb'>
+	<!ENTITY sh 'java://com.anuja/SlotHandler#'>
+]>
+<rdf:RDF
+  xmlns:rdf ="&rdf;#"
+  xmlns:rdfs="&rdfs;#"
+  xmlns:owl ="&owl;#"
+  xmlns:ruleml="&ruleml;#"
+  xmlns:swrl="&swrl;#"
+  xml:base="http://anuja.com/test01"
+  xmlns="http://anuja.com/test01#"
+>
+<owl:Ontology rdf:about="">
+  <rdfs:comment>SWRL/RDF for Java Object Call</rdfs:comment>
+  <owl:versionInfo>$Id: swrl-joc-02.rdf,v 1.2 2007/01/19 12:54:10 zebehn Exp $</owl:versionInfo>
+  <owl:imports rdf:resource="&swrl;"/>
+</owl:Ontology>
+<swrl:Variable rdf:ID="slotx"/>
+<swrl:Variable rdf:ID="sloty"/>
+<swrl:Variable rdf:ID="x"/>
+<swrl:Variable rdf:ID="y"/>
+<swrl:Variable rdf:ID="o"/>
+<!-- Definitions of Test Facts -->
+<owl:Class rdf:ID="Slot"/>
+<owl:DatatypeProperty rdf:ID="hasDistance">
+	<rdfs:domain rdf:resource="#Slot"/>
+	<rdfs:range rdf:resource="&xsd;#integer"/>
+</owl:DatatypeProperty>
+<owl:DatatypeProperty rdf:ID="isNearestSlot">
+	<rdfs:domain rdf:resource="#Slot"/>
+	<rdfs:range rdf:resource="&xsd;#integer"/>
+</owl:DatatypeProperty>
+<Slot rdf:ID="Slot1">
+	<hasDistance rdf:datatype="&xsd;#integer">10</hasDistance>
+</Slot>
+<Slot rdf:ID="Slot2">
+	<hasDistance rdf:datatype="&xsd;#integer">20</hasDistance>
+</Slot>
+<Slot rdf:ID="Slot3">
+	<hasDistance rdf:datatype="&xsd;#integer">30</hasDistance>
+</Slot>
+<!-- The Rule -->
+<ruleml:Imp>
+  <ruleml:body rdf:parseType="Collection">
+    <swrl:DatavaluedPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="#hasDistance"/> 
+      <swrl:argument1 rdf:resource="#slotx" />
+      <swrl:argument2 rdf:resource="#x" />
+    </swrl:DatavaluedPropertyAtom>
+    <swrl:DatavaluedPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="#isNearestSlot"/> 
+      <swrl:argument1 rdf:resource="#sloty" />
+      <swrl:argument2 rdf:resource="#y" />
+    </swrl:DatavaluedPropertyAtom>
+    <swrl:BuiltinAtom>
+      <swrl:builtin rdf:resource="&swrlb;#lessThan"/> 
+      <swrl:arguments>
+      	<rdf:List>
+      		<rdf:first rdf:resource="#x"/>
+      		<rdf:rest>
+    			<rdf:List>
+  		    		<rdf:first rdf:resource="#y"/>
+      				<rdf:rest rdf:resource="&rdf;#nil"/>
+      			</rdf:List>
+      		</rdf:rest>
+      	</rdf:List>
+      </swrl:arguments>
+    </swrl:BuiltinAtom>
+    <swrl:ClassAtom> 
+      <swrl:classPredicate rdf:resource="&sh;class"/> 
+      <swrl:argument1 rdf:resource="#o" />
+    </swrl:ClassAtom>
+  </ruleml:body>
+  <ruleml:head rdf:parseType="Collection"> 
+    <swrl:DatavaluedPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="#isNearestSlot"/> 
+      <swrl:argument1 rdf:resource="slotx" />
+      <swrl:argument2 rdf:resource="#x" />
+    </swrl:DatavaluedPropertyAtom>
+    <swrl:DatavaluedPropertyAtom>
+      <swrl:propertyPredicate rdf:resource="&sh;add"/> 
+      <swrl:argument1 rdf:resource="#o" />
+      <swrl:argument2 rdf:resource="#x" />
+    </swrl:DatavaluedPropertyAtom>
+  </ruleml:head> 
+</ruleml:Imp> 
+</rdf:RDF>

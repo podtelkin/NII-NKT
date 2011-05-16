@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Bossam Rule Engine</title>
+</head>
+<body>
+<h1 style="text-align: center;">Bossam Rule/OWL Reasoner</h1>
+<h1 style="text-align: center;"><small>An easy inference on the
+semantic web</small></h1>
+<div style="text-align: center;">Written by Minsu Jang(minsu@etri.re.kr)<br>
+Last Updated: 2007-01-23<br>
+</div>
+<p>
+Bossam is a RETE based rule engine which is tuned for easy use on the
+semantic web. Please refer to the following documents for the details
+of the engine.</p>
+<p>More recent feature announcements and manuals can be found at: <a href="http://bossam.wordpress.com">http://bossam.wordpress.com</a>. Bossam is still in its beta stage, so new releases come rather frequently. Please visit <a href="http://projects.semwebcentral.org/projects/bossam/">Bossam project site @ semantic web central</a> for new releases. I'd be much appreciated by any kinds of feedback!! Please send any comments to <a href="mailto:bossam-comments@projects.semwebcentral.org</p>">Bossam mailinglist</a> or to <a href="mailto:minsu@etri.re.kr">me</a>.
+</p>
+<h2>Highlights for Bossam 0.9b40 Release</h2>
+<p>
+<ul>
+<li>New Reasoners: <code>OwlDlTrHReasoner</code> and <code>SwrlRdfTrHReasoner</code> are OWL and SWRL reasoners respectively. These reasoners provide better performance than previous reasoners e.g. <code>OwlDlReasoner</code>.</li>
+<ul>
+  <li>Use <code>load owltr <uri></code> to utilize the new <code>OwlDlTrHReasoner</code> in Bossam shell!</li>
+</ul>
+<li>Explanation: It's now possible to print out the derivation tree of a derived facts. Please refer to <a href="http://bossam.wordpress.com/2007/01/23/explanations-in-bossam/">an explanation on the explanation feature</a>.</li>
+<li>Derived facts with blank nodes now do not appear in the conclusions! It provides more compact view on the conclusions.</li>
+<li>Several bug-fixes as always...</li>
+</ul>
+</p>
+<p>
+Please refer to <a href="CHANGE_LOG.txt">CHANGE LOG</a> for the recent changes.
+</p>
+<h2>Documents</h2>
+<a href="reasoner-tool-manual.html">Reasoner Tool Manual</a><br>
+<a href="getting-started.html">Gettring Started</a><br>
+<a href="bossam-shell-manual.html">Bossam Shell Manual</a><br>
+<a href="buchingae-rule-language.html">Buchingae Rule Language</a><br>
+<a href="../javadoc/index.html">Bossam API Javadoc</a><br>
+<hr style="width: 100%; height: 2px;">Copyright (c) 2005 Minsu Jang,
+ETRI<br>
+Revision: $Id: index.html,v 1.2 2007/01/23 16:13:30 zebehn Exp $<br>
+</body>
+</html>

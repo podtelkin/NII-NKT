@@ -1,1 +1,3 @@
 http://www.daml.org/swrl/proposal/xmlsyntax.html#5.1
+http://www.semantictools.ru/tools/12---sw.html
+http://www.w3.org/TR/owl-xmlsyntax/apd-example.html

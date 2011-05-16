@@ -1,0 +1,515 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Buchingae Rule Language</title>
+</head>
+<body>
+<h1 style="text-align: center;">Buchingae - A Rule Language for The Web</h1>
+<div style="text-align: center;">Written by Minsu Jang(minsu@etri.re.kr)<br>
+</div>
+<h2>Introduction</h2>
+<p>Buchingae is a simple web-oriented rule language. By "web-oriented",
+we mean that you can directly refer to URI resources such as web
+ontology elements or RDF resources when writing rules. Buchingae is a
+language appropriate for specifying production rules, but is not
+limited to production rules as it has procedural attachment feature
+that enables writing ECA rules.</p>
+<p> We have not attempted to characterize computational properties of
+this language, since Buchingae is developed as a useful <em>tool</em>
+for reasoning over web ontologies. We tried to make as many a valuable
+features that might be useful for web ontology reasoning as possible
+available in Buchingae, and we think we're going well at it.</p>
+<p>Here're some important features of Buchingae:</p>
+<ol>
+  <li>Native support for URI reference</li>
+  <li>Every knowledge element is assigned a URI</li>
+  <li>Simple syntax</li>
+  <li>Support for object oriented knowledge representation</li>
+  <li>Support for strong negation &amp; weak negation at the same time</li>
+  <li>Easy external Java object interaction</li>
+  <li>Support for a simple 2nd-order logic like representation</li>
+</ol>
+<h2>A Sample Rulebase</h2>
+<p>The following code fragment shows a simple rulebase written in
+Buchingae. This rulebase is used to test one of the OWL test cases W3C
+has published. It's a test for OWL's functional property axiom. As you
+can see, it's very URI friendly.
+</p>
+<pre class="code">01 prefix rdf = http://www.w3.org/1999/02/22-rdf-syntax-ns#;<br>02 prefix owl = http://www.w3.org/2002/07/owl#;<br>03 prefix xsd = http://www.w3.org/2001/XMLSchema#;<br>04 prefix rdfs = http://www.w3.org/2000/01/rdf-schema#;<br>05 prefix first = http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#;<br>06 namespace is http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#;<br>07 rulebase FunctionalPropertyTest1<br>08 {<br>09	fact Fact1 is owl:FunctionalProperty(prop);<br>10	fact Fact2 is prop(subject,object1);<br>11	fact Fact3 is prop(subject,object2);<br>12<br>13	rule FuncProp is if owl:FunctionalProperty(?p) and ?p(?x,?y)<br>14                          and ?p(?x,?z) and [?y != ?z]<br>15			 then owl:sameAs(?y,?z);<br>16 }</pre>
+<p> Let's dissect. </p>
+<p>Lines 01 ~ 05</p>
+<p> The first part is a series of namespace prefix declarations. With
+the keyword <span style="font-family: monospace;">prefix,</span> you
+can declare namespace prefixes you're going to use in the rulebase.
+Once you declare a namespace prefix, you can use the prefix to name any
+knowledge element. For example, at line 09, you can see a prefix <span
+ style="font-family: monospace;">owl</span> is used to name a predicate
+symbol, <span style="font-family: monospace;">owl:FunctionalProperty</span>.
+By the prefix declaration at line 02, this symbol is resolved into <span
+ style="font-family: monospace;">http://www.w3.org/2002/07/owl#FunctionalProperty</span>.
+</p>
+<p>Line 06</p>
+<p> With a keyword namespace, you declare a base namespace of a
+knowledge base. Every local name, which is without a namespace prefix,
+is qualified by the base namespace. At line 07, you can see an
+unqualified name <span style="font-family: monospace;">FunctionalPropertyTest1</span>.
+By the base namespace, the name is resolved into <span
+ style="font-family: monospace;">http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#FunctionalPropertyTest1</span>.
+Base namespace declaration should not be omitted. </p>
+<p>Line 07</p>
+<p> The body of a rulebase begins with a keyword rulebase. You assign a
+rulebase name with it. If you want to use a full URI to name a
+rulebase, you can do it like this: </p>
+<pre class="code">rulebase http://a.b.c/RuleBases#FunctionalPropertyTest1 { ... }</pre>
+<p>Line 09 ~ 11</p>
+<p> There're three fact assertions. The first one at line 09 is stated
+like this: "By a fact named <span style="font-family: monospace;">Fact1</span>,
+I assert that a constant named <span style="font-family: monospace;">prop</span>
+is an <span style="font-family: monospace;">owl:FunctionalProperty</span>."
+At line 10 and 11, there're two more facts asserted. <span
+ style="font-family: monospace;">subject</span>, <span
+ style="font-family: monospace;">object1</span>, <span
+ style="font-family: monospace;">object2</span> are all constants, and <span
+ style="font-family: monospace;">prop</span> is a predicate symbol. You
+can see in the example that the predicate symbol <span
+ style="font-family: monospace;">prop</span> is used as a constant term
+in <span style="font-family: monospace;">Fact1</span>. In Buchingae,
+predicate symbols are treated similarily like other constants or
+variables. Let's go into deeper with the rule <span
+ style="font-family: monospace;">FuncProp</span> at line 13 ~ 15. </p>
+<p>Line 13 ~15</p>
+<p> The rule <span style="font-family: monospace;">FuncProp</span> is
+a little bit complex one, and showcases some important aspects of
+Buchingae. The keyword <span style="font-family: monospace;">rule</span>
+is used to begin a new rule definition. The body of a rule is simply in
+the form of <span style="font-style: italic;">if condition then
+conclusion</span>. In <span style="font-family: monospace;">FuncProp</span>
+rule, four predicates, or patterns in the sense of production rule, are
+specified, and they are all joined by conjunction, so each and every
+predicate should be true, or bound by some facts, for the containing
+rule to be fired. Let's dissect the condition part. </p>
+<p> The first predicate, <span style="font-family: monospace;">owl:FunctionalProperty(?p)</span>,
+contains one variable term <span style="font-family: monospace;">?p</span>.
+All the constants declared as <span style="font-family: monospace;">owl:FunctionalProperty</span>
+will be bound to <span style="font-family: monospace;">?p</span>. </p>
+<p> The second predicate, <span style="font-family: monospace;">?p(?x,?y)</span>,
+contains three variable terms, <span style="font-family: monospace;">?p</span>,
+<span style="font-family: monospace;">?x</span> and <span
+ style="font-family: monospace;">?y</span>. You can use a variable term
+as a predicate symbol. With this predicate, you're trying to find all
+the facts which have two terms. Combined by a conjunction with the
+first predicate, <span style="font-family: monospace;">?p</span> is
+restricted to all the constants which happen to be <span
+ style="font-family: monospace;">owl:FunctionalProperty</span>. </p>
+<p> The fourth predicate, <span style="font-family: monospace;">[?x !=
+?y]</span>, actually looks not like a predicate but an expression. But
+it's really a predicate which tests inequality of the two terms, <span
+ style="font-family: monospace;">?x</span> and <span
+ style="font-family: monospace;">?y</span>. The predicate becomes true
+only if a constant bound to <span style="font-family: monospace;">?x</span>
+is different from a constant bound to <span
+ style="font-family: monospace;">?y</span>. There are six comparison
+operators provided by Buchingae. They are: </p>
+<ul>
+  <li><code><span style="font-family: monospace;"> &gt;</span></code> :
+greater than</li>
+  <li><span style="font-family: monospace;"> &lt;</span> : less than</li>
+  <li><span style="font-family: monospace;"> &gt;=</span> : greater
+than or equals</li>
+  <li><span style="font-family: monospace;"> &lt;=</span> : less than
+or equals</li>
+  <li><span style="font-family: monospace;"> =</span> ,<code> ==</code>:
+equals <span style="font-style: italic;">(= and == are all accepted)</span><br>
+  </li>
+  <li><span style="font-family: monospace;"> !=</span> : not equals</li>
+</ul>
+<p> One thing to be reminded is that you have to embrace any
+expressions with with brackets<span style="font-family: monospace;"
+ class="codefrag"></span>. </p>
+<h2>Basic Language Constructs</h2>
+<h3>Constants and Variables</h3>
+<div class="section">
+<p>You specify variables by prepending an identifier with a question
+mark. Some example variables are: <span style="font-family: monospace;">?x</span>,
+<span style="font-family: monospace;">?var1</span>, <span
+ style="font-family: monospace;">?a_var</span>. </p>
+<p>Constants are plain identifiers without a prepending question mark.
+In Buchingae, there're seven data types for constants. Variables are
+not
+explicitly typed.</p>
+<table class="ForrestTable" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th colspan="1" rowspan="1">Type</th>
+      <th colspan="1" rowspan="1">Description</th>
+      <th colspan="1" rowspan="1">Examples</th>
+    </tr>
+    <tr>
+      <td colspan="1" rowspan="1">string </td>
+      <td colspan="1" rowspan="1">identifiers embraced with double
+quotation marks. </td>
+      <td colspan="1" rowspan="1"><code>"John",
+"123", "owl"</code> </td>
+    </tr>
+    <tr>
+      <td colspan="1" rowspan="1">object </td>
+      <td colspan="1" rowspan="1">identifiers and URIs. Indicates web
+resources.</td>
+      <td colspan="1" rowspan="1"><code>John,
+http://a.b.c/Cars#FerrariNo1</code> </td>
+    </tr>
+    <tr>
+      <td colspan="1" rowspan="1">integer</td>
+      <td colspan="1" rowspan="1">literals composed only of digits.<br>
+      <span style="font-style: italic;">(</span><tt
+ style="font-style: italic;">range: -2147483648 ~ </tt><tt
+ style="font-style: italic;">2147483647)</tt></td>
+      <td colspan="1" rowspan="1"><code>123,
+4532</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">long<br>
+      </td>
+      <td style="vertical-align: top;">literals composed only of digits.<span
+ style="font-style: italic;"></span><tt style="font-style: italic;"></tt><br>
+      </td>
+      <td style="vertical-align: top;"><span
+ style="font-family: monospace;">1130466870303<br>
+      </span><span style="font-style: italic;">(a literal designating
+the number which is out of range of integer is automatically recognized
+as a long number)</span><span style="font-family: monospace;"><br>
+      </span></td>
+    </tr>
+    <tr>
+      <td colspan="1" rowspan="1">double</td>
+      <td colspan="1" rowspan="1">literals describing real numbers</td>
+      <td colspan="1" rowspan="1"><code>123.345,
+2.0</code></td>
+    </tr>
+    <tr>
+      <td colspan="1" rowspan="1">boolean</td>
+      <td colspan="1" rowspan="1">two built-in identifiers: true, false</td>
+      <td colspan="1" rowspan="1"><code>true,
+false</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">time<br>
+      </td>
+      <td style="vertical-align: top;">literals describing time and date<br>
+      </td>
+      <td style="vertical-align: top;"><code>2005-06-10 </code><span
+ style="font-style: italic;">(date of June 10, 2005)</span><code><br>
+12:30:12 </code><span style="font-style: italic;">(time)</span><code><br>
+2005-10-10T12:30:00 </code><span style="font-style: italic;">(date
+&amp; time)<br>
+      </span><code>now</code><span style="font-style: italic;"> (a
+special constant that designates to the current time)<br
+ style="font-style: italic;">
+      </span></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">list<br>
+      </td>
+      <td style="vertical-align: top;">list of constants<br>
+      </td>
+      <td style="vertical-align: top;"><code>&lt;a:obj1, b:obj2&gt;<br>
+&lt;1,2,3&gt;</code><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<a name="Predicates"></a>
+<h3>Predicates</h3>
+<div class="section">
+<p>Predicate is an atomic knowledge representation element in
+Buchingae. The predicate is composed of two parts. The first part is a
+predicate symbol, and the second is a list of terms. The predicate
+symbol can be a variable or a constant. If it's a constant, it should
+be an object constant. Each term of a predicate can be a variable or a
+constant. Any type of constant can come as a term. Here're some
+examples of valid predicates: </p>
+<table class="ForrestTable" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th colspan="1" rowspan="1">Predicate</th>
+      <th colspan="1" rowspan="1">Description</th>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;" colspan="1" rowspan="1">owl:Class(owl:Thing)</td>
+      <td colspan="1" rowspan="1"><span style="font-family: monospace;">owl:Thing</span>
+is an <span style="font-family: monospace;">owl:Class</span>.</td>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;" colspan="1" rowspan="1">rdf:type(?x,
+rdfs:Class)</td>
+      <td colspan="1" rowspan="1">The <span
+ style="font-family: monospace;">rdf:type</span> of <span
+ style="font-family: monospace;">?x</span> is <span
+ style="font-family: monospace;">rdfs:Class</span>.</td>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;" colspan="1" rowspan="1">http://a.b.c/Cars#MiddleClass(?x)</td>
+      <td colspan="1" rowspan="1"><span style="font-family: monospace;">?x</span>
+is <span style="font-family: monospace;">http://a.b.c/Cars#MiddleClass</span>.</td>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;" colspan="1" rowspan="1">?x(?p)</td>
+      <td colspan="1" rowspan="1"><span style="font-family: monospace;">?p</span>
+is <span style="font-family: monospace;">?x</span>.</td>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;" colspan="1" rowspan="1">?p(?x,?y)</td>
+      <td colspan="1" rowspan="1"><span style="font-family: monospace;">?p</span>
+of <span style="font-family: monospace;">?x</span> is <span
+ style="font-family: monospace;">?y</span>. (or "<span
+ style="font-family: monospace;">?x</span> has <span
+ style="font-family: monospace;">?y</span> as a <span
+ style="font-family: monospace;">?p</span>")</td>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;" colspan="1" rowspan="1">?p</td>
+      <td colspan="1" rowspan="1"><span style="font-family: monospace;">?p</span>.
+(<span style="font-family: monospace;">?p</span> will be bound to all
+the facts which have no terms.)</td>
+    </tr>
+  </tbody>
+</table>
+<p>An example of an invalid predicate: <span
+ style="font-family: monospace;">"owl:John"(?p)</span>. As <span
+ style="font-family: monospace;">"owl:John"</span> is a string
+constant, not an object constant, it is an invalid predicate symbol.
+All the predicate symbols should be a variable or an object constant. </p>
+</div>
+<h3>Connectives: Conjunction &amp; Disjunction</h3>
+<div class="section">
+<p>You can build sentences by connecting predicates with connectives.
+There're two connectives in Buchingae. Two connectives are; <span
+ style="font-family: monospace;">and</span> which denotes a conjunction
+and <span style="font-family: monospace;">or</span> a disjunction. The
+following is a simple statement with these two connectives.</p>
+<pre class="code">family:hasFather(?x,?y) and famili:hasFather(?y,?z)<br>family:age(?x,20) or family:age(?x,25) and human:Man(?x)</pre>
+<p>You can use braces to combine any subsentence like this:</p>
+<pre class="code">(family:age(?x,20) or family:age(?x,25)) and human:Man(?x)</pre>
+</div>
+<h3>Negations: Weak &amp; Strong Negations</h3>
+<div class="section">
+<p>There're two kinds of negations in the world of logic. One is a
+classical negation which is sometimes called strong negation, and the
+other one is a negation as failure which is sometimes called weak
+negation. Weak negation is based on closed-world assumption. Strong
+negation is specified by a keyword neg, and weak negation is specified
+by not. Negations can be attached only to predicates. Some usage
+examples of negations are as follows: </p>
+<pre class="code">if not Woman(?x) then Man(?x);<br>if neg Woman(?x) then Man(?x);<br>if Woman then neg Man(?x);</pre>
+<p>Negation as failure cannot be used in the conclusion part of a rule,
+as it is a test for non-existence of a specific fact. In contrast with
+weak negation, strong negation in the condition part is a test for
+existence of a strongly negated fact. For example, the second rule of
+the examples above fires only when one or more facts of the form neg
+Woman(constant) are explicitly asserted in the knowledge base. The
+third rule shows a case of using strong negation in the conclusion part
+of a rule. </p>
+<p>Rule processors should be equipped with internal semantics for
+processing strong negation and weak negation.</p>
+</div>
+<h3>Comments</h3>
+<div class="section">
+<p>As in Java, multi-line C-style comments and one-line C++ style
+comments are all allowed in Buchingae, as showcased in the following
+example.</p>
+<pre class="code">/*<br>** A rulebase for determining a service grade for a customer.<br>** Written by Buch.<br>*/<br>rulebase ServiceGrade<br>{<br>	// This is simply a rule.<br>	fact Fact1 is .....;<br>	// This is another...<br>	fact Fact2 is .....;<br>	// etc...<br>}</pre>
+</div>
+<h2>Knowledge Elements</h2>
+<h3>Fact</h3>
+<div class="section">
+<p>Fact is the most basic knowledge element in Buchingae. With fact,
+you assert that something is true. The rough syntax of specifying a
+fact is as follows: </p>
+<pre class="code">fact factID is predicate-symbol[(constant-term {,constant-term})];</pre>
+<p>factID is a local name pointing to a defined fact. The body of a
+fact is a predicate, which is composed of only constant predicate
+symbol and constant terms. You may define a fact which has no terms. A
+knowledge element definition is ended by a semicolon.</p>
+<p>As a side note, bracket symbols in the above example represent a
+optional part, and braces a repeated part.</p>
+</div>
+<h3>Rule</h3>
+<div class="section">
+<p>A typical rule definition structure is as follows:</p>
+<pre class="code">rule ruleID is if condition-part then conclusion-part;</pre>
+<p>In the condition-part, you specify all the conditional elements that
+should be true to make the rule fire. In the conclusion-part, some new
+knowledge elements entailed by the condition-part. A syntax for the
+condition-part is as follows:</p>
+<pre class="code">literal {(and | or) literal}</pre>
+<p>A literal is a predicate in one of the following three forms:</p>
+<pre class="code"><br>predicate	--- (1)<br>not predicate	--- (2)<br>neg predicate	--- (3)</pre>
+<p>(1) is a positive literal, (2) a weakly negated literal or a
+negation-as-failure negated literal and (3) a strongly negated literal.</p>
+<p>The structure of the conclusion-part is as follows:</p>
+<pre class="code">(predicate | neg predicate) {and (predicate | neg predicate)}</pre>
+<p>Weak negation and disjunctive connectives("or") cannot be used in
+the conclusion part.</p>
+<h4>Rule Priority</h4>
+<p>A rule can be assigned a priority value. The priority value is any
+negative or positive integer. The default semantic for the priority
+value is that the bigger priority value implicates higher priority of
+rule firing. The following example rule is assigned a priority value of
+20.</p>
+<pre class="code">rule BuchRules(20) is if ..... then ....;</pre>
+</div>
+<h3>Class</h3>
+<div class="section">
+<p>You can define a class with Buchingae. The class definition
+construct is as follows:</p>
+<pre class="code">class classID [inherits classID {, classID}];</pre>
+<p>inherits keyword is used to specify super classes of a defined
+class. Unlike usual object-oriented languages, the class definition in
+Buchingae is simply introducing a new class name and listing super
+classes. The properties of a class is defined separately. This is the
+same way of defining structured knowledge as in ontology, RDF and
+entity-relationship schema etc.</p>
+<p>Here's a sample class definition.</p>
+<pre class="code">class Human inherits Animal;</pre>
+</div>
+<h3>Property</h3>
+<div class="section">
+<p>Properties are defined separately from classes, and relationships
+with classes are specified in each property definition. Here's the
+structure of property definition construct:</p>
+<pre class="code">property propertyID for classID {,classID} is datatypeID;</pre>
+<p>The classIDs following the keyword for are members of the domain of
+a defined property. In effect, each domain class has the property as
+one of its members. datatypeID is the range of the property, which
+means that the property has a value of type datatypeID. datatypeID
+should be one of the IDs of any RDFS classes, OWL classes or XML schema
+datatypes.</p>
+<p>Here's a sample property definition.</p>
+<pre class="code">property age for Human is xsd:positiveInteger;</pre>
+</div>
+<h3>Individual</h3>
+<div class="section">
+<p>Class and property definitions constitute a kind of schema. With the
+definitions, you can populate instances of classes. In Buchingae, you
+create instances with a keyword individual. The structure of individual
+creation is as follows:</p>
+<pre class="code">individual individualID is classID [and propertyID = value {, propertyID = value};</pre>
+<p>classID in this case specifies the type of a created individual.
+Usually, it should be one of RDFS classes or OWL classes. The optional
+part which begins with a keyword and is where property values are
+assigned. The properties should have the specified classID as one of
+its domain classes. The following is a sample individual definition.</p>
+<pre class="code">individual John is Person and age = 20, name = "John Travolta", birthdate = 2005-10-30;</pre>
+<p>An individual is internally a structured fact, which is a structured
+collection of facts. The above example can be rewritten as follows:</p>
+<pre class="code">fact John1 is Person(John);<br>fact John2 is age(John,20);<br>fact John3 is name(John,"John Travolta");</pre>
+<p>You may find realizing this equivalance between a set of facts and
+an individual to be useful when you write rulebases to perform
+reasoning over some object-oriented knowledge bases like web ontologies
+or RDF statements.</p>
+</div>
+<h3>Function</h3>
+<div class="section">
+<p>In Buchingae, there's no syntax for defining functions. But you may
+call built-in functions. There're saveral built-in functions
+defined in Buchingae for arithmetic, comparation, etc. For comparation,
+these are six builtin functions: lessThan(&lt;),
+lessThanOrEquals(&lt;=), equals(=),
+notEquals(!=), greaterThan(&gt;), greaterThanOrEquals(&gt;=). These
+functions can be used in a function form or in an expression form. The
+following two examples are semantically the same.</p>
+<pre class="code">rule r1 is if some(?x) and some(?y) and test(greaterThan(?x,?y)) then ...<br>rule r2 is if some(?x) and some(?y) and [?x &lt; ?y] then ...</pre>
+<p><code>test</code> is an internal predicate used to call boolean
+functions. A
+boolean function used as a term of test should be true to make test
+predicate true. test is usually not exposed to Buchingae programmers,
+but it can be used explicitly like the example above.</p>
+<p>As for arithmetic operators, there're 5 operators supported: +, -,
+/, *, %. The meaning of each operator should be obvious. Some example
+usages are shown below.<br>
+</p>
+<p><code>rule r1 is if some(?x) and some(?y) and checkIt([?x+(?y-1)*2])
+then conclude([?x+?y]);<br>
+rule r2 is if some(?x) and some(?y) and [?x-(?y+1)/(?y-1) &lt; 0] then
+conclude(?x,[?y+1]);<br>
+rule r3 is if some(?x) and some(?y) then conclude([1/2]);<br>
+</code></p>
+<p>Please be sure to embrace expressions with brackets - <code>[]</code>.<br>
+</p>
+</div>
+<h2>Procedural Attachment: Calling Java Objects from Rules</h2>
+<p>Buchingae provides a convenient and simple procedural attachment
+mechanism. It's possible to call Java object's reader methods at the
+antecedent part of rules, and modifier methods at the conclusion part.
+The following code is a simple example of calling a Java object's
+method in a Buchingae rule.<br>
+</p>
+<pre class="code">prefix string = java://java.lang/String#;<br>rule CallJava01 is if string#length(?x,?l) and [?l &lt; 10] then ShortString(?x);</pre>
+&lt;&gt;The URI with a scheme <span style="font-family: monospace;"
+ class="codefrag">java</span><span style="font-family: monospace;"> </span>in
+the antecedent part of the rule <span style="font-family: monospace;"
+ class="codefrag">CallJava01</span><span style="font-family: monospace;">
+</span>references a Java object's method. As can be seen, the path part
+of the URI is the full package name of the Java class, and the fragment
+ID is the name of a method to be called. The first term, <span
+ style="font-family: monospace;" class="codefrag">?x</span> of the <span
+ class="codefrag">length</span> predicate is bound to <span
+ style="font-family: monospace;" class="codefrag">java.lang.String</span>
+objects which is loaded in to the Bossam's working memory. The result
+of the method call is bound to the second term of the predicate, <span
+ style="font-family: monospace;" class="codefrag">?l</span> in the
+example rule. By replacing the method name with a reserved word <span
+ style="font-family: monospace;" class="codefrag">Class</span><span
+ style="font-family: monospace;">,</span> one can bind objects of a
+specific Java class type to a variable. For example, <span
+ style="font-family: monospace;" class="codefrag">java://etri.bossam/Run#Class(?x)</span>
+binds to <span style="font-family: monospace;" class="codefrag">?x</span>
+all the objects existing in the inference context with the type <span
+ style="font-family: monospace;" class="codefrag">etri.bossam.Run</span>.
+<p>When initiating a reasoning session using Bossam engine API, Java
+objects which are to be used for reasoning should be sent to the engine
+by putting the objects in an inference context object and passing it to
+the engine.<br>
+</p>
+Bossam's procedural attachment mechanism is very intuitive and general.
+The mechanism can be easily extended to other kinds of object systems
+by using different URI protocol schemes. For example, a scheme "<span
+ style="font-family: monospace;">soap</span>" can be used to attach
+predicates to the objects accessible via SOAP messaging. Also, if only
+getter methods with no input parameters are used in the antecedent
+part, it would be possible to divide the literal space of OWL and
+assign external objects to the space. In that way, OWL semantics can be
+extended to account for external objects.
+<h2>BNF Syntax</h2>
+<p><em>pending</em>
+</p>
+<a name="Acknowledgements"></a>
+<h2>Acknowledgements</h2>
+<p>Many thanks should go to Terence Parr, who developed ANTLR. With
+ANTLR, it was a great fun to build a parser for Buchingae. Without
+ANTLR, it must have been much harder to build a parser for Buchingae.
+You can get ANTLR from http://antlr.org.<br>
+</p>
+<a name="History"></a>
+<h2>History</h2>
+<ul>
+  <li>2005/10/28: Added a description on a constant type <span
+ style="font-family: monospace;">long</span> (by Minsu
+Jang(minsu@etri.re.kr)<br>
+  </li>
+  <li>2005/07/10: Revised. by Minsu Jang(minsu@etri.re.kr)</li>
+  <ul>
+    <li>Added an explanation of new constant types - time, list</li>
+  </ul>
+  <li>2005/04/12: Revised. by Minsu Jang(minsu@etri.re.kr)</li>
+  <li>2003/10/22: Created. by Minsu Jang(minsu@etri.re.kr)</li>
+</ul>
+<hr style="width: 100%; height: 2px;">All copyrights reserved by ETRI,
+Daejeon, South Korea. 2003 ~ 2005.<br>
+Revision: $Id: buchingae-rule-language.html,v 1.2 2005/05/03 23:06:59
+zebehn Exp $<br>
+</body>
+</html>

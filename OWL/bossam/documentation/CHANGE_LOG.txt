@@ -1,0 +1,64 @@
+#
+# This is the change log. :-O
+# - Written by: Minsu Jang(minsu.jang@gmail.com)
+# - Version: $Revision: 1.8 $
+#
+
+2007-01-29: Added a new rule pattern: rule-generating rules.
+2007-01-25: External Java object serialization bug fixed.
+2007-01-24: NullPointerException in Joc processing is fixed! (thanks to jk13@ieslab.inha.ac.kr)
+2007-01-22: === Bossam 0.9b40 Released ===
+2007-01-22: New reasoners added: OwlDlTrHReasoner, SwrlRdfTrHReasoner
+2007-01-22: Reasoners can now be created only through ReasonerFactory.
+2007-01-22: Conclusions and answers including blank nodes are now filtered out!
+2007-01-21: SWRL/RDF reasoner module using OWL TR/H reasoner implemented.
+2007-01-20: Explanation feature refined.
+2007-01-19: OWL meta rules are added for OWL TR/H reasoner.
+2007-01-19: Non Bossam constants now can be serialized to string. (for ListConstant) (thanks to jk13@ieslab.inha.ac.kr)
+2007-01-19: Base namespace is set to default for tell() method if one is given
+2007-01-17: Added OWL TR/H Reasoning module
+2007-01-16: === Bossam 0.9b31, 32, 33 Released ===
+2007-01-15: Added a new builtin function: endsWith.
+2007-01-10: Ammended SWRL builtin support. (thanks to Claire Costello <c.costello@nuigalway.ie>)
+2007-01   : Supports JDK 1.3 and J2ME CDC/PP profile.
+2007-01   : Refactored the RETE core for performance improvement.
+2006-11-27: === Bossam 0.9b15 Released ===
+2006-11-26: Revised getting-started.html document.
+2006-11-20: Revised inference rules for processing cardinality restrictions.
+2006-10-24: Revised codes for processing swrlb:contains.
+2006-10-23: Hangeul support in Bossam shell & API by revising unicode support in Bossam lexer
+2006-10-18: bugfix: SWRL reasoning error in Bossam command-line reasoner app
+2006-10-11: === Bossam 0.9b13 Released ===
+2006-10-11: OWL imports control added for SWRL/RDF processing
+2006-10-11: bugfix: namespace handling error in knowledge reader
+2006-10-11: bugfix: tag pairing error in answer serialization in XML
+2006-10-10: SwrlReasoner extended with its own features
+2006-10-10: SWRL builtin argument order problem fixed
+2006-10-09: OWL imports is enabled as a default option when reading SWRL/RDF
+2006-10-09: Improves the behavior of owl:imports processing
+2006-10-09: Prevents all the implicit OWL facts from being displayed on bossam shell
+2006-10-09: Modified the way of counting rules & facts in bossam shell
+2006-10-09: Added 'set imports=<true|false>' command to bossam shell
+2006-10-09: Added 'new' command to bossam shell for Java object creation
+2006-10-09: Negative float & long processing bug fixed.
+2006-10-08: Java method calls are represented as SWRL built-in atoms, and processed.
+2006-10-08: Prepended a question mark before a variable name
+2006-10-05: Added a boolean value support to the SWRL processor
+2006-08-29: === Bossam 0.9b10 Released ===
+2006-08-29: Added a method for removing a reasoner listener to the interface IReasoner.
+2006-08-29: bugfix: fixed an error in interpreting SWRL rules with multiple built-ins.
+2006-07-03: bugfix: fixed an error of throwing runtime exception when loading SWRL documents without a base namespace definition
+2006-03-28: bugfix: fixed an error of load explosion in processing variables in SWRL documents
+2006-02-15: bugfix: rdfs:subPropertyOf is now correctly processed
+2006-02-03: bugfix: now correctly capture syntax errors in assert comamnd at bossam shell
+2006-01-30: A builtin added: ITimeConstant func:timeSubtract(ITimeConstant,ITimeConstant)
+2006-01-12: Saveral bugs in processing SWRL/RDF documents fixed
+2005-11-29: fixed the wrong hash value problem in DateTimeConstant.hashCode() and TimeConstant.hashCode()
+2005-11-21: NAF-ed ground predicates in the antecedent are now processed correctly
+2005-11-05: Replaced Jena with Rio rdf parser
+2005-11-02: Added ReasonerFactor class for managing reasoner creation
+2005-10-25: In BossamShell, OWL reasoning rules are automatically loaded when needed
+2005-10-25: SwrlReasoner and OwlDlReasoner are added for convenience
+2005-10-25: swrl:DifferentIndividualsAtom processing is now correct
+2005-10-25: owl:imports processing can be enabled
+2005-10-19: prefixes in the reasoning output can be toggled

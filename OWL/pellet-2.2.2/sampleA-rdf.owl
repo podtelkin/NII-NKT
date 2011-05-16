@@ -5,6 +5,7 @@
     <!ENTITY dl-safe "http://owldl.com/ontologies/dl-safe.owl#">
 	<!ENTITY swrl  "http://www.w3.org/2003/11/swrl#" >
 	<!ENTITY swrlx  "http://www.w3.org/2003/11/swrlx#" >
+	<!ENTITY swrlb  "http://www.w3.org/2003/11/swrlb#" >
 	<!ENTITY owl "http://www.w3.org/2002/07/owl#" >
 	<!ENTITY owlx "http://www.w3.org/2003/05/owl-xml#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
@@ -25,6 +26,7 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
 	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
 	xmlns:swrlx="http://www.w3.org/2003/11/swrlx#"
+	xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
 	xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
 
 
@@ -65,6 +67,11 @@
 		<rdfs:range rdf:resource="xsd:boolean"/>
 	</owl:DatatypeProperty>
 
+	<owl:DatatypeProperty rdf:ID="numberOfAtoms">
+		<rdfs:domain rdf:resource="#UserInputOption"/>    
+		<rdfs:range rdf:resource="xsd:int"/>
+	</owl:DatatypeProperty>
+
 
     <!-- Problem intances -->
 	<Problem rdf:ID="IOnePointProblem">
@@ -102,7 +109,6 @@
 	<swrl:Variable rdf:ID="class2"/>
 	<swrl:Variable rdf:ID="class3"/>
 
-<!--
 	<swrl:Imp rdf:about="#TDDFT_solves_GeoOpt_if_Input_is_XYZ_only">
 		<swrl:head rdf:parseType="Collection">
 			<swrl:IndividualPropertyAtom>
@@ -129,34 +135,8 @@
 			</swrl:IndividualPropertyAtom>
 		</swrl:body>
 	</swrl:Imp>
--->
-
-	<ruleml:imp>
-		<ruleml:_head>
-			<swrlx:IndividualPropertyAtom swrlx:property="solves">
-				<owlx:Individual owlx:name="#ITDDFTMethod"/>
-				<owlx:Individual owlx:name="#IGeoOptProblem"/>
-			</swrlx:IndividualPropertyAtom>		
-		</ruleml:_head>
-
-		<ruleml:_body>
-			<swrlx:ClassAtom>
-				<owlx:Class owlx:name="UserInputSet"/>
-                <ruleml:var>class1</ruleml:var>
-			</swrlx:ClassAtom>
-			<swrlx:IndividualPropertyAtom swrlx:property="inputHasFile">
-                <ruleml:var>class1</ruleml:var>
-                <ruleml:var>x1</ruleml:var>
-			</swrlx:IndividualPropertyAtom>
-			<swrlx:IndividualPropertyAtom swrlx:property="fileHasType">
-                <ruleml:var>x1</ruleml:var>
-				<owlx:Individual owlx:name="#IXyzFile"/>
-			</swrlx:IndividualPropertyAtom>
-		</ruleml:_body>
-	</ruleml:imp>
 
 
-<!--
 	<swrl:Imp rdf:about="#TDDFT_solves_Freq_if_number_of_atoms_is_even">
 		<swrl:head rdf:parseType="Collection">
 			<swrl:IndividualPropertyAtom>
@@ -178,12 +158,41 @@
 			</swrl:IndividualPropertyAtom>
 			<swrl:DatavaluedPropertyAtom>
 				<swrl:propertyPredicate rdf:resource="#isEvenNumOfAtoms"/>
-				<swrl:argument1 rdf:resource="#x1"/>
-				<owl:DataValue owl:datatype="xsd:boolean">false</owl:DataValue>
+				<swrl:argument1>
+					<swrl:Variable rdf:about="#x1"/>
+				</swrl:argument1> 
+				<swrl:argument2 rdf:datatype="xsd:boolean">true</swrl:argument2> 
 			</swrl:DatavaluedPropertyAtom>
+<!--
+			<swrl:DatavaluedPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#numberOfAtoms"/>
+				<swrl:argument1 rdf:resource="#x1"/>
+				<swrl:argument2 rdf:resource="#x2"/>
+			</swrl:DatavaluedPropertyAtom>
+
+			<swrl:BuiltinAtom>
+				<swrl:builtin rdf:resource="&swrlb;mod"/>
+				<swrl:arguments>
+					<rdf:List>
+						<rdf:first rdf:datatype="xsd:int">1</rdf:first>
+						<rdf:rest>
+							<rdf:List>
+								<rdf:first>
+									<swrl:Variable rdf:about="#x2"/>
+								</rdf:first> 
+								<rdf:rest>
+									<rdf:List>
+										<rdf:first rdf:datatype="xsd:int">2</rdf:first>
+									</rdf:List>
+								</rdf:rest>
+							</rdf:List>
+						</rdf:rest>
+					</rdf:List>
+				</swrl:arguments>
+			</swrl:BuiltinAtom>
+-->
 		</swrl:body>
 	</swrl:Imp>
--->
 
 
 
@@ -205,7 +214,8 @@
     </UserInputSet>
 
     <UserInputOption rdf:ID="UOption2">
+        <numberOfAtoms rdf:datatype="xsd:int">10</numberOfAtoms>
         <isEvenNumOfAtoms rdf:datatype="xsd:boolean">true</isEvenNumOfAtoms>
     </UserInputOption> 
-	
+
 </rdf:RDF>

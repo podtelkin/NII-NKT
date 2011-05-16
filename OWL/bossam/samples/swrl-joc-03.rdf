@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE rdf:RDF [
+     <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
+     <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
+	 <!ENTITY owl 'http://www.w3.org/2002/07/owl'>
+	 <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema'>
+     <!ENTITY ruleml 'http://www.w3.org/2003/11/swrl'>
+     <!ENTITY swrl 'http://www.w3.org/2003/11/swrl'>
+	 <!ENTITY swrlb 'http://www.w3.org/2003/11/swrlb'>
+	 <!ENTITY base 'http://test.bossam.com/SwrlJoc01'>
+	 <!ENTITY bossam 'http://www.etri.re.kr/2003/10/bossam'>
+	 <!ENTITY tc 'java://test.bossam.app/TemperatureController'>
+]>
+<rdf:RDF
+  xmlns:rdf ="&rdf;#"
+  xmlns:rdfs="&rdfs;#"
+  xmlns:owl ="&owl;#"
+  xmlns:ruleml="&ruleml;#"
+  xmlns:swrl="&swrl;#"
+  xmlns:bs="&base;#"
+  xmlns:bossam="&bossam;#"
+  xmlns:tc="&tc;#"
+  xmlns="&base;#"
+  xml:base="&base;"
+>
+<owl:Ontology rdf:about="">
+  <rdfs:comment>SWRL including Java Object Call. Written by Minsu Jang(minsu@etri.re.kr)</rdfs:comment>
+  <owl:versionInfo>$Id: swrl-joc-03.rdf,v 1.1 2007/01/11 09:21:37 zebehn Exp $</owl:versionInfo>
+  <owl:imports rdf:resource="&swrl;"/>
+</owl:Ontology>
+
+<swrl:Variable rdf:ID="o"/>
+<swrl:Variable rdf:ID="v"/>
+
+<ruleml:Imp>
+  <ruleml:body rdf:parseType="Collection">
+    <swrl:BuiltinAtom>
+      <swrl:builtin rdf:resource="&bossam;#serviceCall"/> 
+      <swrl:arguments>
+      	<rdf:List>
+      		<rdf:first rdf:resource="&tc;#class"/>
+      		<rdf:rest>
+    			<rdf:List>
+					<rdf:first rdf:resource="#o" /> 					
+					<rdf:rest rdf:resource="&rdf;#nil"/>
+      			</rdf:List>
+      		</rdf:rest>
+      	</rdf:List>
+      </swrl:arguments>
+    </swrl:BuiltinAtom>  
+    <swrl:BuiltinAtom>
+      <swrl:builtin rdf:resource="&bossam;#serviceCall"/> 
+      <swrl:arguments>
+      	<rdf:List>
+      		<rdf:first rdf:resource="&tc;#getTemperature"/>
+      		<rdf:rest>
+    			<rdf:List>
+					<rdf:first rdf:resource="#o" /> 					
+  					<rdf:rest>
+						<rdf:List>
+							<rdf:first rdf:resource="#v" />
+							<rdf:rest rdf:resource="&rdf;#nil"/>
+						</rdf:List>
+					</rdf:rest>
+      			</rdf:List>
+      		</rdf:rest>
+      	</rdf:List>
+      </swrl:arguments>
+    </swrl:BuiltinAtom>
+    <swrl:BuiltinAtom>
+      <swrl:builtin rdf:resource="&swrlb;#lessThan"/> 
+      <swrl:arguments>
+      	<rdf:List>
+      		<rdf:first rdf:resource="#v"/>
+      		<rdf:rest>
+    			<rdf:List>
+					<rdf:first rdf:datatype="&xsd;#double">0.0</rdf:first>
+  					<rdf:rest rdf:resource="&rdf;#nil"/>
+      			</rdf:List>
+      		</rdf:rest>
+      	</rdf:List>
+      </swrl:arguments>
+    </swrl:BuiltinAtom>
+  </ruleml:body>
+  <ruleml:head rdf:parseType="Collection"> 
+    <swrl:BuiltinAtom>
+      <swrl:builtin rdf:resource="&bossam;#serviceCall"/> 
+      <swrl:arguments>
+      	<rdf:List>
+      		<rdf:first rdf:resource="&tc;#turnOn"/>
+      		<rdf:rest>
+    			<rdf:List>
+					<rdf:first rdf:resource="#o" /> 					
+					<rdf:rest rdf:resource="&rdf;#nil"/>
+      			</rdf:List>
+      		</rdf:rest>
+      	</rdf:List>
+      </swrl:arguments>
+    </swrl:BuiltinAtom>
+  </ruleml:head> 
+</ruleml:Imp>
+
+<ruleml:Imp>
+  <ruleml:body rdf:parseType="Collection">
+    <swrl:BuiltinAtom>
+      <swrl:builtin rdf:resource="&bossam;#serviceCall"/> 
+      <swrl:arguments>
+      	<rdf:List>
+      		<rdf:first rdf:resource="&tc;#class"/>
+      		<rdf:rest>
+    			<rdf:List>
+					<rdf:first rdf:resource="#o" /> 					
+					<rdf:rest rdf:resource="&rdf;#nil"/>
+      			</rdf:List>
+      		</rdf:rest>
+      	</rdf:List>
+      </swrl:arguments>
+    </swrl:BuiltinAtom>  
+    <swrl:BuiltinAtom>
+      <swrl:builtin rdf:resource="&bossam;#serviceCall"/> 
+      <swrl:arguments>
+      	<rdf:List>
+      		<rdf:first rdf:resource="&tc;#getTemperatureInFahrenheit"/>
+      		<rdf:rest>
+    			<rdf:List>
+					<rdf:first rdf:resource="#o" /> 					
+  					<rdf:rest>
+						<rdf:List>
+							<rdf:first rdf:datatype="&xsd;#double">10.0</rdf:first>
+							<rdf:rest>
+							  <rdf:List>
+							    <rdf:first rdf:resource="#v" />
+							    <rdf:rest rdf:resource="&rdf;#nil"/>
+						      </rdf:List>
+						    </rdf:rest>
+						 </rdf:List>
+					</rdf:rest>
+      			</rdf:List>
+      		</rdf:rest>
+      	</rdf:List>
+      </swrl:arguments>
+    </swrl:BuiltinAtom>
+  </ruleml:body>
+  <ruleml:head rdf:parseType="Collection"> 
+    <swrl:IndividualPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="#hasFahrenheit"/> 
+      <swrl:argument1 rdf:resource="#o" />
+      <swrl:argument2 rdf:resource="#v" />
+    </swrl:IndividualPropertyAtom>
+  </ruleml:head> 
+</ruleml:Imp>  
+</rdf:RDF>

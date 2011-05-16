@@ -1,0 +1,49 @@
+<?xml version='1.0' ?>
+<!DOCTYPE swrlx:Ontology [
+     <!ENTITY swrlb 'http://www.w3.org/2003/11/swrlb'>
+     <!ENTITY ex 'http://example.org/ex'>
+     <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema'>
+]>
+
+<swrlx:Ontology
+  xmlns:owlx="http://www.w3.org/2003/05/owl-xml"
+  xmlns:swrlx="http://www.w3.org/2003/11/swrlx"
+  xmlns:ruleml="http://www.w3.org/2003/11/ruleml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.w3.org/2003/11/swrlx http://www.ruleml.org/swrl/xsd/swrlx.xsd"
+>
+  <owlx:Annotation>
+    <owlx:Documentation>SWRL Example 1</owlx:Documentation>
+  </owlx:Annotation>
+  <owlx:VersionInfo>$Id: customer01.swrl,v 1.1 2007/01/11 09:21:37 zebehn Exp $</owlx:VersionInfo>
+
+<ruleml:var>customer</ruleml:var>
+<ruleml:var>total</ruleml:var>
+
+<ruleml:imp>
+  <ruleml:_rlab ruleml:href="#goldDiscount"/>
+  <owlx:Annotation>
+    <owlx:Documentation>Gold customers get a 10% discount on purchases of $500 or more</owlx:Documentation>
+  </owlx:Annotation>
+  <ruleml:_body>
+    <swrlx:classAtom>
+      <owlx:Class owlx:name="SilverMember" />
+      <ruleml:var>customer</ruleml:var>
+    </swrlx:classAtom>
+    <swrlx:individualPropertyAtom  swrlx:property="&ex;#hasStatus">
+      <ruleml:var>customer</ruleml:var>
+      <owlx:Individual owlx:name="&ex;#gold"/>
+    </swrlx:individualPropertyAtom>
+    <swrlx:datavaluedPropertyAtom  swrlx:property="&ex;#hasTotalPurchase">
+      <ruleml:var>customer</ruleml:var>
+      <ruleml:var>total</ruleml:var>
+    </swrlx:datavaluedPropertyAtom>
+  </ruleml:_body>
+  <ruleml:_head>
+    <swrlx:datavaluedPropertyAtom  swrlx:property="&ex;#hasDiscount">
+      <ruleml:var>customer</ruleml:var>
+      <owlx:DataValue owlx:datatype="&xsd;#int">10</owlx:DataValue>
+    </swrlx:datavaluedPropertyAtom>
+  </ruleml:_head>
+</ruleml:imp>
+</swrlx:Ontology>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE rdf:RDF [
+	<!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
+	<!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
+	<!ENTITY owl 'http://www.w3.org/2002/07/owl'>
+	<!ENTITY xsd 'http://www.w3.org/2001/XMLSchema'>
+	<!ENTITY ruleml 'http://www.w3.org/2003/11/swrl'>
+	<!ENTITY swrl 'http://www.w3.org/2003/11/swrl'>
+	<!ENTITY str 'java://java.lang/String#'>
+]>
+<!-- A sample SWRL for demonstrating calling a java method. -->
+<!-- $Id: swrl-joc-01.rdf,v 1.1 2007/01/11 09:21:37 zebehn Exp $ -->
+<rdf:RDF
+  xmlns:rdf ="&rdf;#"
+  xmlns:rdfs="&rdfs;#"
+  xmlns:owl ="&owl;#"
+  xmlns:ruleml="&ruleml;#"
+  xmlns:swrl="&swrl;#"
+  xml:base="http://bossam.com/swrljoc01"
+  xmlns="http://bossam.com/swrljoc01#"
+>
+<owl:Ontology rdf:about="">
+  <rdfs:comment>SWRL/RDF for Java Object Call</rdfs:comment>
+  <owl:versionInfo>$Id: swrl-joc-01.rdf,v 1.1 2007/01/11 09:21:37 zebehn Exp $</owl:versionInfo>
+  <owl:imports rdf:resource="&swrl;"/>
+</owl:Ontology>
+<swrl:Variable rdf:ID="x"/>
+<swrl:Variable rdf:ID="y"/>
+<swrl:Variable rdf:ID="z"/>
+<ruleml:Imp>
+  <ruleml:body rdf:parseType="Collection">
+    <swrl:ClassAtom> 
+      <swrl:classPredicate rdf:resource="&str;class"/> 
+      <swrl:argument1 rdf:resource="#x" />
+    </swrl:ClassAtom>
+    <swrl:IndividualPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="&str;length"/> 
+      <swrl:argument1 rdf:resource="#x" />
+      <swrl:argument2 rdf:resource="#y" />
+    </swrl:IndividualPropertyAtom>
+  </ruleml:body>
+  <ruleml:head rdf:parseType="Collection"> 
+    <swrl:IndividualPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="lengthIs"/> 
+      <swrl:argument1 rdf:resource="#x" />
+      <swrl:argument2 rdf:resource="#y" />
+    </swrl:IndividualPropertyAtom>
+  </ruleml:head> 
+</ruleml:Imp> 
+</rdf:RDF>

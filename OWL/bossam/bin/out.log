@@ -1,0 +1,38 @@
+
+C:\NII-NKT\OWL\bossam\bin>java -Xmx128M -cp bossam.jar;antlr-r13.jar;commons-logging-1.1.jar;rio-13.jar;model-13.jar;util-13.jar;nsam.jar bossam.app.ReasonerApp file://sampleA-xml.owl         
+[OWL document: file://sampleA-xml.owl]
+[Bossam ReasonerApp session="Mon May 16 04:00:00 MSD 2011"]
+fact http://bossam.com/default#Fact0 is http://www.w3.org/2000/01/rdf-schema#subClassOf(http://www.w3.org/2002/07/owl#TransitiveProperty,http://www.w3.org/1999/02/22-rdf-syntax-ns#Property);
+fact http://bossam.com/default#Fact1 is http://www.w3.org/2000/01/rdf-schema#subClassOf(http://www.w3.org/2002/07/owl#SymmetricProperty,http://www.w3.org/1999/02/22-rdf-syntax-ns#Property);
+fact http://bossam.com/default#Fact2 is http://www.w3.org/2000/01/rdf-schema#subClassOf(http://www.w3.org/2002/07/owl#InverseFunctionalProperty,http://www.w3.org/1999/02/22-rdf-syntax-ns#Property);
+fact http://bossam.com/default#Fact3 is http://www.w3.org/2000/01/rdf-schema#subClassOf(http://www.w3.org/2002/07/owl#Restriction,http://www.w3.org/2000/01/rdf-schema#Class);
+fact http://bossam.com/default#Fact4 is http://www.w3.org/2000/01/rdf-schema#range(http://www.w3.org/2002/07/owl#equivalentClass,http://www.w3.org/2000/01/rdf-schema#Class);
+fact http://bossam.com/default#Fact5 is http://www.w3.org/2000/01/rdf-schema#range(http://www.w3.org/2002/07/owl#inverseOf,http://www.w3.org/1999/02/22-rdf-syntax-ns#Property);
+fact http://bossam.com/default#Fact6 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#minCardinality,http://www.w3.org/2002/07/owl#Class);
+fact http://bossam.com/default#Fact7 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#someValuesFrom,http://www.w3.org/2002/07/owl#Class);
+fact http://bossam.com/default#Fact8 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#allValuesFrom,http://www.w3.org/2002/07/owl#Class);
+fact http://bossam.com/default#Fact9 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#equivalentClass,http://www.w3.org/2000/01/rdf-schema#Class);
+fact http://bossam.com/default#Fact10 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#cardinality,http://www.w3.org/2002/07/owl#Class);
+fact http://bossam.com/default#Fact11 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#maxCardinality,http://www.w3.org/2002/07/owl#Class);
+fact http://bossam.com/default#Fact12 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#inverseOf,http://www.w3.org/1999/02/22-rdf-syntax-ns#Property);
+fact http://bossam.com/default#Fact13 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#intersectionOf,http://www.w3.org/2000/01/rdf-schema#Class);
+fact http://bossam.com/default#Fact14 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#onProperty,http://www.w3.org/2002/07/owl#Class);
+fact http://bossam.com/default#Fact15 is http://www.w3.org/2002/07/owl#equivalentClass(http://www.w3.org/2002/07/owl#Nothing,http://www.w3.org/2002/07/owl#Nothing);
+fact http://bossam.com/default#Fact16 is http://www.w3.org/2002/07/owl#equivalentClass(http://www.w3.org/2002/07/owl#Thing,http://www.w3.org/2002/07/owl#Thing);
+fact http://bossam.com/default#Fact17 is http://www.w3.org/2002/07/owl#complementOf(http://www.w3.org/2002/07/owl#Nothing,http://www.w3.org/2002/07/owl#Thing);
+fact http://bossam.com/default#Fact18 is http://www.w3.org/2002/07/owl#disjointWith(http://www.w3.org/2002/07/owl#Thing,http://www.w3.org/2002/07/owl#Nothing);
+fact http://bossam.com/default#Fact19 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#minCardinality,http://www.w3.org/2000/01/rdf-schema#Class);
+fact http://bossam.com/default#Fact20 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#someValuesFrom,http://www.w3.org/2000/01/rdf-schema#Class);
+fact http://bossam.com/default#Fact21 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#allValuesFrom,http://www.w3.org/2000/01/rdf-schema#Class);
+fact http://bossam.com/default#Fact22 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#cardinality,http://www.w3.org/2000/01/rdf-schema#Class);
+fact http://bossam.com/default#Fact23 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#maxCardinality,http://www.w3.org/2000/01/rdf-schema#Class);
+fact http://bossam.com/default#Fact24 is http://www.w3.org/2000/01/rdf-schema#domain(http://www.w3.org/2002/07/owl#onProperty,http://www.w3.org/2000/01/rdf-schema#Class);
+fact http://bossam.com/default#Fact25 is http://www.w3.org/2002/07/owl#disjointWith(http://www.w3.org/2002/07/owl#Nothing,http://www.w3.org/2002/07/owl#Thing);
+fact http://bossam.com/default#Fact26 is http://www.w3.org/2000/01/rdf-schema#subClassOf(http://www.w3.org/2002/07/owl#Nothing,http://www.w3.org/2002/07/owl#Nothing);
+fact http://bossam.com/default#Fact27 is http://www.w3.org/2000/01/rdf-schema#subClassOf(http://www.w3.org/2002/07/owl#Thing,http://www.w3.org/2002/07/owl#Thing);
+fact http://bossam.com/default#Fact28 is http://www.w3.org/2000/01/rdf-schema#Class(http://www.w3.org/2002/07/owl#Nothing);
+fact http://bossam.com/default#Fact29 is http://www.w3.org/2000/01/rdf-schema#Class(http://www.w3.org/2002/07/owl#Thing);
+fact http://bossam.com/default#Fact30 is http://www.w3.org/1999/02/22-rdf-syntax-ns#Property(http://www.w3.org/2000/01/rdf-schema#seeAlso);
+fact http://bossam.com/default#Fact31 is http://www.w3.org/1999/02/22-rdf-syntax-ns#Property(http://www.w3.org/2000/01/rdf-schema#isDefinedBy);
+fact http://bossam.com/default#Fact32 is http://www.w3.org/1999/02/22-rdf-syntax-ns#Property(http://www.w3.org/2000/01/rdf-schema#label);
+fact http://bossam.com/default#Fact33 is http://www.w3.org/1999/02/22-rdf-syntax-ns#Property(http://www.w3.org/2000/01/rdf-schema#comment);

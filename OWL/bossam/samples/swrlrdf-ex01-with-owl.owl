@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE rdf:RDF [
+         <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
+         <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
+	 <!ENTITY owl 'http://www.w3.org/2002/07/owl'>
+	 <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema'>
+         <!ENTITY ruleml 'http://www.w3.org/2003/11/swrl'>
+         <!ENTITY swrl 'http://www.w3.org/2003/11/swrl'>
+	 <!ENTITY ulan 'http://example.org/ulan#'>
+	 <!ENTITY aat 'http://example.org/aat#'>
+	 <!ENTITY aatulan 'http://example.org/aatulan#'>
+	 <!ENTITY vra 'http://example.org/vra#'>
+]>
+<rdf:RDF
+  xmlns:rdf ="&rdf;#"
+  xmlns:rdfs="&rdfs;#"
+  xmlns:owl ="&owl;#"
+  xmlns:ruleml="&ruleml;#"
+  xmlns:swrl="&swrl;#"
+  xmlns:ulan="&ulan;"
+  xmlns:aat="&aat;"
+  xmlns:vra="&vra;"
+  xmlns:aatulan="&aatulan;"
+  xml:base="&ulan;#"
+>
+<owl:Ontology rdf:about="">
+  <rdfs:comment>SWRL Example 6.1-2</rdfs:comment>
+  <owl:versionInfo>$Id: swrlrdf-ex01-with-owl.owl,v 1.1 2007/01/11 09:21:37 zebehn Exp $</owl:versionInfo>
+  <owl:imports rdf:resource="&swrl;"/>
+</owl:Ontology>
+
+<aat:Style rdf:ID="Impressionism"/>
+<owl:Class rdf:ID="OrchestralWork"/>
+<ulan:OrchestralWork rdf:ID="La_Mer"/>
+<owl:ObjectProperty rdf:about="&aatulan;artistStyle" />
+<ulan:Artist rdf:ID="Debussy">
+	<aatulan:artistStyle rdf:resource="#Impressionism"/>
+	<vra:creator rdf:resource="#La_Mer"/>
+</ulan:Artist>
+<swrl:Variable rdf:ID="x"/>
+<swrl:Variable rdf:ID="y"/>
+<swrl:Variable rdf:ID="z"/>
+<ruleml:Imp>
+  <ruleml:body rdf:parseType="Collection">
+    <swrl:ClassAtom> 
+      <swrl:classPredicate rdf:resource="&ulan;Artist"/> 
+      <swrl:argument1 rdf:resource="#x" />
+    </swrl:ClassAtom>
+    <swrl:ClassAtom> 
+      <swrl:classPredicate rdf:resource="&aat;Style"/> 
+      <swrl:argument1 rdf:resource="#y" />
+    </swrl:ClassAtom>
+    <swrl:IndividualPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="&aatulan;artistStyle"/> 
+      <swrl:argument1 rdf:resource="#x" />
+      <swrl:argument2 rdf:resource="#y" />
+    </swrl:IndividualPropertyAtom>
+    <swrl:IndividualPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="&vra;creator"/> 
+      <swrl:argument1 rdf:resource="#x" />
+      <swrl:argument2 rdf:resource="#z" />
+    </swrl:IndividualPropertyAtom>
+  </ruleml:body>
+  <ruleml:head rdf:parseType="Collection"> 
+    <swrl:IndividualPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="&vra;styleperiod"/> 
+      <swrl:argument1 rdf:resource="#z" />
+      <swrl:argument2 rdf:resource="#y" />
+    </swrl:IndividualPropertyAtom>
+  </ruleml:head> 
+</ruleml:Imp> 
+</rdf:RDF>

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>OWL Reasoner Tool Manual</title>
+</head>
+<body>
+<h1 style="text-align: center;">Reasoner Command Tool Manual<br>
+</h1>
+<div style="text-align: center;">Written by Minsu Jang(minsu@etri.re.kr)<br>
+Last Update: 2005-11-17<br>
+</div>
+<h2>Synopsis</h2>
+<p><b>bossam </b>[options] [owl-uris]<br>
+</p>
+<p><b>[on Unix or Linux] <br>
+&nbsp;&nbsp;&nbsp; </b><span style="font-family: monospace;">bossam =
+bossam.sh</span><b><br>
+[on Windows] <br>
+&nbsp;&nbsp;&nbsp; </b><span style="font-family: monospace;">bossam =
+bossam.bat</span><b><br>
+</b></p>
+<ul>
+  <li> <tt class="wiki">options</tt>: command-line options </li>
+  <li> <tt class="wiki">owl-uris</tt>: a list of URIs indicating OWL
+documents </li>
+</ul>
+<h2>Description</h2>
+<ul>
+  <p><b>bossam</b> launches an OWL inferencing session. It
+does
+this by reading in the options and OWL document URIs, creating a new
+instance of Bossam inference engine, and passing the options and the
+URIs to the engine instance.<br>
+  </p>
+</ul>
+<h2>Options</h2>
+<ul>
+  <li> <b style="font-family: monospace;">-oir</b> <em>owl-inference-rulebase-uri</em>:
+Specify the
+location of the rule-base to be used for OWL inferencing. </li>
+  <li> <b style="font-family: monospace;">-rb</b> <em>rule-base-uri</em>:
+Specify the location of the
+rule-base written in Buchingae to be used for the inference session.
+One can specify as many
+rule-bases written in Buchingae as needed by repeatedly specifying <span
+ style="font-family: monospace;">-rb rule-base-uri</span>.</li>
+  <li><b style="font-family: monospace;">-rrb</b> <em>rule-base-uri</em>:
+Specify the location of the
+rule-base written in RuleML to be used for the inference session. One
+can specify as many
+rule-bases written in RuleML as needed by repeatedly specifying <span
+ style="font-family: monospace;">-rrb rule-base-uri</span>.</li>
+  <li><b style="font-family: monospace;">-srb</b> <em>rule-base-uri</em>:
+Specify the location of the
+rule-base written in SWRL to be used for the inference session. One can
+specify as many
+rule-bases written in SWRL as needed by repeatedly specifying <span
+ style="font-family: monospace;">-srb rule-base-uri</span>.</li>
+  <li><b style="font-family: monospace;">-srdf</b> <span
+ style="font-style: italic;">swrl-ontology</span><em>-base-uri</em>:
+Specify the location of the <span style="font-style: italic;">extended
+ontology</span> written in SWRL/RDF to be used for the inference
+session. The <span style="font-style: italic;">extended ontology</span>
+is a combination of OWL ontology and SWRL rules, as defined in SWRL
+specification<span style="font-family: monospace;"></span>.<br>
+  </li>
+  <li><b style="font-family: monospace;">-n3</b> <em>ontology-uri</em>:
+Specify the location of the ontology written in N3 to be used for the
+inference session. One can
+specify as many ontologies written in N3 as needed by repeatedly
+specifying <span style="font-family: monospace;">-n3 rule-base-uri</span>.</li>
+  <li> <b style="font-family: monospace;">-out</b> <em>serialization-format</em>:
+Specify the output format. If one does not
+specify output format, the default output format(Buchingae) is used.
+Valid serialization-format values are: <span
+ style="font-style: italic;">ruleml</span> for serialization in RuleML,
+    <span style="font-style: italic;">atoml</span> in ATOML(a simple
+markup language for ground-fact serialization).<br>
+  </li>
+</ul>
+<h2>Examples<br>
+</h2>
+<ul>
+  <li> <tt class="wiki">bossam
+http://www.example.com/owl/sample.owl</tt> </li>
+  <ul>
+    <li> Performs an inference session by applying the internal OWL
+inferencing rules to the <tt class="wiki">sample.owl</tt>, and prints
+out the result in Buchingae. </li>
+  </ul>
+  <li> <tt class="wiki">bossam
+-rb&nbsp;file:///c:/temp/bizrules.boo&nbsp;-out&nbsp;ruleml&nbsp;http://www.example.com/owl/sample.owl</tt>
+  </li>
+  <ul>
+    <li> Performs an inference session by applying the internal OWL
+inferencing rules and <tt class="wiki">bizrules.boo</tt> over the <tt
+ class="wiki">sample.owl</tt>, and prints out the result in RuleML.</li>
+  </ul>
+  <li> <tt class="wiki">bossam
+-rb&nbsp;file:///c:/temp/bizrules.boo -rb file:///c:/temp/bizpolicy.boo
+-out atoml</tt></li>
+  <ul>
+    <li> Performs an inference session by reading in the two rulebases,
+and prints out the result in ATOML, a
+simple markup language for serializing ground predicates.</li>
+  </ul>
+  <li> <tt class="wiki">bossam
+-srb&nbsp;file:///c:/temp/bizrules.swrl -rrb
+file:///c:/temp/bizpolicy.ruleml -out ruleml</tt></li>
+  <ul>
+    <li> Performs an inference session by reading in the two rulebases,
+one which is written in SWRL and the other in RuleML, and prints out
+the result in RuleML.</li>
+  </ul>
+</ul>
+<hr style="width: 100%; height: 2px;">Copyright (c) 2005 Minsu Jang,
+ETRI<br>
+Revision: $Id: reasoner-tool-manual.html,v 1.1 2007/01/11 09:21:48 zebehn Exp $<br>
+</body>
+</html>

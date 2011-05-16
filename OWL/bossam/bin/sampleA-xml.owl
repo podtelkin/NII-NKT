@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE Ontology [
+	<!ENTITY swrlx  "http://www.w3.org/2003/11/swrlx#" >
+	<!ENTITY owlx "http://www.w3.org/2003/05/owl-xml#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+	<!ENTITY ruleml  "http://www.w3.org/2003/11/ruleml#" >
+	<!ENTITY ex "http://ifmo.ru/ipse/ex.owl#" >
+]>
+
+
+<owlx:Ontology 
+    owlx:name="http://ifmo.ru/ipse/ex.owl#" 
+    xmlns:owlx="http://www.w3.org/2003/05/owl-xml#"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+	xmlns:swrlx="http://www.w3.org/2003/11/swrlx#"
+	xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+
+
+	<!-- CLASSES -->
+
+	<owlx:Class owlx:name="Problem" owlx:complete="false"/>
+	<owlx:Class owlx:name="Method" owlx:complete="false"/>
+
+	<owlx:Class owlx:name="UserInputSet" owlx:complete="false"/>
+	<owlx:Class owlx:name="UserFile" owlx:complete="false"/>
+	<owlx:Class owlx:name="FileType" owlx:complete="false"/>
+	<owlx:Class owlx:name="UserInputOption" owlx:complete="false"/>
+
+
+	<owlx:ObjectProperty owlx:name="solves"> 
+		<owlx:domain owlx:class="Method"/> 
+		<owlx:range owlx:class="Problem"/> 
+	</owlx:ObjectProperty> 
+
+	<owlx:ObjectProperty owlx:name="inputHasFile"> 
+		<owlx:domain owlx:class="UserInputSet"/> 
+		<owlx:range owlx:class="UserFile"/> 
+	</owlx:ObjectProperty> 
+
+	<owlx:ObjectProperty owlx:name="inputHasOption"> 
+		<owlx:domain owlx:class="UserInputSet"/> 
+		<owlx:range owlx:class="UserInputOption"/> 
+	</owlx:ObjectProperty> 
+
+	<owlx:ObjectProperty owlx:name="fileHasType"> 
+		<owlx:domain owlx:class="UserFile"/> 
+		<owlx:range owlx:class="FileType"/> 
+	</owlx:ObjectProperty> 
+
+
+	<!-- Input options -->
+	<owlx:DatatypeProperty owlx:name="isEvenNumOfAtoms">
+		<owlx:domain owlx:class="UserInputOption"/> 
+		<owlx:range owlx:datatype="&xsd;boolean"/> 
+	</owlx:DatatypeProperty>
+
+
+
+    <!-- Problem intances -->
+
+	<owlx:Individual owlx:name="IOnePointProblem"> 
+		<owlx:type owlx:name="Problem"/>
+	</owlx:Individual> 
+
+	<owlx:Individual owlx:name="IGeoOptProblem"> 
+		<owlx:type owlx:name="Problem"/>
+	</owlx:Individual> 
+
+	<owlx:Individual owlx:name="IFreqProblem"> 
+		<owlx:type owlx:name="Problem"/>
+	</owlx:Individual> 
+
+
+    <!-- Method intances -->
+
+	<owlx:Individual owlx:name="IHFMethod"> 
+		<owlx:type owlx:name="Method"/>
+
+		<owlx:ObjectPropertyValue owlx:property="solves">
+			<owlx:Individual owlx:name="IOnePointProblem"/>
+		</owlx:ObjectPropertyValue> 
+	</owlx:Individual> 
+
+	<owlx:Individual owlx:name="IDFTMethod"> 
+		<owlx:type owlx:name="Method"/>
+
+		<owlx:ObjectPropertyValue owlx:property="solves">
+			<owlx:Individual owlx:name="IGeoOptProblem"/>
+		</owlx:ObjectPropertyValue> 
+	</owlx:Individual> 
+
+	<owlx:Individual owlx:name="ITDDFTMethod"> 
+		<owlx:type owlx:name="Method"/>
+	</owlx:Individual> 
+
+
+    <!-- FileType intances -->
+
+	<owlx:Individual owlx:name="IXyzFile"> 
+		<owlx:type owlx:name="FileType"/>
+	</owlx:Individual> 
+
+	<owlx:Individual owlx:name="ICubeFile"> 
+		<owlx:type owlx:name="FileType"/>
+	</owlx:Individual> 
+
+	<owlx:Individual owlx:name="ITxtFile"> 
+		<owlx:type owlx:name="FileType"/>
+	</owlx:Individual> 
+
+    <!-- Rules -->
+
+<!--
+
+	<swrl:Variable rdf:ID="x1"/>
+	<swrl:Variable rdf:ID="x2"/>
+	<swrl:Variable rdf:ID="x3"/>
+	<swrl:Variable rdf:ID="class1"/>
+	<swrl:Variable rdf:ID="class2"/>
+	<swrl:Variable rdf:ID="class3"/>
+
+
+	<swrl:Imp rdf:about="#TDDFT_solves_GeoOpt_if_Input_is_XYZ_only">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#solves"/>
+				<swrl:argument1 rdf:resource="#ITDDFTMethod"/>
+				<swrl:argument2 rdf:resource="#IGeoOptProblem"/>
+			</swrl:IndividualPropertyAtom>		
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#UserInputSet"/>
+				<swrl:argument1 rdf:resource="#class1"/>
+			</swrl:ClassAtom>
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#inputHasFile"/>
+				<swrl:argument1 rdf:resource="#class1"/>
+				<swrl:argument2 rdf:resource="#x1"/>
+			</swrl:IndividualPropertyAtom>
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#fileHasType"/>
+				<swrl:argument1 rdf:resource="#x1"/>
+				<swrl:argument2 rdf:resource="#IXyzFile"/>
+			</swrl:IndividualPropertyAtom>
+		</swrl:body>
+	</swrl:Imp>
+
+
+	<swrl:Imp rdf:about="#TDDFT_solves_Freq_if_number_of_atoms_is_even">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#solves"/>
+				<swrl:argument1 rdf:resource="#ITDDFTMethod"/>
+				<swrl:argument2 rdf:resource="#IFreqProblem"/>
+			</swrl:IndividualPropertyAtom>		
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#UserInputSet"/>
+				<swrl:argument1 rdf:resource="#class1"/>
+			</swrl:ClassAtom>
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#inputHasOption"/>
+				<swrl:argument1 rdf:resource="#class1"/>
+				<swrl:argument2 rdf:resource="#x1"/>
+			</swrl:IndividualPropertyAtom>
+			<swrl:DatavaluedPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#isEvenNumOfAtoms"/>
+				<swrl:argument1>
+					<swrl:Variable rdf:about="#x1"/>
+				</swrl:argument1> 
+				<swrl:argument2>true</swrl:argument2> 
+			</swrl:DatavaluedPropertyAtom>
+		</swrl:body>
+	</swrl:Imp>
+
+-->
+
+	<!-- ################################################################################## -->
+    <!-- User data (Facts). This part of ontology will be added to base ontology on-the-fly -->
+	<!-- ################################################################################## -->
+
+
+	<owlx:Individual owlx:name="UFact1"> 
+		<owlx:type owlx:name="UserInputSet"/>
+
+		<owlx:ObjectPropertyValue owlx:property="inputHasFile">
+			<owlx:Individual owlx:name="UFile1"/>
+		</owlx:ObjectPropertyValue> 
+	</owlx:Individual> 
+
+	<owlx:Individual owlx:name="UFile1"> 
+		<owlx:type owlx:name="UserFile"/>
+
+		<owlx:ObjectPropertyValue owlx:property="fileHasType">
+			<owlx:Individual owlx:name="IXyzFile"/>
+		</owlx:ObjectPropertyValue> 
+	</owlx:Individual> 
+
+
+	<owlx:Individual owlx:name="UFact2"> 
+		<owlx:type owlx:name="UserInputSet"/>
+
+		<owlx:ObjectPropertyValue owlx:property="inputHasOption">
+			<owlx:Individual owlx:name="UOption2"/>
+		</owlx:ObjectPropertyValue> 
+	</owlx:Individual> 
+
+	<owlx:Individual owlx:name="UOption2"> 
+		<owlx:type owlx:name="UserInputOption"/>
+
+		<owlx:DataPropertyValue owlx:property="isEvenNumOfAtoms">
+			<owlx:DataValue owlx:datatype="&xsd;boolean">true</owlx:DataValue> 
+		</owlx:DataPropertyValue>
+	</owlx:Individual> 
+
+</owlx:Ontology> 

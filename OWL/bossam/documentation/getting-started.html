@@ -1,0 +1,1684 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=iso-8859-1"
+ http-equiv="content-type">
+  <title>Getting Started with Bossam</title>
+</head>
+<body>
+<center>
+<h1>Getting Started with Bossam Rule/OWL Reasoner<br>
+</h1>
+</center>
+<div style="text-align: center;">
+Written by Minsu Jang(minsu@etri.re.kr)<br>
+Last Updated: 2007-01-15<br>
+</div>
+<h2><span style="color: rgb(153, 0, 0);">About this document</span><br>
+</h2>
+<p>This document introduces you to Bossam and presents you with some
+usage samples that will help you get started with Bossam.
+</p>
+<p>For more up-to-date information on new features and usages, 
+please refer to the <a href="http://mknows.etri.re.kr/bossam">Bossam Hompage</a>.
+</p>
+<h2><span style="color: rgb(153, 0, 0);">Recent Changes<br>
+</span></h2>
+<ul>
+  <li>Added: <a href="#SWRL_Builtins">SWRL Builtins for comparisons</a>
+are now supported in 0.8b87<br>
+  </li>
+  <li>Some changes in Bossam API (see <a
+ href="#EmbeddingBossamInJavaApplications">Embedding Bossam in Java
+Applications</a>)</li>
+  <li>Added: <a href="#creating_a_reasoner">Creating a reasoner</a></li>
+  <li>Added: <a href="#loading_owl_documents_and_asking">Loading OWL
+Documents and Asking</a></li>
+  <li>Optimization: significant performance optimization done both for
+forward-chaining and asking.</li>
+</ul>
+<h2 style="color: rgb(153, 0, 0);">System Requirements<br>
+</h2>
+Bossam needs Java runtime of JDK 1.3 or later. Also, it currently needs
+to have 128M or more of RAM to perform OWL reasoning over W3C Wine
+ontology.<br>
+Bossam uses the following 3rd party libraries, which are included in
+the Bossam distribution (in <code>bin/</code>
+directory).<br>
+<ul>
+  <li>NSam N3 Parser</li>
+  <li>OpenRDF RIO RDF Parser</li>
+  <li>Piccolo XML Parser</li>
+</ul>
+You need to include the above libraries into the classpath.<br>
+<h2 style="color: rgb(153, 0, 0);">Bossam Sites<br>
+</h2>
+<ul>
+  <li>Homepage: <a href="http://mknows.etri.re.kr/bossam/">http://mknows.etri.re.kr/bossam/</a></li>
+  <li>SemWebCentral: <a
+ href="http://projects.semwebcentral.org/projects/bossam/">http://projects.semwebcentral.org/projects/bossam/</a><br>
+  </li>
+  </li>
+</ul>
+<h2 style="color: rgb(153, 0, 0);">Introduction</h2>
+Bossam is a forward-chaining rule engine which is implemented based on
+RETE[1] algorithm. The features supported by Bossam are listed as
+follows.<br>
+<ul>
+  <li>Includes a simple, user-friendly, and web-friendly non-markup
+rule language called <a href="buchingae-rule-language.html">Buchingae</a>.</li>
+  <li><span style="font-weight: bold;">OWL inferencing</span>. Bossam
+includes a rule set for OWL reasoning.</li>
+  <li><span style="font-weight: bold;">Query answering</span>.</li>
+  <li><span style="font-weight: bold;">Procedural Attachment</span>.
+Bossam provides a simple and intuitive procedural attachment mechanism.</li>
+  <li><span style="font-weight: bold;">2nd-order logic syntax</span>.
+Bossam supports a restricted form of 2nd-order syntax.</li>
+  <li><span style="font-weight: bold;">Object-oriented knowledge
+representation</span>. Bossam supports frame-based knowledge
+representation.</li>
+  <li><span style="font-weight: bold;">Negation-As-Failure</span>.
+Bossam supports reasoning over rulebases that contain
+negation-as-failure. Currently, the semantics is based on
+stratification, but it's planned to support well-founded semantics.</li>
+  <li><span style="font-weight: bold;">Priority-based conflict
+resolution</span>. It's possible to assign priorities to the rules and
+enable priority-based conflict resolution.</li>
+  <li><span style="font-weight: bold;">Supports SWRL, RuleML.</span>
+Bossam can read and perform reasoning on the rulebases written in SWRL
+or RuleML. The supported fragment of each language is shown below.<br>
+    <ul>
+      <li>RuleML support: 0.87 compliant syntax. Supported fragment
+corresponds to URCDATALOG + &lt;Naf&gt; + &lt;Or&gt; - &lt;Slot&gt;</li>
+      <li>SWRL/XML support: Atoms containing arbitrary class
+descriptions
+are not supported. Some builtins are supported.</li>
+      <li>SWRL/RDF support: Bossam can recognize most of SWRL including
+arbitrary class descriptions and saveral builtins.<br>
+      </li>
+    </ul>
+  </li>
+  <li><span style="font-weight: bold;">Supports RDF/XML, N3.</span>
+Bossam can read and perform reasoning on the ontologies written in
+RDF/XML or in N3. N3 support is limited to the RDFS and OWL
+vocabularies. Bossam does not understand N3 formula.<br>
+  </li>
+</ul>
+<h2 style="color: rgb(153, 0, 0);">Usage Examples</h2>
+<h3>A Simple Sample</h3>
+<div class="section">
+<p>Let's start with a very simple sample. The following is a simple
+Bossam
+rulebase containing three basic knowledge elements.</p>
+<pre style="margin-left: 40px;" class="code">prefix builtin = http://www.etri.re.kr/2003/10/bossam-builtin#;<br>namespace is http://www.etri.re.kr/samples#;<br>rulebase rb01<br>{<br>   fact F01 is hasFather(Sam,John);<br>   fact F02 is hasFather(John,Jim);<br><a
+ name="func-print"></a>   rule R01 is<br>      if <br>         hasFather(?x,?y) and hasFather(?y,?z)<br>      then <br>         hasGrandFather(?x,?z)<br>         and builtin:print(?x, " is the father of ", ?z);<br>}<br></pre>
+<p>At the header of the rulebase file, namespace prefixes and the base
+namespace are declared. The keyword <code>prefix </code>is used to
+declare a
+namespace prefix, and <code>namespace </code>to declare the base
+namespace of
+a rulebase. The body of the rulebase follows with the keyword
+<code>rulebase</code>.</p>
+<p>The variables are preceded by a question mark, and every rule and
+fact is
+assigned with a name - <span class="codefrag">F01</span>, <span
+ class="codefrag">F02</span>, and <span class="codefrag">R01</span>.
+Local
+names appearing in a rulebase are internally expanded into a full URI
+by
+prepending each name with the base namespace. In the above example, the
+name
+of the first fact, <span class="codefrag">F01</span>, is resolved into
+<span class="codefrag">http://www.etri.re.kr/samples#F01</span>. As
+shown, you can
+concatenate multiple predicates in the consequent with conjunction. In
+the
+above example, <code>builtin</code> designates the reserved namespace URI for Bossam's builtins.
+<code>print</code> is one of the builtins, which prints out the terms
+in a
+sequence. <br>
+</p>
+<p>Save the above code into a file <code>C:\temp\ex01.boo</code>,
+and execute a reasoning
+session by the following command.</p>
+<pre style="margin-left: 40px;" class="code">bossam.bat -rb file:///c:/temp/ex01.boo</pre>
+<p>You'll get the following response.</p>
+<pre style="margin-left: 40px;" class="code">[Knowledge Processing Rulebase: file:///c:/temp/e01.boo]<br>[ReasonerApp session="Wed Apr 20 19:39:22 KST 2005"]<br>[In R01] Sam is the father of Jim<br>http://www.etri.re.kr/samples#hasGrandFather(http://www.etri.re.kr/samples#Sam,http://www.etri.re.kr/samples#Jim)<br></pre>
+<p>A conclusion is shown after the output made by the
+<code>builtin:print</code> at the consequent of the rule <code>R01</code>.
+As
+you see in the conclusions, every ID is expanded into a full URI. <br>
+</p>
+<p>To get the result in RuleML format, use <code>-out ruleml</code> option as follows.</p>
+<pre style="margin-left: 40px;" class="code">bossam.bat -out ruleml -rb file:///c:/temp/ex01.boo</pre>
+<p>You'll get the following result.</p>
+<pre style="margin-left: 40px;" class="code">[Output Format: ruleml]<br>[Knowledge Processing Rulebase: file:///c:/temp/e01.boo]<br>[ReasonerApp session="Wed Apr 20 19:41:57 KST 2005"]<br>&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br>&lt;Assert<br>     xmlns="http://www.ruleml.org/0.88/xsd"<br>     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br>     xsi:schemaLocation="http://www.ruleml.org/0.88/xsd/hornlog.xsd"&gt;<br> &lt;Atom&gt;<br>   &lt;Rel wref="http://www.etri.re.kr/samples#hasGrandFather" /&gt;<br>   &lt;Ind wref="http://www.etri.re.kr/samples#Sam" /&gt;<br>   &lt;Ind wref="http://www.etri.re.kr/samples#Jim" /&gt;<br> &lt;/Atom&gt;<br>&lt;/Assert&gt;<br></pre>
+<p>The structure of the RuleML format is explained at <a
+ href="http://www.ruleml.org">RuleML homepage</a>.<br>
+</p>
+<p><a name="RDF_Serialization"></a>Also, you can get the result in RDF
+with the following command.<br>
+</p>
+<pre style="margin-left: 40px;" class="code">bossam.bat -out rdf -rb file:///c:/temp/ex01.boo</pre>
+<p>You'll get the following result.<br>
+</p>
+<pre style="margin-left: 40px;" class="code">[Output Format: rdf]<br>[Buchingae Rulebase: file:///c:/temp/ex01.boo]<br>[Bossam ReasonerApp session="Tue Jul 26 12:26:40 KST 2005"]<br>[In R01] http://www.etri.re.kr/samples#Sam is the father of http://www.etri.re.kr/samples#Jim<br>&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br>&lt;!DOCTYPE rdf:RDF [<br>  &lt;!ENTITY ns_0 "http://www.etri.re.kr/samples#" &gt;<br>]&gt;<br>&lt;rdf:RDF<br>     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"<br>     xmlns:ns_0="http://www.etri.re.kr/samples#"<br>     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"&gt;<br>&lt;rdf:Description rdf:about="&amp;ns_0;Sam"&gt;<br>    &lt;ns_0:hasGrandFather rdf:resource="&amp;ns_0;Jim"/&gt;<br>&lt;/rdf:Description&gt;<br>&lt;/rdf:RDF&gt;<br></pre>
+</div>
+In RDF, only 2-ary facts can be represented in a graceful way. Bossam
+neglects to serialize facts with more than two terms, and represents
+1-ary facts by inserting rdf:type as the predicate of the triple, with
+the fact's predicate symbol as the object and the term as the subject.<br>
+<h3><a name="Querying+an+RDF+file"></a>Querying an RDF file</h3>
+<div class="section">
+<p>You can use Bossam to query RDF or OWL documents. You can use a rule
+to
+query RDF data and get a set of bindings to variables. Let's assume
+that we
+want to collect a list of resources which have some specific property
+values.
+The rulebase to achieve what we want can be coded as follows.</p>
+<pre style="margin-left: 40px;" class="code">prefix wine = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#;<br>namespace is http://etri.re.kr/bossam/examples#;<br>rulebase Test1<br>{<br>  rule r is <br>  if<br>    wine:locatedIn(?x,wine:NapaRegion)<br>    and wine:hasSugar(?x,wine:Dry)<br>  then<br>    answer(?x);<br>}</pre>
+<p>Let's query an RDF file with this rulebase. Save the above example
+into a
+file <span class="codefrag">c:\temp\ex02.boo</span>, and execute the
+following command.</p>
+<pre style="margin-left: 40px;" class="code">bossam.sh -oir file:///c:/temp/ex02.boo http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine</pre>
+<p>The URI of an OWL ontology, which is an RDF document, is provided.
+The
+result of the query gets returned as follows.</p>
+<pre style="margin-left: 40px;" class="code">http://etri.re.kr/bossam/examples#answer(http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#BancroftChardonnay)<br>http://etri.re.kr/bossam/examples#answer(http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhitehallLaneCabernetFranc)<br>http://etri.re.kr/bossam/examples#answer(http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FormanCabernetSauvignon)<br>http://etri.re.kr/bossam/examples#answer(http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SeanThackreySiriusPetiteSyrah)<br>http://etri.re.kr/bossam/examples#answer(http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FormanChardonnay)<br>http://etri.re.kr/bossam/examples#answer(http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#PageMillWineryCabernetSauvignon)<br>http://etri.re.kr/bossam/examples#answer(http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#ElyseZinfandel)<br></pre>
+</div>
+<a name="Reasoning+over+an+OWL+document"></a>
+<h3>Reasoning over an OWL document</h3>
+<div class="section">
+<p>Bossam has a feature to import OWL ontology into its rulebase. With
+URI
+reference and OWL importing facility, we can author rulebases that
+refers to
+knowledge elements defined in OWL documents, which enables us to
+perform
+inferencing on ontologies. The following example is a rulebase written
+to
+perform inference on a web ontology.</p>
+<pre style="margin-left: 40px;" class="code">01 prefix rdf = http://www.w3.org/1999/02/22-rdf-syntax-ns#;<br>02 prefix owl = http://www.w3.org/2002/07/owl#;<br>03 prefix xsd = http://www.w3.org/2001/XMLSchema#;<br>04 prefix rdfs = http://www.w3.org/2000/01/rdf-schema#;<br>05 prefix first = http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#;<br>06 namespace is http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#;<br>07 rulebase FunctionalPropertyTest1<br>08 {<br>09        rule FuncProp is if owl:FunctionalProperty(?p) and ?p(?x,?y)<br>10                          and ?p(?x,?z) and [?y != ?z]<br>11                         then owl:sameAs(?y,?z);<br>12 }</pre>
+<p>The rulebase <span class="codefrag">FunctionalPropertyTest1</span>
+contains only one rule, <span class="codefrag">FuncProp</span>, which
+states
+the semantics of OWL's <span class="codefrag">FunctionalProperty</span>
+axiom. With this rule, one can derive a new relation, <span
+ class="codefrag">owl:sameAs</span>, which is entailed from the
+semantics of
+<span class="codefrag">owl:FunctionalProperty</span> and a pair of
+property
+instance occurences, <span class="codefrag">?p(?x,?y)</span> and <span
+ class="codefrag">?p(?x,?z)</span>. Save the above code in a file <span
+ class="codefrag">C:\temp\ex03.boo</span>, and run the following
+command.</p>
+<pre style="margin-left: 40px;" class="code">bossam.sh -oir file:///C:/temp/ex03.boo http://www.w3.org/2002/03owlt/FunctionalProperty/premises001</pre>
+<p>The OWL document specified by the URL after the <span
+ class="codefrag">-o</span> option is one of the OWL inference test
+files
+published by W3C. The content of the file is as follows:</p>
+<pre style="margin-left: 40px;" class="code">&lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"<br>         xmlns:owl="http://www.w3.org/2002/07/owl#"<br>         xmlns:first="http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#"<br>         xml:base="http://www.w3.org/2002/03owlt/FunctionalProperty/premises001"&gt;<br>    &lt;owl:FunctionalProperty rdf:ID="http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#prop"/&gt;<br>    &lt;rdf:Description rdf:ID="subject"&gt;<br>        &lt;first:prop rdf:resource="#object1"/&gt;<br>        &lt;first:prop rdf:resource="#object2"/&gt;<br>    &lt;/rdf:Description&gt;<br>&lt;/rdf:RDF&gt;</pre>
+<p>Here, <span class="codefrag">first:prop</span> is declared as an
+instance
+of <span class="codefrag">owl:FunctionalProperty</span>, and <span
+ class="codefrag">#object1</span> and <span class="codefrag">#object2</span>
+are declared as two values of <span class="codefrag">first:prop</span>
+property. According to the rule <span class="codefrag">FuncProp</span>,
+<span class="codefrag">object1</span> and <span class="codefrag">object2</span>
+should be the same individual. This is an entailed conclusion by the
+semantics of <span class="codefrag">owl:FunctionalProperty</span>. The
+output
+given by Bossam is shown as follows:</p>
+<pre style="margin-left: 40px;" class="code">[OWL Inference Rulebase: file:///c:/temp/e03.boo]<br>[OWL document: http://www.w3.org/2002/03owlt/FunctionalProperty/premises001]<br>[ReasonerApp session="Wed Apr 20 20:33:41 KST 2005"]<br>http://www.w3.org/2002/07/owl#sameAs(http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#object1,http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#object2)<br>http://www.w3.org/2002/07/owl#sameAs(http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#object2,http://www.w3.org/2002/03owlt/FunctionalProperty/premises001#object1)<br></pre>
+<p>These two conclusions are just as we expected. As coined by this
+example,
+<em>if you want to perform reasoning over OWL documents, you have to
+provide
+Bossam with a rulebase containing a set of rules and facts which
+express the
+semantics of OWL vocabularies sufficiently well for your reasoning
+purpose.<span style="color: rgb(0, 0, 153);"> (Since the version
+0.7b75,
+Bossam is released with a set of OWL Lite/DL inference rules.)</span><br>
+</em></p>
+</div>
+<a name="Using+Comparison+Operators"></a>
+<h3>Using Comparison Operators</h3>
+<div class="section">
+<p>Bossam provides primitive operators for comparing simple values. The
+following example enumerates all the operators supported.</p>
+<div style="margin-left: 40px;">namespace is
+http://www.etri.re.kr/samples#;<br>
+rulebase rb03<br>
+{<br>
+   fact F01 is age(John,30);<br>
+<br>
+   rule gt is if age(?x,?y) and [?y &gt; 30] then veryOld(?x);<br>
+   rule ge is if age(?x,?y) and [?y &gt;= 30] then Old(?x);<br>
+   rule eq is if age(?x,?y) and [?y = 30] then
+exactThirty(?x);<br>
+   rule lt is if age(?x,?y) and [?y &lt;= 30] then young(?x);<br>
+   rule le is if age(?x,?y) and [?y &lt; 20] then
+veryYoung(?x);<br>
+} </div>
+<p>Be careful to surround an expression with brackets. Save the above
+code in
+a file <span class="codefrag">C:\temp\ex04.boo</span>, and run the
+following
+command.</p>
+<pre style="margin-left: 40px;" class="code">bossam.sh -rb file:///C:/temp/ex04.boo</pre>
+<p>You get the following result.</p>
+<div style="margin-left: 40px; font-family: monospace;">[Knowledge
+Processing Rulebase: file:///c:/temp/e04.boo]<br>
+[ReasonerApp session="Wed Apr 20 20:37:26 KST 2005"]<br>
+http://www.etri.re.kr/samples#exactThirty(http://www.etri.re.kr/samples#John)<br>
+http://www.etri.re.kr/samples#young(http://www.etri.re.kr/samples#John)<br>
+http://www.etri.re.kr/samples#Old(http://www.etri.re.kr/samples#John)<br>
+</div>
+<h3><a name="arithmetic_expr"></a>Using Arithmetic Operators</h3>
+<p>Bossam supports elementary arithmetic operators: +, -, *, /, %. The
+following sentences shows the usage of arithmetic operators in rules.<br>
+</p>
+<pre style="margin-left: 40px;" class="code">prefix xsd = http://www.w3.org/2001/XMLSchema#;<br>prefix rdfs = http://www.w3.org/2000/01/rdf-schema#;<br>namespace is http://etri.re.kr/2003/10/Bossam#;<br>rulebase ArithmeticExpressions<br>{<br>   class Rectangle;<br>   property width for Rectangle is xsd:integer;<br>   property height for Rectangle is xsd:integer;<br>   individual R is Rectangle and width = 10, height = 20;<br>   individual S is Rectangle and width = 20, height = 30;<br><br>   rule r is <br>      if <br>         Rectangle(?r) <br>         and width(?r,?w) <br>         and height(?r,?h) <br>         and [?w*?h &lt;= 200] <br>      then<br>         SmallRectangle(?r,[?w*?h]);<br>}</pre>
+<p>Be sure to embrace each expression with brackets.<br>
+</p>
+<h3><a name="time_processing"></a>Representing and Processing Time<br>
+</h3>
+<p>With Bossam, it's possible to represent time constants and
+processing
+them. Bossam provides three constant types for representing time. The
+three
+types with an example for each are shown below:<br>
+</p>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="0"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <td
+ style="vertical-align: top; font-weight: bold; background-color: rgb(255, 204, 204);">Type<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; background-color: rgb(255, 204, 204);">Syntax<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; background-color: rgb(255, 204, 204);">Example<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;">Date<br>
+      </td>
+      <td style="vertical-align: middle;">YYYY-MM-dd<br>
+      </td>
+      <td style="vertical-align: middle;"><code>2004-10-09</code><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;">Time<br>
+      </td>
+      <td style="vertical-align: middle;">HH:mm:ss<br>
+      </td>
+      <td style="vertical-align: middle;"><code>12:20:40</code><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;">Datetime<br>
+      </td>
+      <td style="vertical-align: middle;">YYYY-MM-dd'T'HH:mm:ss<br>
+      </td>
+      <td style="vertical-align: middle;"><code>2004-10-09T12:20:40</code><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;"><span
+ style="font-style: italic;">special constant</span><br>
+      </td>
+      <td style="vertical-align: middle;"><code>now</code><br>
+      </td>
+      <td style="vertical-align: middle;"><span
+ style="font-style: italic;">Designates the current date &amp; time.</span><br>
+      <code>p(now)</code><span style="font-style: italic;"> is declared
+as, for example, </span><code>p(2005-07-10T17:30:12)</code><span
+ style="font-style: italic;">, according to the time of rule execution.</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>There are three builtin functions, shown below,  for processing
+time
+constants. The namespace URI,
+<code>http://www.etri.re.kr/2003/10/bossam-builtin#</code>, is the
+reserved namespace for designating Bossam's builtin functions.</p>
+<ul>
+  <li><code>http://www.etri.re.kr/2003/10/bossam-builtin#after(time-const1,time-const2)</code>
+    <ul>
+      <li>returns true if <code>time-const1</code> follows <code>time-const2</code><br>
+      </li>
+    </ul>
+  </li>
+  <li><code>http://www.etri.re.kr/2003/10/bossam-builtin#before(time-const1,time-const2)</code>
+    <ul>
+      <li>returns true if <code>time-const1</code> precedes <code>time-const2</code><br>
+      </li>
+    </ul>
+  </li>
+  <li><code>http://www.etri.re.kr/2003/10/bossam-builtin#containedIn(time-const1,time-begin,time-end)</code>
+    <ul>
+      <li>returns true if <code>time-const1</code> is in the duration
+formed by <code>time-begin</code> and <code>time-end</code><br>
+      </li>
+    </ul>
+  </li>
+</ul>
+A sample rulebase utilizing time constants is shown below.<br>
+<br>
+<div style="margin-left: 40px;"><code>prefix xsd =
+http://www.w3.org/2001/XMLSchema#;</code><br>
+<code>prefix rdfs = http://www.w3.org/2000/01/rdf-schema#;</code><br>
+<code>prefix func = http://www.etri.re.kr/2003/10/bossam-builtin#;</code><br>
+<code>namespace is http://etri.re.kr/2003/10/Bossam#;</code><br>
+<code>rulebase TimeConstants</code><br>
+<code>{</code><br>
+<code>    class Person;</code><br>
+<code>    property birthdate for Person is xsd:date;</code><br>
+<code>    individual John is Person and birthdate =
+1970-10-05;</code><br>
+<code>    individual Sam is Person and birthdate =
+1970-05-05;</code><br>
+<code></code><br>
+<code>    rule r1 is </code><br>
+<code>        if </code><br>
+<code>           
+birthdate(?x,?date1) and birthdate(?y,?date2) </code><br>
+<code>            and
+[func:after(?date1,?date2) = true] </code><br>
+<code>        then </code><br>
+<code>           
+isYoungerThan(?x,?y);</code><br>
+<code>    rule r2 is</code><br>
+<code>        if </code><br>
+<code>           
+birthdate(?x,?date1) and birthdate(?y,?date2) </code><br>
+<code>            and
+[func:before(?date1,?date2) = true] </code><br>
+<code>        then </code><br>
+<code>           
+isOlderThan(?x,?y);</code><br>
+<code>    </code><br>
+<code>    fact f01 is
+beginsAt(MeetingA,2005-10-04T12:00:00);</code><br>
+<code>    fact f02 is
+endsAt(MeetingA,2005-10-04T15:00:00);</code><br>
+<code>    fact f03 is
+beginsAt(MeetingB,2005-10-04T14:00:00);</code><br>
+<code>    fact f04 is
+endsAt(MeetingB,2005-10-04T17:00:00);</code><br>
+<code>    fact f05 is
+beginsAt(MeetingC,2005-10-04T16:00:00);</code><br>
+<code>    fact f06 is
+endsAt(MeetingC,2005-10-04T17:00:00);</code><br>
+<code></code><br>
+<code>    rule CompatibleMeetings is</code><br>
+<code>        if </code><br>
+<code>           
+endsAt(?m1,?t1) and beginsAt(?m2,?t2) </code><br>
+<code>            and
+[func:after(?t2,?t1) = true]</code><br>
+<code>        then </code><br>
+<code>           
+Compatible(?m1,?m2);</code><br>
+<code>}</code><br>
+</div>
+<p></p>
+<h2><span style="color: rgb(153, 0, 0);"><a
+ name="EmbeddingBossamInJavaApplications"></a>Embedding Bossam in Java
+Applications</span><br>
+</h2>
+Bossam provides a simple java interface for creating engine instances
+and
+operating on them. Please refer to the <a href="../javadoc/index.html">javadoc</a>
+document for the specification of
+the interface. The primary interfaces for creating and manipulating
+Bossam engine is <code>etri.bossam.app.IReasonerFactory
+</code>and <code>etri.bossam.app.IReasoner</code>.
+<br>
+</div>
+<div class="section">
+<h3>Creating a reasoner</h3>
+<p>To create a reasoner, a reasoner factory should be created first.
+The following code sample illustrates the steps of creating a reasoner.<br>
+</p>
+<pre style="margin-left: 40px;">import bossam.app.IReasonerFactory;<br>import bossam.app.ReasonerFactory;<br>import bossam.app.IReasoner;<br><br>IReasonerFactory reasonerFactory = ReasonerFactory.getInstance();<br>IReasoner reasoner = reasonerFactory.createReasoner();<br></pre>
+<p>Here's the API specification of <span
+ style="font-family: monospace;">IReasonerFactory</span>.<br>
+</p>
+<p></p>
+<ul>
+  <li><code>IReasoner createReasoner()</code></li>
+  <li><code>IReasoner createOwlReasoner()</code></li>
+  <li><code>IReasoner createSwrlReasoner()</code></li>
+</ul>
+<p>And here's the guide of which method to use to create a reasoner.<br>
+</p>
+<ul>
+  <li>If you're going to process Buchingae and RuleML knowledge, use <code>createReasoner()</code>.</li>
+  <li>If you're going to process OWL as well as Buchingae and RuleML
+knowledge, use <code>createOwlReasoner()</code>.</li>
+  <li>If you're going to process SWRL as well as Buchingae, OWL, and
+RuleML,  use <code>createSwrlReasoner()</code>.<br>
+  </li>
+</ul>
+<p></p>
+<p>
+</p>
+<h3><a name="loading_owl_documents_and_asking"></a>Loading OWL
+Documents and Querying<br>
+</h3>
+<p>Let's have a look at an example of loading an OWL document,
+performing reasoning, and asking.<br>
+</p>
+<pre>
+   IReasonerFactory reasonerFactory = ReasonerFactory.getInstance();
+   IReasoner r = reasonerFactory.createOwlDlReasoner();
+   // Load the W3C Wine ontology
+   r.load(IReasoner.OWL, "http://www.w3.org/TR/2004/REC-owl-guide-20040210/wine.rdf");
+   // Set namespace prefixes
+   r.setNamespacePrefix("wine", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#");
+   r.setNamespacePrefix("owl", "http://www.w3.org/2002/07/owl#");
+   // Ask
+   String answer = r.ask("query q is owl:Class(wine:WhiteTableWine);");
+</pre>
+<br>
+The above code loads the Wine ontology available on W3C site, and asks
+whether wine:WhiteTableWine is an OWL class. The result is true, which
+is indicated by <code>answer</code>
+being not <code>null</code> and <code>answer.isEmpty()</code> being <code>true</code>.
+Now, let's ask another question, as follows.<br>
+<pre>
+   String answer = r.ask("query q is wine:Wine(?x);");
+   System.out.println(answer);
+</pre>
+This query wants to get all the wine instances declared in the
+ontology. The result looks like the following.
+<pre>
+   false
+</pre>
+<p>
+Oh! No!!! No Wine instance defined in the Wine ontology???<br/>
+Well, embarassingly, YES!<br/>
+But, then again, where are the wines that are supposed to be in the
+Wine ontology?<br/>
+Well, interestingly, they are hidden behind the OWL semantics. ;-) We
+have to perform a reasoning session to reveal all the wine instances,
+as follows.
+</p>
+<pre>
+   IReasonerFactory reasonerFactory = ReasonerFactory.getInstance();
+   IReasoner r = reasonerFactory.createOwlDlReasoner();
+   // Load the W3C Wine ontology
+   r.load(IReasoner.OWL, "http://www.w3.org/TR/2004/REC-owl-guide-20040210/wine.rdf");
+   // Set namespace prefixes
+   r.setNamespacePrefix("wine", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#");
+   r.setNamespacePrefix("owl", "http://www.w3.org/2002/07/owl#");
+   // LET's DO REASONING! It takes a while......
+   try
+   {
+      r.run();
+   }
+   catch (InconsistencyException e)
+   {
+      // yeah, we have to catch this exception
+      e.printStackTrace();
+      return;
+   }
+   // Then, ask again.
+   String answer = r.ask("query q is wine:Wine(?x);");
+   System.out.println(answer);
+</pre>
+<p>
+The following is the output.
+</p>
+<pre>
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#PageMillWineryCabernetSauvignon]}
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#KathrynKennedyLateral]}
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SevreEtMaineMuscadet]}
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#VentanaCheninBlanc]}
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RoseDAnjou]}
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#ChateauLafiteRothschildPauillac]}
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#MariettaOldVinesRed]}
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FormanChardonnay]}
+   
+   ...a long list of bindings...
+   
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SaucelitoCanyonZinfandel1998]}
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SelaksSauvignonBlanc]}
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FoxenCheninBlanc]}
+   {[x = http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FormanCabernetSauvignon]}
+</pre>
+<p>
+Yeap. this is the power of reasoning: revealing all the hidden truths!!</p>
+<h3>Telling and Reasoning</h3>
+The following code fragments shows how Bossam can be created and
+executed using Java applications.<br>
+  <pre>
+   IReasonerFactory reasonerFactory = ReasonerFactory.getInstance();      // 1
+   IReasoner reasoner = reasonerFactory.createReasoner();                 // 2
+   reasoner.setSerializationMode(IReasoner.DEFAULT);                      // 3
+   reasoner.setBaseNamespace("http://www.etri.re.kr/2005/bossam/test#");  // 4
+   reasoner.setNamespacePrefix("p","http://www.nils.com/Family#");        // 5
+   reasoner.tell("fact f is father(p:John,p:Sam);");                      // 6
+   reasoner.tell("fact g is father(p:Sam,p:Nil);");                       // 7
+   reasoner.tell("rule r is if father(?x,?y) and father(?y,?z) then grandFather(?x,?z);");  // 8
+   try {
+      String result = reasoner.run();                                     // 9
+      System.out.println(result);                                         //10
+   }
+   catch (Exception e)
+   {
+      e.printStackTrace();
+   }
+  </pre>
+<p>Line-by-line explanation follows.<br>
+</p>
+<ul>
+  <li>Line 1~2: Creates a new reasoner instance. <code>etri.bossam.app.Reasoner</code>is
+the implementation of <code>IReasoner</code> interface.</li>
+  <li>Line 3: Sets the serialization format. In this case, the format
+is the default - Buchingae language.</li>
+  <li>Line 4: Sets the base namespace.</li>
+  <li>Line 5: Sets a namespace prefix.</li>
+  <li>Line 6 ~ 7: Tells two facts. Facts should be given in valid
+Buchingae syntax. <code>John</code>, <code>Sam</code>, and <code>Nil</code> are constants and are
+prefixed by <code>p</code>, which
+means these IDs are qualified by the namespace <code>http://www.nils.com/Family#</code>.
+All other IDs such as <code>f</code>, <code>g</code>, and <code>father</code> are qualified by the
+base namespace such that <code>father</code>
+is qualified as <code>http://www.etri.re.kr/2005/test#father</code>.<br>
+  </li>
+  <li>Line 8: Tells a rule.</li>
+  <li>Line 9: Executes a forward-chaining reasoning session. The
+conclusions are serialized into a string formatted using the language
+specified by <code>setSerializationFormat()</code>.<br>
+  </li>
+  <li>Line 10: Prints out the result.</li>
+</ul>
+<p>The printout of the above code looks like:</p>
+<pre>
+   http://www.etri.re.kr/2005/bossam/test#grandFather(http://www.nils.com/Family#John,http://www.nils.com/Family#Nil)
+</pre>
+<h3>Adding new knowledge and Querying</h3>
+<p>The following code fragment is an example of querying with the
+aforementioned Java API.</p>
+<pre>
+   IReasonerFactory reasonerFactory = ReasonerFactory.getInstance();      // 1
+   IReasoner reasoner = reasonerFactory.createReasoner();                 // 2
+   reasoner.setSerializationMode(IReasoner.ANSWER_IN_TEXT);               // 3
+   reasoner.tell("individual i01 is Person and http://www.etri.re.kr/N#name = \"Chris\", age = 17;"); // 4
+   reasoner.tell("individual i02 is Person and http://www.etri.re.kr/N#name = \"Jenny\", age = 19;"); // 5
+   String result = reasoner.ask("query q is age(?ind,?age) and http://www.etri.re.kr/N#name(?ind,?name);"); // 6
+   System.out.println("Conclusion: \n" + result); // 7
+</pre>
+<p>At line 3, seralization mode is set to <code>IReasoner.ANSWER_IN_TEXT</code>. The
+printout from the above code looks like:
+</p>
+<pre>
+   Conclusion:
+   {[age=17][ind=i01][name="Chris"]}
+   {[age=19][ind=i02][name="Jenny"]}
+</pre>
+<p>Each binding set is delimited by braces <code>{}</code> and each binding by
+delimited by
+<code>[]</code>.<br>
+</p>
+<p>Instead of <code>
+IReasoner.ANSWER_IN_TEXT</code>, you can set the mode to <code>IReasoner.ANSWER_IN_XML</code>, which
+makes the result look like:<br>
+</p>
+<p style="margin-left: 40px;"><code>Conclusion:
+</code><br style="font-family: monospace;">
+<code>&lt;?xml version="1.0"
+encoding="UTF-8"?&gt;</code><br style="font-family: monospace;">
+<code>&lt;Bindings
+xmlns="http://www.etri.re.kr/2003/11/bossam/bindings#"&gt;</code><br
+ style="font-family: monospace;">
+<code> &lt;BindingSet&gt;</code><br
+ style="font-family: monospace;">
+<code> 
+&lt;Binding&gt;&lt;Variable&gt;age&lt;/Variable&gt;&lt;Value&gt;17&lt;/Value&gt;</code><br
+ style="font-family: monospace;">
+<code> 
+&lt;Binding&gt;&lt;Variable&gt;ind&lt;/Variable&gt;&lt;Value&gt;i01&lt;/Value&gt;</code><br
+ style="font-family: monospace;">
+<code> 
+&lt;Binding&gt;&lt;Variable&gt;name&lt;/Variable&gt;&lt;Value&gt;"Chris"&lt;/Value&gt;</code><br
+ style="font-family: monospace;">
+<code> &lt;/BindingSet&gt;</code><br
+ style="font-family: monospace;">
+<code> &lt;BindingSet&gt;</code><br
+ style="font-family: monospace;">
+<code> 
+&lt;Binding&gt;&lt;Variable&gt;age&lt;/Variable&gt;&lt;Value&gt;19&lt;/Value&gt;</code><br
+ style="font-family: monospace;">
+<code> 
+&lt;Binding&gt;&lt;Variable&gt;ind&lt;/Variable&gt;&lt;Value&gt;i02&lt;/Value&gt;</code><br
+ style="font-family: monospace;">
+<code> 
+&lt;Binding&gt;&lt;Variable&gt;name&lt;/Variable&gt;&lt;Value&gt;"Jenny"&lt;/Value&gt;</code><br
+ style="font-family: monospace;">
+<code> &lt;/BindingSet&gt;</code><br
+ style="font-family: monospace;">
+<code>&lt;/Bindings&gt;</code><br>
+</p>
+<h3>Incremental Reasoning<br>
+</h3>
+<p>Now, let's have a look at what happens if you alterating reasoning
+and knowledge addition repeatedly. Consider the following code fragment.
+</p>
+<pre>
+   IReasonerFactory reasonerFactory = ReasonerFactory.getInstance();      // 1
+   IReasoner reasoner = reasonerFactory.createReasoner();                 // 2
+   reasoner.setSerializationMode(IReasoner.DEFAULT);                      // 3
+   reasoner.setBaseNamespace("http://www.etri.re.kr/2005/bossam/test#");  // 4
+   reasoner.setNamespacePrefix("p","http://www.nils.com/Family#");        // 5
+   reasoner.tell("fact f is father(p:John,p:Sam);");                      // 6
+   reasoner.tell("fact g is father(p:Sam,p:Nil);");                       // 7
+   reasoner.tell("rule r is if father(?x,?y) and father(?y,?z) then grandFather(?x,?z);");  // 8
+   try {
+      String result = reasoner.run();                                     // 9
+      System.out.println("First session:\n" + result);                    //10
+   }
+   catch (Exception e)
+   {
+      e.printStackTrace();
+   }
+   reasoner.tell("fact h is father(p:Nil,p:Mick);");                      // 11
+   reasoner.tell("rule s is if grandFather(?x,?y) and father(?y,?z) then grandGrandFather(?x,?z);"); // 12
+   try {
+      String result = reasoner.run();                                     // 13
+      System.out.println("Second session:\n" + result);                   // 14
+   }
+   catch (Exception e)
+   {
+      e.printStackTrace();
+   }
+</pre>
+<p>After the reasoning session at line 9, a new fact and a new rule are
+added in line 11 &amp; 12. By addition of the new knowledge, the status of
+the working memory changed and some new conclusions can be derived. 
+In line 13 &amp; 14, the second reasoning session is executed.
+The output of the above code fragment looks like:</p>
+<div style="margin-left: 40px;"><code>First
+session:</code>
+<code>http://www.etri.re.kr/2005/bossam/test#grandFather(http://www.nils.com/Family#John,http://www.nils.com/Family#Nil)</code>
+<br style="font-family: monospace;">
+<code>Second session:</code>
+<code>http://www.etri.re.kr/2005/bossam/test#grandGrandFather(http://www.nils.com/Family#John,http://www.nils.com/Family#Mick)</code><br
+ style="font-family: monospace;">
+<code>http://www.etri.re.kr/2005/bossam/test#grandFather(http://www.nils.com/Family#Sam,http://www.nils.com/Family#Mick)</code><br
+ style="font-family: monospace;">
+</div>
+<p>
+The first conclusion is drawn from the first reasoning session executed
+in line 9, and the second and third from the second reasoning session in
+line 13. As you see, in the second reasoning session, the conclusion having
+already been drawn in the first reasoning session is not drawn again.
+And please note how namespace qualification is done. Based on this
+incremental reasoning feature of Bossam, it's possible to implement on-line
+reasoning service which is alive and perform repeated reasoning based on the
+changing knowledge.
+</p>
+<h3>Setting Namespaces
+</h3>
+<p>Let's have a look at an example of setting and using namespaces. An
+example code fragment follows:
+</p>
+<pre>
+   IReasonerFactory reasonerFactory = ReasonerFactory.getInstance();      // 1
+   IReasoner reasoner = reasonerFactory.createReasoner();                 // 2
+   reasoner.setSerializationMode(IReasoner.DEFAULT);                      // 3
+   reasoner.setBaseNamespace("http://www.etri.re.kr/2005/bossam/test#");  // 4
+   reasoner.setNamespacePrefix("p","http://www.nils.com/Family#");        // 5
+   reasoner.tell("fact f is father(p:John,p:Sam);");                      // 6
+   reasoner.tell("fact g is father(p:Sam,p:Nil);");                       // 7
+   reasoner.tell("rule r is if father(?x,?y) and father(?y,?z) then grandFather(?x,?z);");  // 8
+   reasoner.tell("fact h is father(p:Nil,p:Mick);");                      // 9
+   reasoner.tell("rule s is if grandFather(?x,?y) and father(?y,?z) then grandGrandFather(?x,?z);");//10
+   String result = reasoner.ask("query q is father(?x,?y) and father(?y,?z);");        //11
+   System.out.println(result);
+</pre>
+<p>You can see that the namespace prefixes set in line 4 is used in the
+facts and rules as shown in lines 5 ~ 9. The result of the code looks
+like:
+<pre>
+   {[z=http://www.nils.com/Family#Mick][y=http://www.nils.com/Family#Nil][x=http://www.nils.com/Family#Sam]}
+   {[z=http://www.nils.com/Family#Nil][y=http://www.nils.com/Family#Sam][x=http://www.nils.com/Family#John]}
+</pre>
+<h2><a name="calling-java-objects"></a><span
+ style="color: rgb(153, 0, 0);">Calling Java Objects from Bossam
+Rules</span></h2>
+Bossam's main rule language, Buchingae, provides a limited, but
+useful,
+procedural attachment feature. The feature allows calling Java object's
+getter methods at the antecedent part of rules, and setter methods at
+the
+conclusion part. The following code is a simple example of calling a
+Java
+object's method in a Bossam rule.
+<pre class="code">rule CallJava01 is if java://java.lang/String#length(?x,?l) and [?l &lt; 10] then ShortString(?x);<br>    </pre>
+<p>The URI with a scheme <code>java</code> in the
+antecedent
+part of the rule <code>CallJava01</code> references a
+Java
+object's method. As can be seen, the path part of the URI is the full
+package
+name of the Java class, and the fragment ID is the name of a method to
+be
+called. The first term, <span class="codefrag">?x</span> of the <span
+ class="codefrag">length</span> predicate is bound to <span
+ class="codefrag">java.lang.String</span> objects which have been
+loaded in to
+the Bossam's working memory. The result of the method call is bound to
+the
+second term of the predicate, <span class="codefrag">?l</span> in the
+example
+rule.<br>
+</p>
+<p>By replacing the method name with a reserved word <span
+ style="font-family: monospace;" class="codefrag">Class</span>, one can
+bind
+objects of a specific Java class type to a Bossam variable. For
+example,
+<span style="font-family: monospace;" class="codefrag">java://etri.bossam/Run#Class(?x)</span>
+binds to <span style="font-family: monospace;" class="codefrag">?x</span>
+all the objects in
+the inference context which are of the type <span
+ style="font-family: monospace;" class="codefrag">etri.bossam.Run</span>.</p>
+<p>When initiating a reasoning session using Bossam's execution API,
+Java
+objects which are to be used for procedural attachment should be
+announced to
+the engine instance by putting the objects into the inference context
+of the
+engine instance. The following code fragment shows how to put java
+objects
+into the context.<br>
+</p>
+<pre>
+   IReasonerFactory reasonerFactory = ReasonerFactory.getInstance();      // 1
+   IReasoner reasoner = reasonerFactory.createReasoner();                 // 2
+   reasoner.setSerializationMode(IReasoner.DEFAULT);                      // 3
+   reasoner.setBaseNamespace("http://www.etri.re.kr/2005/bossam/test#");  // 4
+   reasoner.setNamespacePrefix("string","java://java.lang/String#");      // 5
+   reasoner.tell("rule CallJava01 is if string:length(?x,?l) and [?l < 10] then ShortString(?x);"); // 6
+   String str = new String("Test Str");                                   // 7
+   reasoner.addObject(str);                                               // 8
+</pre>
+<p>At line 7, a new string object is created and it is put into the
+<em>inference context</em> at line 8 by using <code>addObject()</code>
+method on the <code>IReasoner</code> implementation.
+</p>
+<p>As you can see, Bossam's procedural attachment mechanism is very
+intuitive and simple. It can be easily extended to other kinds of object systems
+by using different URI protocol schemes. For example, a scheme "soap" can
+be used to attach predicates to the objects accessible via SOAP messaging.
+Also, if only getter methods with no input parameters are used in the
+antecedent part, it would be possible to divide some literal space of OWL and
+assign external objects to the space. In that way, OWL semantics can be
+extended to account for external objects.<br>
+</p>
+<h2><span style="color: rgb(153, 0, 0);"><a name="ruleml-support"></a>RuleML
+Support</span><br>
+</h2>
+<h3>RuleML Support<br>
+</h3>
+<p>Bossam can read in rulebases written in RuleML[2]. RuleML is a very
+big,
+modularized(fragmented?), and frequently-changing language, it's not
+easy to
+support the language. Currently, Bossam supports a very restricted
+fragment
+of RuleML. The supported fragment can be fomulated as follows:<br>
+<code><br>
+RuleML_0.87_compliant_URCDATALOG -  &lt;Slot&gt; + &lt;Naf&gt; +
+&lt;Or&gt;<br>
+</code></p>
+<p>That is, datalog with URI is supported with additional two tags,
+each of
+which is for representing negation-as-failure(<span
+ style="font-family: monospace;">&lt;Naf&gt;</span>) and disjunction(<span
+ style="font-family: monospace;">&lt;Or&gt;</span>), but without <span
+ style="font-family: monospace;">&lt;Slot&gt;</span> tag which can be
+used to
+express object-oriented knowledge. The following example shows a sample
+RuleML document which is supported by Bossam.<br>
+</p>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Rulebase xmlns="http://www.ruleml.org/0.87/xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.ruleml.org/0.87/xsd http://www.ruleml.org/0.87/xsd/urdatalog.xsd"&gt;
+&lt;!-- if IsFatherOf(?x,?y) and IsFatherOf(?y,?z) then IsGrandFatherOf(?x,?z) --&gt;
+&lt;Imp&gt;
+  &lt;head&gt;
+         &lt;Atom&gt;
+            &lt;opr&gt;&lt;Rel href="http://example.com/P#IsGrandFatherOf"&gt;IsGrandFatherOf&lt;/Rel&gt;&lt;/opr&gt;
+            &lt;Var&gt;x&lt;/Var&gt;
+            &lt;Var&gt;z&lt;/Var&gt;
+        &lt;/Atom&gt;
+  &lt;/head&gt;
+  &lt;rlab&gt;&lt;Ind&gt;Father of Father is GrandFather&lt;/Ind&gt;&lt;/rlab&gt;
+  &lt;body&gt;
+    &lt;And&gt;
+        &lt;Atom&gt;
+            &lt;Rel href="http://example.com/P#IsFatherOf"&gt;IsFatherOf&lt;/Rel&gt;
+            &lt;Var&gt;x&lt;/Var&gt;
+            &lt;Var&gt;y&lt;/Var&gt;
+        &lt;/Atom&gt;
+        &lt;Atom&gt;
+            &lt;opr&gt;&lt;Rel href="http://example.com/P#IsFatherOf"&gt;IsFatherOf&lt;/Rel&gt;&lt;/opr&gt;
+            &lt;Var&gt;y&lt;/Var&gt;
+            &lt;Var&gt;z&lt;/Var&gt;
+        &lt;/Atom&gt;
+    &lt;/And&gt;
+  &lt;/body&gt;
+&lt;/Imp&gt;
+&lt;!-- if IsFatherOf(?x,?y) and not HasWife(?x,?z) then IsDivorced(?x) --&gt;
+&lt;Imp&gt;
+  &lt;head&gt;
+         &lt;Atom&gt;
+            &lt;opr&gt;&lt;Rel href="http://example.com/P#IsDivorced"&gt;IsDivorced&lt;/Rel&gt;&lt;/opr&gt;
+            &lt;Var&gt;x&lt;/Var&gt;
+        &lt;/Atom&gt;
+  &lt;/head&gt;
+  &lt;rlab&gt;&lt;Ind&gt;A father without a wife is a diverced&lt;/Ind&gt;&lt;/rlab&gt;
+  &lt;body&gt;
+    &lt;And&gt;
+        &lt;Atom&gt;
+            &lt;Rel href="http://example.com/P#IsFatherOf"&gt;IsFatherOf&lt;/Rel&gt;
+            &lt;Var&gt;x&lt;/Var&gt;
+            &lt;Var&gt;y&lt;/Var&gt;
+        &lt;/Atom&gt;
+        &lt;Naf&gt;
+          &lt;Atom&gt;
+            &lt;opr&gt;&lt;Rel href="http://example.com/P#HasWife"&gt;HasWife&lt;/Rel&gt;&lt;/opr&gt;
+            &lt;Var&gt;x&lt;/Var&gt;
+            &lt;Var&gt;z&lt;/Var&gt;
+          &lt;/Atom&gt;
+        &lt;/Naf&gt;
+    &lt;/And&gt;
+  &lt;/body&gt;
+&lt;/Imp&gt;
+&lt;!-- IsFatherOf(John,Sam) --&gt;
+&lt;Fact&gt;
+  &lt;rlab&gt;&lt;Ind&gt;John is the father of Sam&lt;/Ind&gt;&lt;/rlab&gt;
+  &lt;head&gt;
+    &lt;Atom&gt;
+      &lt;opr&gt;&lt;Rel href="http://example.com/P#IsFatherOf"&gt;IsFatherOf&lt;/Rel&gt;&lt;/opr&gt;
+      &lt;Ind href="http://person.com/P#John"&gt;John&lt;/Ind&gt;
+      &lt;Ind href="http://person.com/P#Sam"&gt;Sam&lt;/Ind&gt;
+    &lt;/Atom&gt;
+  &lt;/head&gt;
+&lt;/Fact&gt;
+&lt;!-- IsFatherOf(Nil,John) --&gt;
+&lt;Fact&gt;
+  &lt;rlab&gt;&lt;Ind&gt;Nil is the father of John&lt;/Ind&gt;&lt;/rlab&gt;
+  &lt;head&gt;
+    &lt;Atom&gt;
+      &lt;opr&gt;&lt;Rel href="http://example.com/P#IsFatherOf"&gt;IsFatherOf&lt;/Rel&gt;&lt;/opr&gt;
+      &lt;Ind href="http://person.com/P#Nil"&gt;Nil&lt;/Ind&gt;
+      &lt;Ind href="http://person.com/P#John"&gt;John&lt;/Ind&gt;
+    &lt;/Atom&gt;
+  &lt;/head&gt;
+&lt;/Fact&gt;
+&lt;/Rulebase&gt;
+</pre>
+
+<p>Bossam can understand both Stripe-Syntax and Stripe-Skipped syntax.<br>
+</p>
+<h2><span style="color: rgb(153, 0, 0);"><a name="swrl-support"></a>SWRL
+Support
+</span></h2>
+<h3></h3>
+SWRL[3] is a rather new markup language which is an extension of OWL
+for
+expressing rules. SWRL documents can contain not only SWRL rules but
+also OWL statements. SWRL can be specified in two concrete syntaxes:
+SWRL/OWLX and SWRL/RDF. SWRL/OWLX is an XML syntax that is based on
+OWLX(OWL XML Presentation Syntax[4]), and SWRL/RDF is the RDF concrete
+syntax for SWRL rules.<br>
+<h3>SWRL/RDF Support</h3>
+Bossam can understand SWRL/RDF, but some limitations exist, as follows.<br>
+<ul>
+  <li>[Limitation1] Just a few of SWRL builtins are supported.</li>
+  <li>[Limitation2] Data range atom is not supported.<br>
+  </li>
+</ul>
+The list of supported builtins are presented in <a href="#builtins">builtin
+functions</a>. Other than Limitation1, there's no major limitations in
+SWRL/RDF support.<br>
+<h4>Arbitrary Class Descriptions in SWRL Rules<br>
+</h4>
+Bossam, while loading SWRL/RDF documents, separates arbitrary class
+descriptions from the rules, and can perform reasoning with the rules.
+A sample SWRL rule that contains arbitrary class descriptions can be
+seen at <a
+ href="http://www.w3.org/Submission/2004/SUBM-SWRL-20040521/example6.1-3.owl">here</a>.<br>
+<h4>Extended Ontology: SWRL Rules + OWL Ontology</h4>
+<p>
+As SWRL extends the notion of OWL ontology to include rules, it's
+possible to specify OWL statements in SWRL documents. For example, the
+following SWRL document is valid, and Bossam can correctly perform
+reasoning over the following document.</p>
+
+<pre>
+&lt;rdf:RDF
+xmlns:rdf ="&rdf;#" xmlns:rdfs="&rdfs;#" xmlns:owl ="&owl;#"
+xmlns:ruleml="&ruleml;#" xmlns:swrl="&swrl;#" xmlns:ulan="&ulan;"
+xmlns:aat="&aat;" xmlns:vra="&vra;" xmlns:aatulan="&aatulan;"
+xml:base="&ulan;#"&gt;
+&lt;!-- OWL Statements --&gt;
+&lt;aat:Style rdf:ID="Impressionism"/&gt;
+&lt;owl:Class rdf:ID="OrchestralWork"/&gt;
+&lt;ulan:OrchestralWork rdf:ID="La_Mer"/&gt;
+&lt;owl:ObjectProperty rdf:about="&aatulan;artistStyle" /&gt;
+&lt;ulan:Artist rdf:ID="Debussy"&gt;
+&lt;aatulan:artistStyle rdf:resource="#Impressionism"/&gt;
+&lt;vra:creator rdf:resource="#La_Mer"/&gt;
+&lt;/ulan:Artist&gt;
+&lt;!-- SWRL Rules --&gt;
+&lt;swrl:Variable rdf:ID="x"/&gt;
+&lt;swrl:Variable rdf:ID="y"/&gt;
+&lt;swrl:Variable rdf:ID="z"/&gt;
+&lt;ruleml:Imp&gt;
+&lt;ruleml:body rdf:parseType="Collection"&gt;
+&lt;swrl:ClassAtom&gt;
+&lt;swrl:classPredicate rdf:resource="&ulan;Artist"/&gt;
+&lt;swrl:argument1 rdf:resource="#x" /&gt;
+&lt;/swrl:ClassAtom&gt;
+&lt;swrl:ClassAtom&gt;
+&lt;swrl:classPredicate rdf:resource="&aat;Style"/&gt;
+&lt;swrl:argument1 rdf:resource="#y" /&gt;
+&lt;/swrl:ClassAtom&gt;
+&lt;swrl:IndividualPropertyAtom&gt;
+&lt;swrl:propertyPredicate rdf:resource="&aatulan;artistStyle"/&gt;
+&lt;swrl:argument1 rdf:resource="#x" /&gt;
+&lt;swrl:argument2 rdf:resource="#y" /&gt;
+&lt;/swrl:IndividualPropertyAtom&gt;
+&lt;swrl:IndividualPropertyAtom&gt;
+&lt;swrl:propertyPredicate rdf:resource="&vra;creator"/&gt;
+&lt;swrl:argument1 rdf:resource="#x" /&gt;
+&lt;swrl:argument2 rdf:resource="#z" /&gt;
+&lt;/swrl:IndividualPropertyAtom&gt;
+&lt;/ruleml:body&gt;
+&lt;ruleml:head rdf:parseType="Collection"&gt;
+&lt;swrl:IndividualPropertyAtom&gt;
+&lt;swrl:propertyPredicate rdf:resource="&vra;style/period"/&gt;
+&lt;swrl:argument1 rdf:resource="#z" /&gt;
+&lt;swrl:argument2 rdf:resource="#y" /&gt;
+&lt;/swrl:IndividualPropertyAtom&gt;
+&lt;/ruleml:head&gt;
+&lt;/ruleml:Imp&gt;
+&lt;/rdf:RDF&gt;
+</pre>
+<h3>SWRL/OWLX Support</h3>
+Bossam can understand SWRL/OWLX, but some limitations exist, as follows.<br>
+<ul>
+  <li>[Limitation1] Just a few of SWRL builtins are supported.<br>
+  </li>
+  <li>[Limitation2] SWRL builtins in the head are not processed.</li>
+  <li>[Limitation3] OWLX tags for defining ontologies are ignored.</li>
+  <li>[Limitation4] Data range atom is not supported.<br>
+  </li>
+</ul>
+<p>
+As for Limitation2, it can be seed that in most cases, it's possible to
+live without builtins in the head. For example, instead of specifying:
+<pre>
+   lengthInFeet(?i,?feet) =&gt; swrlb:multiply(?inch,?feet,12) and lengthInInches(?i,?inch)
+</pre>,
+it's equally nice to specify as follows:
+<pre>
+   lengthInFeet(?i,?feet) and swrlb:multiply(?inch,?feet,12) =&gt; lengthInInches(?i,?inch)
+</pre>
+Bossam can understand the rules having builtins in the body, not in the
+head.
+</p>
+<p>
+Also, it should be mentioned that ontology definitions contained in
+SWRL/OWLX documents are ignored.
+</p>
+<p>The following is a simple SWRL/OWLX example that can be processed by
+Bossam.</p>
+
+<pre>
+&lt;?xml version='1.0' ?&gt;
+&lt;!DOCTYPE swrlx:Ontology [
+&lt;!ENTITY swrlb 'http://www.w3.org/2003/11/swrlb'&gt;
+&lt;!ENTITY ex 'http://example.org/ex'&gt;
+&lt;!ENTITY xsd 'http://www.w3.org/2001/XMLSchema'&gt;
+]&gt;
+&lt;swrlx:Ontology
+xmlns:owlx="http://www.w3.org/2003/05/owl-xml"
+xmlns:swrlx="http://www.w3.org/2003/11/swrlx"
+xmlns:ruleml="http://www.w3.org/2003/11/ruleml"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.w3.org/2003/11/swrlx http://www.ruleml.org/swrl/xsd/swrlx.xsd"
+&gt;
+&lt;owlx:Annotation&gt;
+&lt;owlx:Documentation&gt;SWRL Example 1&lt;/owlx:Documentation&gt;
+&lt;/owlx:Annotation&gt;
+&lt;owlx:VersionInfo&gt;$Id: getting-started.html,v 1.2 2007/01/15 04:54:37 zebehn Exp $&lt;/owlx:VersionInfo&gt;
+&lt;ruleml:var&gt;customer&lt;/ruleml:var&gt;
+&lt;ruleml:var&gt;total&lt;/ruleml:var&gt;
+&lt;ruleml:imp&gt;
+&lt;ruleml:_rlab ruleml:href="#goldDiscount"/&gt;
+&lt;owlx:Annotation&gt;
+&lt;owlx:Documentation&gt;Gold customers get a 10% discount on purchases of $500 or more&lt;/owlx:Documentation&gt;
+&lt;/owlx:Annotation&gt;
+&lt;ruleml:_body&gt;
+&lt;swrlx:classAtom&gt;
+&lt;owlx:Class owlx:name="SilverMember" /&gt;
+&lt;ruleml:var&gt;customer&lt;/ruleml:var&gt;
+&lt;/swrlx:classAtom&gt;
+&lt;swrlx:individualPropertyAtom swrlx:property="&ex;#hasStatus"&gt;
+&lt;ruleml:var&gt;customer&lt;/ruleml:var&gt;
+&lt;owlx:Individual owlx:name="&ex;#gold"/&gt;
+&lt;/swrlx:individualPropertyAtom&gt;
+&lt;swrlx:datavaluedPropertyAtom swrlx:property="&ex;#hasTotalPurchase"&gt;
+&lt;ruleml:var&gt;customer&lt;/ruleml:var&gt;
+&lt;ruleml:var&gt;total&lt;/ruleml:var&gt;
+&lt;/swrlx:datavaluedPropertyAtom&gt;
+&lt;/ruleml:_body&gt;
+&lt;ruleml:_head&gt;
+&lt;swrlx:datavaluedPropertyAtom swrlx:property="&ex;#hasDiscount"&gt;
+&lt;ruleml:var&gt;customer&lt;/ruleml:var&gt;
+&lt;owlx:DataValue owlx:datatype="&xsd;#int"&gt;10&lt;/owlx:DataValue&gt;
+&lt;/swrlx:datavaluedPropertyAtom&gt;
+&lt;/ruleml:_head&gt;
+&lt;/ruleml:imp&gt;
+&lt;/swrlx:Ontology&gt;
+</pre>
+
+More examples can be found in the samples directory of the
+distribution.
+<span style="font-weight: bold;"><br>
+<br>
+</span>
+<h2 style="color: rgb(153, 0, 0);"><a name="builtins"></a>Builtin
+Functions</h2>
+Bossam has three kinds of builtin functions: <span
+ style="font-style: italic;">Bossam builtins, Java builtins, and SWRL
+builtins</span>.<br>
+<h3><span style="font-style: italic;"><span style="font-weight: bold;"></span></span></h3>
+<h3>Namespaces</h3>
+<table style="text-align: left; width: 511px; height: 60px;" border="1"
+ cellpadding="1" cellspacing="1">
+  <tbody>
+    <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 204, 204); font-weight: bold;">Prefix<br>
+      </td>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 204, 204); font-weight: bold;">Namespace
+URI<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">http://www.etri.re.kr/2003/10/bossam-builtin#</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">http://www.w3.org/2003/11/swrlb#</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Bossam Builtins</h3>
+These are native builtins in Bossam. Bossam builtins are defined as
+functions, so <span style="font-style: italic;">they can only be used
+as terms of predicates</span>. The following is the typical usage
+sample.<br>
+<br>
+<code>  // func:localName returns
+the local name of an object constant</span><br>
+    <code>rule r is if
+owl:Class(?x) then classLocalName(func:localName(?x));</span><br>
+<br>
+Here's the lis of Bossam builtins.<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="1"
+ cellspacing="1" frame="void">
+  <tbody>
+    <tr>
+      <td
+ style="background-color: rgb(204, 204, 204); vertical-align: top;"><span
+ style="font-weight: bold;">Builtin Name</span><br>
+      </td>
+      <td
+ style="background-color: rgb(204, 204, 204); vertical-align: top;"><span
+ style="font-weight: bold;">Descriptions</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:equals(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> equals to <span
+ style="font-family: monospace;">term2</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:greaterThan(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is greater than <span
+ style="font-family: monospace;">term2</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:greaterThanOrEquals(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is greater than or equal
+to <code>term2</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:lessThan(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is less than <span
+ style="font-family: monospace;">term2</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:lessThanOrEquals(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is less than or equal to <span
+ style="font-family: monospace;">term2</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:add(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns the sum of <span
+ style="font-family: monospace;">term1</span> and <span
+ style="font-family: monospace;">term2</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:subtract(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns the subtraction of <span
+ style="font-family: monospace;">term2</span> from <span
+ style="font-family: monospace;">term1</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:multiply(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns the product of <span
+ style="font-family: monospace;">term2</span> by <span
+ style="font-family: monospace;">term1</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:divide(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns the division of <span
+ style="font-family: monospace;">term1</span> by <span
+ style="font-family: monospace;">term2</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:mod(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns the mod of <span
+ style="font-family: monospace;">term1</span> by <span
+ style="font-family: monospace;">term2</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:after(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is after <span
+ style="font-family: monospace;">term2</span>. <span
+ style="font-family: monospace;">term1</span> and <span
+ style="font-family: monospace;">term2</span> should designate time,
+date, or datetime.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:containedIn(term1,
+term2, term3)<br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is in the period of time
+beginning at <code>term2</span> and
+ending at <code>term3</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:before(term1,
+term2)<br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is before <span
+ style="font-family: monospace;">term2</span>. <span
+ style="font-family: monospace;">term1</span> and <span
+ style="font-family: monospace;">term2</span> should designate time,
+date, or datetime.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">func:dateTime(year,month,date,hour,min,sec)<br>
+      </td>
+      <td style="vertical-align: top;">Returns a datetime constant
+built by the parameters.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="SWRL_Builtins"></a><span style="font-style: italic;"><span
+ style="font-weight: bold;"></span></span>SWRL
+Builtins</h3>
+As mentioned in the previous sections, Bossam supports several SWRL
+builtins. The following is the list of SWRL builtins supported by
+Bossam.<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="1"
+ cellspacing="1">
+  <tbody>
+    <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 204, 204);"><span
+ style="font-weight: bold;">Builtin Name</span><br>
+      </td>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 204, 204);"><span
+ style="font-weight: bold;">Descriptions</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:multiply(result,
+term1, term2)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the value of (<span
+ style="font-family: monospace;">term1 * term2</span>) to <span
+ style="font-family: monospace;">result</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:add(result,
+term1, term2)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the value of (<span
+ style="font-family: monospace;">term1 + term2</span>) to <span
+ style="font-family: monospace;">result</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:subtract(result,
+term1, term2)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the value of (<span
+ style="font-family: monospace;">term1 - term2</span>) to <span
+ style="font-family: monospace;">result</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:divide(result,
+term1, term2)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the value of (<span
+ style="font-family: monospace;">term1 / term2</span>) to <span
+ style="font-family: monospace;">result</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:mod(result,
+term1, term2)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the value of (<span
+ style="font-family: monospace;">term1 % term2</span>) to <span
+ style="font-family: monospace;">result</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:stringConcat(result,
+term1, term2)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the concatenation of <span
+ style="font-family: monospace;">term1</span> and <span
+ style="font-family: monospace;">term2</span> to <span
+ style="font-family: monospace;">result</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:stringLength(result,
+term1)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the length of term1 to <span
+ style="font-family: monospace;">result</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:substring(result,
+src, start, length)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the substring of <span
+ style="font-family: monospace;">src</span> with the starting index <span
+ style="font-family: monospace;">start</span> and the length <span
+ style="font-family: monospace;">length</span> to <span
+ style="font-family: monospace;">result</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:substring(result,
+src, start)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the substring of <span
+ style="font-family: monospace;">src</span> with the starting index <span
+ style="font-family: monospace;">start </span>to <span
+ style="font-family: monospace;">result</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:lowerCase(result,
+term1)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the result of lower-casing
+      <code>term1</span> to <span
+ style="font-family: monospace;">result</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:upperCase(result,
+term1)<br>
+      </td>
+      <td style="vertical-align: top;">Binds the result of upper-casing
+      <code>term1</span> to <span
+ style="font-family: monospace;">result</span>.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">swrlb:lessThan(term1,
+term2)</td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is less than <span
+ style="font-family: monospace;">term2</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><span
+ style="font-family: monospace;">swrlb:lessThanOrEqual(term1, term2)</span><br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is less than or equals to
+      <code>term2</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><span
+ style="font-family: monospace;">swrlb:greaterThan(term1, term2)</span><br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is greater than <span
+ style="font-family: monospace;">term2</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><span
+ style="font-family: monospace;">swrlb:greaterThanOrEqual(term1, term2)</span><br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is greater than or equals
+to <code>term2</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><span
+ style="font-family: monospace;">swrlb:equal(term1, term2)</span><br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is equals to <span
+ style="font-family: monospace;">term2</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><span
+ style="font-family: monospace;">swrlb:notEqual(term1, term2)</span><br>
+      </td>
+      <td style="vertical-align: top;">Returns true if <span
+ style="font-family: monospace;">term1</span> is not equals to <span
+ style="font-family: monospace;">term2</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><span style="font-style: italic;"><span style="font-weight: bold;"></span></span>Java
+Builtins: Easy Way to Create User-Defined Builtins<br>
+</h3>
+It's easy to define user defined builtins using <a
+ href="#calling-java-objects">Java object calling mechanism</a>. The
+following table summarizes the data type mappings between Bossam and
+Java methods.<br>
+<br>
+<table style="text-align: left; width: 424px; height: 192px;" border="1"
+ cellpadding="1" cellspacing="1">
+  <tbody>
+    <tr>
+      <td
+ style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">in
+Bossam<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; background-color: rgb(204, 204, 204);">in
+Java<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">String constant<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">java.lang.String<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Boolean constant<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">java.lang.Boolean<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Integer constant<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">java.lang.Integer<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Long constant<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">java.lang.Long<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Double constant<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">java.lang.Double<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Object constant<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">bossam.app.BossamURI<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Datetime constant<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">java.util.Date<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Java Object Constant<br>
+      </td>
+      <td
+ style="vertical-align: top; font-family: monospace; font-style: italic;">Corresponding
+Java Object<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+Here's an example process of <span style="font-style: italic;">creating
+a user defined builtin and using it in rules</span>.<br>
+<h4>Step 1. Implement a Java class with the method providing the
+necessary functionaliy.</h4>
+<p>
+Let's say we need two builtins for 1) creating a list and 2) adding an
+object to the list. Here's a very simple Java class implementation.
+</p>
+<pre>
+package bossam.example;
+import java.util.List;
+public class ListHandling
+{
+   public List list()
+   {
+      return new LinkedList();
+   }
+   public void add(List list, Object item)
+   {
+      list.add(item);
+   }
+}
+</pre>
+<p>
+Compile the class and make the class file visible for the Java runtime.</p>
+<h4>Step 2. Using the Java object in the rules.</h4>
+<p>
+Now, it's possible to refer to <code>ListHandling</code>'s
+methods in the rules as follows.
+</p>
+<pre>
+prefix listhandling = java://bossam.example/ListHandling#;
+...
+// creates a list object for each itemList
+rule r1 is
+if itemList(?l) and listhandling:list(?o,?list)
+then items(?l,?list);
+// if x is in an itemList l, then add x to the list object corresponding to l
+rule r2 is
+if isContainedIn(?x,?l) and items(?l,?list) and listhandling:class(?o)
+then listhandling:add(?o,?list,?x);
+</pre>
+<p>
+<code>listhandling:class(?o)</code> in
+the body of <code>r2</code> is
+necessary to identify a Java object that will perform <code>add()</code> method. As explained in <a
+ href="#calling-java-objects">Java object calling mechanism</a>, the
+first term of java-object-calling predicate - for example, <code>?o</code> of <code>listhandling:add(?o, ?list, ?x)</code>
+- is bound to the Java object that will perform the Java method
+specified by the predicate.
+</p>
+<h4>Step 3. Adding the Java object into inference context.</h4>
+<p>
+To enable Bossam to access to an instance of <code>ListHandling</code> class, an instance
+of the user defined class should be provided to the inference context
+of Bossam before running an inference session, as shown in the
+following code.</p>
+<pre>
+ ......
+IReasonerFactory reasonerFactory = ReasonerFactory.getInstance();
+IReasoner reasoner = reasonerFactory.createReasoner();
+ListHandling lh = new ListHandling();
+reasoner.addObject(lh);
+......
+</pre>
+<p>
+So, it's a very easy three steps for defining a new builtin and using it!!
+</p>
+<h2 style="color: rgb(153, 0, 0);">References</h2>
+[1] C. Forgy, <i>RETE: A fast algorithm for the many pattern/many
+object
+pattern match problem</i>, Artificial Intelligence, 19 (1982), pp
+17-37. <br>
+[2] D. Hirtle et al., <span style="font-style: italic;">Schema
+Specification
+of RuleML 0.87</span>, <a href="http://ruleml.org/0.87/">http://ruleml.org/0.87/</a><br>
+[3] I. Horrocks et al., <span style="font-style: italic;">SWRL: A
+Semantic
+Web Rule Language Combining OWL and RuleML</span>,
+<a href="http://www.w3.org/Submission/SWRL/">http://www.w3.org/Submission/SWRL/</a><br>
+[4] Masahiro Hori et al., OWL Web Ontology Language XML Presentation
+Syntax, <a href="http://www.w3.org/TR/owl-xmlsyntax/">http://www.w3.org/TR/owl-xmlsyntax/</a><br>
+<br>
+<h2><a name="Changes"></a><span style="color: rgb(153, 0, 0);">Changes</span></h2>
+<ul>
+  <li>2006/01/12: Expanded "SWRL Builtins". by Minsu Jang<br>
+  </li>
+  <li>2005/10/28: Added "Creating a reasoner". by Minsu Jang<br>
+  </li>
+  <li>2005/10/28: Added "Loading OWL Documents and Asking" after
+removing "Loading Knowledge Bases and Reasoning". by Minsu Jang<br>
+  </li>
+  <li>2005/10/28: Revised "Embedding Bossam in Java Applications" by
+updating method specificaitons. by Minsu Jang<br>
+  </li>
+  <li>2005/10/15: Added IReasoner.SWRLRDF in API specifications of
+"Embedding Bossam in Java Applications" section. by Minsu Jang<br>
+  </li>
+  <li>2005/08/17: Added a section "Builtin Functions". Revised the
+section "SWRL Support". by Minsu Jang<br>
+  </li>
+  <li>2005/07/26: Augmented "Embedding Bossam in Java Applications" and
+"A Simple Sample". by Minsu Jang<br>
+  </li>
+  <li>2005/07/10: Added a section "Representing and Processing Time".
+by Minsu Jang</li>
+  <li>2005/07/10: Added a section "Using arithmetic operators". by
+Minsu Jang<br>
+  </li>
+  <li>2005/05/04: Added a section "Loading Knowledge Bases and
+Reasoning". by Minsu Jang<br>
+  </li>
+  <li>2005/05/04: Added a section "Introduction" by Minsu Jang</li>
+  <li>2005/05/04: Revised the section "Embedding Bossam in Java
+Applications" by Minsu Jang<br>
+  </li>
+  <li>2005/05/04: Revised the section "Calling Java Objects from Bossam
+rules". by Minsu Jang<br>
+  </li>
+  <li>2005/05/04: Added a section "References". by Minsu Jang<br>
+  </li>
+  <li>2005/05/04: Added a section "RuleML &amp; SWRL Support". by Minsu
+Jang<br>
+  </li>
+  <li>2005/04/27: Added a section "Embedding Bossam in Java
+applications". by Minsu Jang</li>
+  <li>2005/04/20: Slight changes to the command and conclusion format
+changes. by Minsu Jang</li>
+  <li>2004/02/12: Added "Calling Java Objects from Bossam rules"
+section. by Minsu Jang</li>
+  <li>2004/02/02: Added samples. Edited some texts. by Minsu Jang</li>
+  <li>2003/10/28: Created. by Minsu Jang</li>
+</ul>
+<div class="author">
+<hr style="width: 100%; height: 2px;">All copyrights reserved by ETRI,
+Daejeon, South Korea. 2003 ~ 2006.<br>
+Revision: $Id: getting-started.html,v 1.2 2007/01/15 04:54:37 zebehn Exp $<br>
+</div>
+</body>
+</html>

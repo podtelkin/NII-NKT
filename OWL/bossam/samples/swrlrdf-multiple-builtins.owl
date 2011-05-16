@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE rdf:RDF [
+     <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
+     <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
+	 <!ENTITY owl 'http://www.w3.org/2002/07/owl'>
+	 <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema'>
+     <!ENTITY ruleml 'http://www.w3.org/2003/11/swrl'>
+     <!ENTITY swrl 'http://www.w3.org/2003/11/swrl'>
+	 <!ENTITY swrlb 'http://www.w3.org/2003/11/swrlb'>
+	 <!ENTITY ex1 'http://www.example.org/example1-ont'>
+	 <!ENTITY ex2 'http://www.example.org/example2-ont'>
+]>
+<rdf:RDF
+  xmlns:rdf ="&rdf;#"
+  xmlns:rdfs="&rdfs;#"
+  xmlns:owl ="&owl;#"
+  xmlns:ruleml="&ruleml;#"
+  xmlns:swrl="&swrl;#"
+  xmlns:ex1="&ex1;#"
+  xmlns:ex2="&ex2;#"
+  xml:base="&ex1;"
+>
+<owl:Ontology rdf:about="">
+  <rdfs:comment>SWRL RDF Example: Using SWRL Builtin</rdfs:comment>
+  <owl:versionInfo>$Id: swrlrdf-multiple-builtins.owl,v 1.1 2007/01/11 09:21:37 zebehn Exp $</owl:versionInfo>
+  <owl:imports rdf:resource="&swrl;"/>
+</owl:Ontology>
+<owl:Thing rdf:ID="John">
+	<ex1:lastName rdf:datatype="&xsd;#string">Coltrane</ex1:lastName>
+	<ex1:firstName rdf:datatype="&xsd;#string">John</ex1:firstName>	
+	<ex1:middleName rdf:datatype="&xsd;#string">God</ex1:middleName>
+</owl:Thing>
+<swrl:Variable rdf:ID="i1"/>
+<swrl:Variable rdf:ID="n1"/>
+<swrl:Variable rdf:ID="n2"/>
+<swrl:Variable rdf:ID="n3"/>
+<swrl:Variable rdf:ID="c"/>
+<swrl:Variable rdf:ID="d"/>
+<ruleml:Imp>
+  <ruleml:body rdf:parseType="Collection">
+    <swrl:DatavaluedPropertyAtom>
+      <swrl:propertyPredicate rdf:resource="&ex1;#firstName"/> 
+      <swrl:argument1 rdf:resource="#i1" />
+      <swrl:argument2 rdf:resource="#n1" />
+    </swrl:DatavaluedPropertyAtom>
+    <swrl:DatavaluedPropertyAtom>
+      <swrl:propertyPredicate rdf:resource="&ex1;#middleName"/> 
+      <swrl:argument1 rdf:resource="#i1" />
+      <swrl:argument2 rdf:resource="#n2" />
+    </swrl:DatavaluedPropertyAtom>
+    <swrl:DatavaluedPropertyAtom>
+      <swrl:propertyPredicate rdf:resource="&ex1;#lastName"/> 
+      <swrl:argument1 rdf:resource="#i1" />
+      <swrl:argument2 rdf:resource="#n3" />
+    </swrl:DatavaluedPropertyAtom>
+    <swrl:BuiltinAtom>
+      <swrl:builtin rdf:resource="&swrlb;#stringConcat"/> 
+      <swrl:arguments>
+      	<rdf:List>
+      		<rdf:first rdf:resource="#c"/>
+      		<rdf:rest>
+    				<rdf:List>
+      				<rdf:first rdf:resource="#n1"/>
+      				<rdf:rest>
+    						<rdf:List>
+  		    					<rdf:first rdf:resource="#n2"/>
+      						<rdf:rest rdf:resource="&rdf;#nil"/>
+      					</rdf:List>
+      				</rdf:rest>
+      			</rdf:List>
+      		</rdf:rest>
+      	</rdf:List>
+      </swrl:arguments>
+    </swrl:BuiltinAtom>
+    <swrl:BuiltinAtom>
+      <swrl:builtin rdf:resource="&swrlb;#stringConcat"/> 
+      <swrl:arguments>
+      	<rdf:List>
+      		<rdf:first rdf:resource="#d"/>
+      		<rdf:rest>
+    				<rdf:List>
+      				<rdf:first rdf:resource="#c"/>
+      				<rdf:rest>
+    						<rdf:List>
+  		    					<rdf:first rdf:resource="#n3"/>
+      						<rdf:rest rdf:resource="&rdf;#nil"/>
+      					</rdf:List>
+      				</rdf:rest>
+      			</rdf:List>
+      		</rdf:rest>
+      	</rdf:List>
+      </swrl:arguments>
+    </swrl:BuiltinAtom>
+  </ruleml:body>
+  <ruleml:head rdf:parseType="Collection"> 
+    <swrl:DatavaluedPropertyAtom>
+      <swrl:propertyPredicate rdf:resource="&ex1;#hasName"/> 
+      <swrl:argument1 rdf:resource="#i1" />
+      <swrl:argument2 rdf:resource="#d" />
+    </swrl:DatavaluedPropertyAtom>
+  </ruleml:head> 
+</ruleml:Imp> 
+</rdf:RDF>

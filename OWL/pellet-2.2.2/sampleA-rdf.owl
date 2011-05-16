@@ -163,7 +163,7 @@
 				</swrl:argument1> 
 				<swrl:argument2 rdf:datatype="xsd:boolean">true</swrl:argument2> 
 			</swrl:DatavaluedPropertyAtom>
-<!--
+<!-- -->
 			<swrl:DatavaluedPropertyAtom>
 				<swrl:propertyPredicate rdf:resource="#numberOfAtoms"/>
 				<swrl:argument1 rdf:resource="#x1"/>
@@ -190,7 +190,7 @@
 					</rdf:List>
 				</swrl:arguments>
 			</swrl:BuiltinAtom>
--->
+<!-- -->
 		</swrl:body>
 	</swrl:Imp>
 

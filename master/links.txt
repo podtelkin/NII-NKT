@@ -1,3 +1,5 @@
 http://www.daml.org/swrl/proposal/xmlsyntax.html#5.1
 http://www.semantictools.ru/tools/12---sw.html
 http://www.w3.org/TR/owl-xmlsyntax/apd-example.html
+
+http://protege-ontology-editor-knowledge-acquisition-system.136.n4.nabble.com/SWRL-Builtin-does-not-work-with-datatype-property-td5329.html

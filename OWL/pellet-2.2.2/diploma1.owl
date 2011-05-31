@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY dl-safe "http://owldl.com/ontologies/dl-safe.owl#">
+    <!ENTITY swrl  "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY swrlx  "http://www.w3.org/2003/11/swrlx#" >
+    <!ENTITY swrlb  "http://www.w3.org/2003/11/swrlb#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY owlx "http://www.w3.org/2003/05/owl-xml#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY ruleml  "http://www.w3.org/2003/11/ruleml#" >
+    <!ENTITY ex "http://ifmo.ru/ipse/ex.owl#" >
+]>
+
+
+<rdf:RDF 
+    xml:base="http://ifmo.ru/ipse/ex.owl#" 
+    xmlns="http://ifmo.ru/ipse/ex.owl#" 
+    xmlns:owl="http://www.w3.org/2002/07/owl#" 
+    xmlns:owlx="http://www.w3.org/2003/05/owl-xml#" 
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+    xmlns:swrlx="http://www.w3.org/2003/11/swrlx#"
+    xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+    xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+
+
+    <!-- CLASSES -->
+
+    <owl:Class rdf:ID="Problem"/>
+    <owl:Class rdf:ID="Method"/>
+    <owl:Class rdf:ID="Package"/>
+    <owl:Class rdf:ID="Service"/>
+
+    <owl:ObjectProperty rdf:ID="solves">
+        <rdfs:domain rdf:resource="#Method"/>
+        <rdfs:range rdf:resource="#Problem"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:ID="realizes">
+        <rdfs:domain rdf:resource="#Package"/>
+        <rdfs:range rdf:resource="#Method"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:ID="provides">
+        <rdfs:domain rdf:resource="#Service"/>
+        <rdfs:range rdf:resource="#Package"/>
+    </owl:ObjectProperty>
+
+</rdf:RDF>

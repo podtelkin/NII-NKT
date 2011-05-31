@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY dl-safe "http://owldl.com/ontologies/dl-safe.owl#">
+	<!ENTITY swrl  "http://www.w3.org/2003/11/swrl#" >
+	<!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+	<!ENTITY ruleml  "http://www.w3.org/2003/11/ruleml#" >
+	<!ENTITY escience "http://escience.ifmo.ru/ipse/escience.owl#" >
+]>
+
+
+<rdf:RDF 
+	xml:base="http://escience.ifmo.ru/ipse/escience.owl#" 
+	xmlns="http://escience.ifmo.ru/ipse/escience.owl#" 
+	xmlns:owl="http://www.w3.org/2002/07/owl#" 
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+	xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+
+
+	<!-- CLASSES -->
+	
+	<!-- Solution method -->
+	<owl:Class rdf:ID="Method"/>
+	
+	<!-- Problem for solving -->
+	<owl:Class rdf:ID="Problem"/>
+		
+	<!-- File type -->
+	<owl:Class rdf:ID="FileType"/>
+	
+	<!-- Set of files and values, provided by user -->	
+	<owl:Class rdf:ID="UserInputSet"/>
+
+	<owl:ObjectProperty rdf:ID="solves">
+		<rdfs:domain rdf:resource="#Method"/>
+		<rdfs:range rdf:resource="#Problem"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="includeUserFile">
+		<rdfs:domain rdf:resource="#UserInputSet"/>
+		<rdfs:range rdf:resource="#UserFile"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="fileHasType">
+		<rdfs:domain rdf:resource="#UserFile"/>
+		<rdfs:range rdf:resource="#FileType"/>
+	</owl:ObjectProperty>
+		
+	<owl:ObjectProperty rdf:ID="presentsValue">
+		<rdfs:domain rdf:resource="#UserInputSet"/>
+		<rdfs:range rdf:resource="#Value"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="appropriateFor">
+		<rdfs:domain rdf:resource="#UserValue"/>
+		<rdfs:range rdf:resource="#Method"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="presentedInFile">
+		<rdfs:domain rdf:resource="#UserValue"/>
+		<rdfs:range rdf:resource="#UserFile"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="mappedOnDataSet">
+		<rdfs:domain rdf:resource="#UserValue"/>
+		<rdfs:range rdf:resource="#DataSet"/>
+	</owl:ObjectProperty>	
+	
+	<!-- Question properties -->
+	<owl:ObjectProperty rdf:ID="relatedTo">
+		<rdfs:domain rdf:resource="#Question"/>
+		<rdfs:range rdf:resource="#Thing"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="answers">
+		<rdfs:domain rdf:resource="#Answer"/>
+		<rdfs:range rdf:resource="#Question"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="prefer">
+		<rdfs:domain rdf:resource="#Preference"/>
+		<rdfs:range rdf:resource="#Thing"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="onAnswer">
+		<rdfs:domain rdf:resource="#Preference"/>
+		<rdfs:range rdf:resource="#Answer"/>
+	</owl:ObjectProperty>
+		
+	<owl:ObjectProperty rdf:ID="onQuestion">
+		<rdfs:domain rdf:resource="#UserAnswer"/>
+		<rdfs:range rdf:resource="#Question"/>
+	</owl:ObjectProperty>
+	
+	<owl:ObjectProperty rdf:ID="selectsAsAnswer">
+		<rdfs:domain rdf:resource="#UserAnswer"/>
+		<rdfs:range rdf:resource="#Answer"/>
+	</owl:ObjectProperty>
+		
+	<!-- RULES -->
+	
+	<swrl:Variable rdf:about="#v" />
+	<swrl:Variable rdf:about="#x" />
+	<swrl:Variable rdf:about="#y" />
+	<swrl:Variable rdf:about="#z" />
+	
+	<!-- Input transfere from problem to method -->
+	<swrl:Imp rdf:about="#inputTransfer">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#hasInput" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#z" />
+			</swrl:IndividualPropertyAtom>		
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#Problem" />
+				<swrl:argument1 rdf:resource="#y" />
+			</swrl:ClassAtom>
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#Method" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#DataSet" />
+				<swrl:argument1 rdf:resource="#z" />
+			</swrl:ClassAtom>			
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#hasInput" />
+				<swrl:argument1 rdf:resource="#y" />
+				<swrl:argument2 rdf:resource="#z" />
+			</swrl:IndividualPropertyAtom>		
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#solves" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#y" />
+			</swrl:IndividualPropertyAtom>		
+		</swrl:body>
+	</swrl:Imp>
+	
+	<!-- Output transfere from problem to method -->
+	<swrl:Imp rdf:about="#outputTransfer">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#hasOutput" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#z" />
+			</swrl:IndividualPropertyAtom>		
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#Problem" />
+				<swrl:argument1 rdf:resource="#y" />
+			</swrl:ClassAtom>
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#Method" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#DataSet" />
+				<swrl:argument1 rdf:resource="#z" />
+			</swrl:ClassAtom>			
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#hasOutput" />
+				<swrl:argument1 rdf:resource="#y" />
+				<swrl:argument2 rdf:resource="#z" />
+			</swrl:IndividualPropertyAtom>		
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#solves" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#y" />
+			</swrl:IndividualPropertyAtom>		
+		</swrl:body>
+	</swrl:Imp>
+	
+	<!-- User input set processing (user files to values)-->
+	<swrl:Imp rdf:about="#userFilesToValuesTypes">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#presentsValue" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#z" />
+			</swrl:IndividualPropertyAtom>		
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#UserInputSet" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#UserFile" />
+				<swrl:argument1 rdf:resource="#v" />
+			</swrl:ClassAtom>
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#FileType" />
+				<swrl:argument1 rdf:resource="#y" />
+			</swrl:ClassAtom>			
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#Value" />
+				<swrl:argument1 rdf:resource="#z" />
+			</swrl:ClassAtom>			
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#includeUserFile" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#v" />
+			</swrl:IndividualPropertyAtom>
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#fileHasType" />
+				<swrl:argument1 rdf:resource="#v" />
+				<swrl:argument2 rdf:resource="#y" />
+			</swrl:IndividualPropertyAtom>		
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#includeValue" />
+				<swrl:argument1 rdf:resource="#y" />
+				<swrl:argument2 rdf:resource="#z" />
+			</swrl:IndividualPropertyAtom>		
+		</swrl:body>
+	</swrl:Imp>
+	
+	<!-- User input set processing (user values to values)-->
+	<swrl:Imp rdf:about="#userValuesToValuesTypes">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#presentsValue" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#z" />
+			</swrl:IndividualPropertyAtom>		
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#UserValue" />
+				<swrl:argument1 rdf:resource="#v" />
+			</swrl:ClassAtom>
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#UserInputSet" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#Value" />
+				<swrl:argument1 rdf:resource="#z" />
+			</swrl:ClassAtom>			
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#valueHasType" />
+				<swrl:argument1 rdf:resource="#v" />
+				<swrl:argument2 rdf:resource="#z" />
+			</swrl:IndividualPropertyAtom>		
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#includeUserValue" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#v" />
+			</swrl:IndividualPropertyAtom>		
+		</swrl:body>
+	</swrl:Imp>
+	
+</rdf:RDF>

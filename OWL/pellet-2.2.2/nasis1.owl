@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE rdf:RDF [
+	<!ENTITY owl "http://www.w3.org/2002/07/owl#">
+	<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+	<!ENTITY escience "http://escience.ifmo.ru/ipse/escience.owl#" >
+]>
+<rdf:RDF 
+  xml:base="http://escience.ifmo.ru/ipse/nasis.owl#" 
+  xmlns="http://escience.ifmo.ru/ipse/nasis.owl#" 
+  xmlns:owl="http://www.w3.org/2002/07/owl#" 
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+  xmlns:ruleml="http://www.w3.org/2003/11/ruleml#"
+  xmlns:escience="http://escience.ifmo.ru/ipse/escience.owl#">
+
+	<owl:Ontology>
+		<owl:imports rdf:resource="file:escience1.owl" />
+	</owl:Ontology>
+	
+	<escience:Problem rdf:ID="OnePointProblem">
+		<rdfs:label>One point problem</rdfs:label>
+	</escience:Problem>
+	
+	<escience:Problem rdf:ID="GeometryOptimization">
+		<rdfs:label>Geometry optimization</rdfs:label>
+	</escience:Problem>
+		
+	<escience:Method rdf:ID="HfMethod">
+		<rdfs:label>Hatree Fook method</rdfs:label>
+		<escience:solves rdf:resource="#OnePointProblem"/>
+		<escience:solves rdf:resource="#GeometryOptimization"/>
+	</escience:Method>
+	
+	<escience:Method rdf:ID="DftMethod">
+		<rdfs:label>DFT method</rdfs:label>
+		<escience:solves rdf:resource="#OnePointProblem"/>
+	</escience:Method>
+	
+	<escience:Method rdf:ID="TDDFTMethod">
+		<rdfs:label>DFT method</rdfs:label>
+		<escience:solves rdf:resource="#OnePointProblem"/>
+	</escience:Method>
+	
+	<escience:FileType rdf:ID="XyzFile">
+		<rdfs:label>XYZ file</rdfs:label>
+		<escience:includeValue rdf:resource="#MolecularStructure"/>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+	</escience:FileType>
+	
+	<escience:FileType rdf:ID="CubeFile">
+		<rdfs:label>Cube file</rdfs:label>
+		<escience:includeValue rdf:resource="#ElectronDensity"/>
+		<escience:belongToField rdf:resource="#QuantumChemistry"/>
+	</escience:FileType>
+
+	<!-- FACTS -->
+
+	<escience:UserFile rdf:ID="InputFile1">
+		<rdfs:label>InputFile1</rdfs:label>
+		<escience:includeUserFile rdf:resource="#XyzFile"/>
+	</escience:UserFile>
+	
+	<escience:UserInputSet rdf:ID="Fact1">
+		<rdfs:label>Fact1</rdfs:label>
+		<escience:includeUserFile rdf:resource="#XyzFile"/>
+	</escience:UserInputSet>
+
+	<swrl:Imp rdf:about="#TDDFT_solves_GeoOptimization_conditions">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#solves"/>
+				<swrl:argument1 rdf:resource="#TDDFTMethod"/>
+				<swrl:argument2 rdf:resource="#GeometryOptimization"/>
+			</swrl:IndividualPropertyAtom>		
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#includeUserFile"/>
+				<swrl:argument1 rdf:resource="#Fact1"/>
+				<swrl:argument2 rdf:resource="#XyzFile"/>
+			</swrl:IndividualPropertyAtom>		
+		</swrl:body>
+	</swrl:Imp>
+	
+</rdf:RDF>

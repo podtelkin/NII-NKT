@@ -148,16 +148,16 @@
 
 
 
-	<Problem rdf:ID="IOnePointProblem">
+    <Problem rdf:ID="IOnePointProblem">
     </Problem>
 
-	<Problem rdf:ID="IGeoOptProblem">
+    <Problem rdf:ID="IGeoOptProblem">
     </Problem>
 
-	<Problem rdf:ID="ISadProblem">
+    <Problem rdf:ID="ISadProblem">
     </Problem>
 
-	<Problem rdf:ID="IFreqProblem">
+    <Problem rdf:ID="IFreqProblem">
     </Problem>
 
 
@@ -178,59 +178,59 @@
     </owl:Class>
 
 
-	<HFMethod rdf:ID="ISP-HF">
-		<solves rdf:resource="#IOnePointProblem"/>
+    <HFMethod rdf:ID="ISP-HF">
+        <solves rdf:resource="#IOnePointProblem"/>
     </HFMethod>
 
-	<HFMethod rdf:ID="ISP-HF/MP2">
-		<solves rdf:resource="#IOnePointProblem"/>
+    <HFMethod rdf:ID="ISP-HF/MP2">
+        <solves rdf:resource="#IOnePointProblem"/>
     </HFMethod>
 
-	<HFMethod rdf:ID="ISP-HF/CC">
-		<solves rdf:resource="#IOnePointProblem"/>
+    <HFMethod rdf:ID="ISP-HF/CC">
+        <solves rdf:resource="#IOnePointProblem"/>
     </HFMethod>
 
-	<MCSCFMethod rdf:ID="ISP-MCSCF">
-		<solves rdf:resource="#IOnePointProblem"/>
+    <MCSCFMethod rdf:ID="ISP-MCSCF">
+        <solves rdf:resource="#IOnePointProblem"/>
     </MCSCFMethod>
 
-	<DFTMethod rdf:ID="ISP-DFT">
-		<solves rdf:resource="#IOnePointProblem"/>
+    <DFTMethod rdf:ID="ISP-DFT">
+        <solves rdf:resource="#IOnePointProblem"/>
     </DFTMethod>
 
 
-	<Package rdf:ID="GAMESS">
-		<realizes rdf:resource="#ISP-HF"/>
-		<realizes rdf:resource="#ISP-HF/MP2"/>
-		<realizes rdf:resource="#ISP-HF/CC"/>
-		<realizes rdf:resource="#ISP-MCSCF"/>
-		<realizes rdf:resource="#ISP-DFT"/>
+    <Package rdf:ID="GAMESS">
+        <realizes rdf:resource="#ISP-HF"/>
+        <realizes rdf:resource="#ISP-HF/MP2"/>
+        <realizes rdf:resource="#ISP-HF/CC"/>
+        <realizes rdf:resource="#ISP-MCSCF"/>
+        <realizes rdf:resource="#ISP-DFT"/>
     </Package>
 
-	<Package rdf:ID="ORCA">
+    <Package rdf:ID="ORCA">
     </Package>
 
-	<Package rdf:ID="Jaguar">
+    <Package rdf:ID="Jaguar">
     </Package>
 
-	<Package rdf:ID="MOLPRO">
+    <Package rdf:ID="MOLPRO">
     </Package>
 
-	<Package rdf:ID="OpenMX">
+    <Package rdf:ID="OpenMX">
     </Package>
 
-	<Package rdf:ID="Priroda">
+    <Package rdf:ID="Priroda">
     </Package>
 
 
 
-	<Service rdf:ID="bsrva7-4">
-		<provides rdf:resource="#GAMESS"/>
+    <Service rdf:ID="bsrva7-4">
+        <provides rdf:resource="#GAMESS"/>
     </Service>
 
-	<Service rdf:ID="bsrva7-5">
-		<provides rdf:resource="#ORCA"/>
-		<provides rdf:resource="#OpenMX"/>
+    <Service rdf:ID="bsrva7-5">
+        <provides rdf:resource="#ORCA"/>
+        <provides rdf:resource="#OpenMX"/>
     </Service>
 
 </rdf:RDF>

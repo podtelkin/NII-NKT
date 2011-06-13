@@ -1,6 +1,5 @@
 PREFIX ex: <http://ifmo.ru/ipse/ex.owl#>
 
-SELECT ?A ?B
-WHERE {
-  ?A ex:solves ?B
+SELECT ?M ?P WHERE { 
+    ?M ex:solves ?P
 }
